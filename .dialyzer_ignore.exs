@@ -6,5 +6,6 @@
 # along. This is a known Dialyzer + Ecto.Multi limitation; extracting the body into a function
 # with a `Multi.t()` spec only moves the warning.
 [
-  {"lib/factory/tools/report_result.ex", :call_without_opaque}
+  {"lib/factory/tools/report_result.ex", :call_without_opaque},
+  {"lib/factory/tasks/transition.ex", :call_without_opaque}
 ]
