@@ -1,6 +1,6 @@
 # FAB-302 · Confinement: no agent writes outside the project
 
-> ⬜ To do · Stage **E3 — The agent and its tools** · Package 3.2 · Story · R11
+> ✅ Done · Stage **E3 — The agent and its tools** · Package 3.2 · Story · R11
 
 ## The idea
 
@@ -36,9 +36,9 @@ Guarantees R11 (the agent never leaves the project) as a property of the code, n
 
 ## Acceptance criteria
 
-- [ ] A path outside the root is rejected before touching the disk
-- [ ] Links and junctions are followed to their real target
-- [ ] Without a sandbox, an agent with a shell does not start
+- [x] A path outside the root is rejected before touching the disk
+- [x] Links and junctions are followed to their real target
+- [x] Without a sandbox, an agent with a shell does not start
 
 ## How to verify
 
@@ -51,3 +51,8 @@ mix factory.syntax priv/probes/confinement_cli.exs
 ## Where it lives in the code
 
 `Factory.Tools.Confinement` · `Factory.Tools.Guards`
+
+## Commits
+
+- feat(tools): confine every file and command path to the project root (FAB-302)
+- feat(tools): add guards against dangerous commands and calls (FAB-302)

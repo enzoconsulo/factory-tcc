@@ -1,6 +1,6 @@
 # FAB-303 · Resumo do projeto para orientar o agente
 
-> ⬜ A fazer · Etapa **E3 — O agente e as ferramentas** · Pacote 3.1 · História
+> ✅ Concluída · Etapa **E3 — O agente e as ferramentas** · Pacote 3.1 · História
 
 ## A ideia
 
@@ -33,8 +33,8 @@ Reduz o contexto e o custo por despacho: o cache do fornecedor só vira leitura 
 
 ## Critérios de aceite
 
-- [ ] `mix factory.map` gera o índice de forma determinística
-- [ ] O prefixo tem faixas estáveis e um ponto de cache por faixa
+- [x] `mix factory.map` gera o índice de forma determinística
+- [x] O prefixo tem faixas estáveis e um ponto de cache por faixa
 
 ## Como verificar
 
@@ -47,3 +47,8 @@ mix factory.map
 ## Onde está no código
 
 `Factory.Index.CodeMap` · `Factory.Prompt.Prefix` · `Factory.Prompt.Block` · `Mix.Tasks.Factory.Map`
+
+## Commits
+
+- feat(index): add the dense code map and mix factory.map (FAB-303)
+- feat(prompt): add the stable prompt prefix with one cache breakpoint per band (FAB-303)

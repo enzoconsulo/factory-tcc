@@ -1,6 +1,6 @@
 # FAB-305 · Adaptadores do fornecedor, com o controle medido antes
 
-> ⬜ A fazer · Etapa **E3 — O agente e as ferramentas** · Pacote 3.4 · História · R15
+> ✅ Concluída · Etapa **E3 — O agente e as ferramentas** · Pacote 3.4 · História · R15
 
 ## A ideia
 
@@ -36,9 +36,9 @@ Garante R15 (independência de fornecedor): trocar de adaptador não muda o núc
 
 ## Critérios de aceite
 
-- [ ] Trocar de adaptador não muda o núcleo
-- [ ] Permissões, vocabulário de ferramentas e teto de turnos do CLI são aplicados
-- [ ] O custo real do despacho bate com o do fornecedor
+- [x] Trocar de adaptador não muda o núcleo
+- [x] Permissões, vocabulário de ferramentas e teto de turnos do CLI são aplicados
+- [x] O custo real do despacho bate com o do fornecedor
 
 ## Como verificar
 
@@ -52,3 +52,9 @@ mix factory.syntax priv/probes/cli_real.exs
 ## Onde está no código
 
 `Factory.Provider.ClaudeCLI` · `Factory.Provider.MessagesAPI`
+
+## Commits
+
+- feat(provider): add the token API adapter with cache and TTL control (FAB-305)
+- feat(provider): add the provider CLI adapter with permissions, tool vocabulary and turn ceiling (FAB-305)
+- test(provider): add the real-binary probes for CLI governance and confinement (FAB-305)

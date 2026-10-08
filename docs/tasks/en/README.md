@@ -8,7 +8,7 @@ Each task is one package of the development plan. Below is a summary of every ta
 |---|---|---|
 | **E1** Planning and architecture | Requirements, architecture, tasks, performance criteria and test projects approved. | 🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜ 4/5 |
 | **E2** System foundation | The test suite runs with no network access and without consuming the model service. | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 5/5 |
-| **E3** The agent and its tools | An agent solves a real task with its cost recorded, and switching providers does not touch the core. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6 |
+| **E3** The agent and its tools | An agent solves a real task with its cost recorded, and switching providers does not touch the core. | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 6/6 |
 | **E4** Task production line | A task goes through the six states, is rejected on purpose, is reworked and completes. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/8 |
 | **E5** Parallelism and fault tolerance | Three tasks in parallel; killing one midway does not affect the others, and it returns to the queue. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6 |
 | **E6** Project memory | The agent cites the earlier decision, with the right source, instead of deciding again. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6 |
@@ -43,16 +43,16 @@ Each task is one package of the development plan. Below is a summary of every ta
 ## E3 — The agent and its tools
 
 **Stage goal:** An agent solves a real task with its cost recorded, and switching providers does not touch the core.  
-**Progress:** ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6
+**Progress:** 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 6/6
 
 | Key | Title | What it did | Status |
 |---|---|---|---|
-| [FAB-301](E3-the-agent-and-its-tools/FAB-301-file-and-command-tools.md) | **File and command tools** | Read, list, search, write and edit files; run a command with a deadline, killing the whole process tree. | ⬜ To do |
-| [FAB-302](E3-the-agent-and-its-tools/FAB-302-confinement-no-agent-writes-outside-the-project.md) | **Confinement: no agent writes outside the project** | Every tool resolves the real path and rejects absolute paths, `..`, links, junctions, UNC and devices; the agent's shell runs sandboxed. | ⬜ To do |
-| [FAB-303](E3-the-agent-and-its-tools/FAB-303-project-summary-to-guide-the-agent.md) | **Project summary to guide the agent** | Dense index generated from the code (tree + signatures) and a stable prompt prefix with cache breakpoints. | ⬜ To do |
-| [FAB-304](E3-the-agent-and-its-tools/FAB-304-the-agent-as-a-supervised-process-with-a-call-limi.md) | **The agent as a supervised process, with a call limit** | Tool-use loop as an OTP process; per-role call ceiling enforced by the system, not requested in the prompt. | ⬜ To do |
-| [FAB-305](E3-the-agent-and-its-tools/FAB-305-provider-adapters-with-control-measured-first.md) | **Provider adapters, with control measured first** | Two adapters behind the same boundary: the provider CLI (subscription) and the token API. CLI governance was measured before deciding. | ⬜ To do |
-| [FAB-306](E3-the-agent-and-its-tools/FAB-306-milestone-e3-a-real-agent-solves-a-real-task-with-.md) | **MILESTONE E3 — a real agent solves a real task, with cost recorded** | Probe against the real model: the agent writes the requested file, there is one usage row per turn and the total matches the database. | ⬜ To do |
+| [FAB-301](E3-the-agent-and-its-tools/FAB-301-file-and-command-tools.md) | **File and command tools** | Read, list, search, write and edit files; run a command with a deadline, killing the whole process tree. | ✅ Done |
+| [FAB-302](E3-the-agent-and-its-tools/FAB-302-confinement-no-agent-writes-outside-the-project.md) | **Confinement: no agent writes outside the project** | Every tool resolves the real path and rejects absolute paths, `..`, links, junctions, UNC and devices; the agent's shell runs sandboxed. | ✅ Done |
+| [FAB-303](E3-the-agent-and-its-tools/FAB-303-project-summary-to-guide-the-agent.md) | **Project summary to guide the agent** | Dense index generated from the code (tree + signatures) and a stable prompt prefix with cache breakpoints. | ✅ Done |
+| [FAB-304](E3-the-agent-and-its-tools/FAB-304-the-agent-as-a-supervised-process-with-a-call-limi.md) | **The agent as a supervised process, with a call limit** | Tool-use loop as an OTP process; per-role call ceiling enforced by the system, not requested in the prompt. | ✅ Done |
+| [FAB-305](E3-the-agent-and-its-tools/FAB-305-provider-adapters-with-control-measured-first.md) | **Provider adapters, with control measured first** | Two adapters behind the same boundary: the provider CLI (subscription) and the token API. CLI governance was measured before deciding. | ✅ Done |
+| [FAB-306](E3-the-agent-and-its-tools/FAB-306-milestone-e3-a-real-agent-solves-a-real-task-with-.md) | **MILESTONE E3 — a real agent solves a real task, with cost recorded** | Probe against the real model: the agent writes the requested file, there is one usage row per turn and the total matches the database. | ✅ Done |
 
 ## E4 — Task production line
 

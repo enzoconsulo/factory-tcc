@@ -1,6 +1,6 @@
 # FAB-302 · Confinamento: nenhum agente escreve fora do projeto
 
-> ⬜ A fazer · Etapa **E3 — O agente e as ferramentas** · Pacote 3.2 · História · R11
+> ✅ Concluída · Etapa **E3 — O agente e as ferramentas** · Pacote 3.2 · História · R11
 
 ## A ideia
 
@@ -36,9 +36,9 @@ Garante R11 (o agente não sai do projeto) como propriedade do código, não com
 
 ## Critérios de aceite
 
-- [ ] Caminho fora da raiz é recusado antes de tocar o disco
-- [ ] Links e junções são seguidos até o destino real
-- [ ] Sem sandbox, o agente com shell nem sobe
+- [x] Caminho fora da raiz é recusado antes de tocar o disco
+- [x] Links e junções são seguidos até o destino real
+- [x] Sem sandbox, o agente com shell nem sobe
 
 ## Como verificar
 
@@ -51,3 +51,8 @@ mix factory.syntax priv/probes/confinement_cli.exs
 ## Onde está no código
 
 `Factory.Tools.Confinement` · `Factory.Tools.Guards`
+
+## Commits
+
+- feat(tools): confine every file and command path to the project root (FAB-302)
+- feat(tools): add guards against dangerous commands and calls (FAB-302)

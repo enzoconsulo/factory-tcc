@@ -1,6 +1,6 @@
 # FAB-304 · The agent as a supervised process, with a call limit
 
-> ⬜ To do · Stage **E3 — The agent and its tools** · Package 3.3 · Story
+> ✅ Done · Stage **E3 — The agent and its tools** · Package 3.3 · Story
 
 ## The idea
 
@@ -39,9 +39,9 @@ Turn and spend caps live in process state, not in the prompt: the model does not
 
 ## Acceptance criteria
 
-- [ ] Each turn stores one usage row
-- [ ] The per-role call ceiling is enforced
-- [ ] The project root reaches the runner on every turn
+- [x] Each turn stores one usage row
+- [x] The per-role call ceiling is enforced
+- [x] The project root reaches the runner on every turn
 
 ## How to verify
 
@@ -53,3 +53,8 @@ mix test test/factory/agents/tool_budget_test.exs
 ## Where it lives in the code
 
 `Factory.Agents.Loop` · `Factory.Agents.State` · `Factory.Agents.ToolBudget`
+
+## Commits
+
+- feat(agents): add the per-role tool call ceiling (FAB-304)
+- feat(agents): run the tool-use loop as a supervised process with caps in its state (FAB-304)

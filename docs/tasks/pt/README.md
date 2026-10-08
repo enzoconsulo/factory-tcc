@@ -8,7 +8,7 @@ Cada tarefa corresponde a um pacote do plano de desenvolvimento. Abaixo, o resum
 |---|---|---|
 | **E1** Planejamento e arquitetura | Requisitos, arquitetura, tarefas, critérios e projetos de teste aprovados. | 🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜ 4/5 |
 | **E2** Fundação do sistema | Os testes rodam sem internet e sem consumir o serviço do modelo. | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 5/5 |
-| **E3** O agente e as ferramentas | Um agente resolve uma tarefa real com o custo gravado, e trocar de fornecedor não mexe no núcleo. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6 |
+| **E3** O agente e as ferramentas | Um agente resolve uma tarefa real com o custo gravado, e trocar de fornecedor não mexe no núcleo. | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 6/6 |
 | **E4** Linha de produção de tarefas | Uma tarefa percorre os seis estados, é reprovada de propósito, é refeita e conclui. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/8 |
 | **E5** Paralelismo e tolerância a falhas | Três tarefas em paralelo; encerrar uma no meio não afeta as outras, e ela volta à fila. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6 |
 | **E6** Memória do projeto | O agente cita a decisão anterior, com a fonte certa, em vez de decidir de novo. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6 |
@@ -43,16 +43,16 @@ Cada tarefa corresponde a um pacote do plano de desenvolvimento. Abaixo, o resum
 ## E3 — O agente e as ferramentas
 
 **Proposta da etapa:** Um agente resolve uma tarefa real com o custo gravado, e trocar de fornecedor não mexe no núcleo.  
-**Progresso:** ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6
+**Progresso:** 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 6/6
 
 | Chave | Título | O que fez | Status |
 |---|---|---|---|
-| [FAB-301](E3-o-agente-e-as-ferramentas/FAB-301-ferramentas-de-arquivo-e-de-comando.md) | **Ferramentas de arquivo e de comando** | Ler, listar, buscar, escrever e editar arquivos; rodar comando com prazo, matando a árvore de processos inteira. | ⬜ A fazer |
-| [FAB-302](E3-o-agente-e-as-ferramentas/FAB-302-confinamento-nenhum-agente-escreve-fora-do-projeto.md) | **Confinamento: nenhum agente escreve fora do projeto** | Toda ferramenta resolve o caminho real e recusa absoluto, `..`, link, junção, UNC e dispositivo; o shell do agente roda em sandbox. | ⬜ A fazer |
-| [FAB-303](E3-o-agente-e-as-ferramentas/FAB-303-resumo-do-projeto-para-orientar-o-agente.md) | **Resumo do projeto para orientar o agente** | Índice denso gerado do código (árvore + assinaturas) e prefixo estável do prompt, com pontos de cache. | ⬜ A fazer |
-| [FAB-304](E3-o-agente-e-as-ferramentas/FAB-304-o-agente-como-processo-supervisionado-com-limite-d.md) | **O agente como processo supervisionado, com limite de chamadas** | Laço de uso de ferramentas como processo OTP; teto de chamadas por papel imposto pelo sistema, não pedido no prompt. | ⬜ A fazer |
-| [FAB-305](E3-o-agente-e-as-ferramentas/FAB-305-adaptadores-do-fornecedor-com-o-controle-medido-an.md) | **Adaptadores do fornecedor, com o controle medido antes** | Dois adaptadores atrás da mesma fronteira: o CLI do fornecedor (assinatura) e a API por token. A governança do CLI foi medida antes de decidir. | ⬜ A fazer |
-| [FAB-306](E3-o-agente-e-as-ferramentas/FAB-306-marco-e3-um-agente-real-resolve-uma-tarefa-real-co.md) | **MARCO E3 — um agente real resolve uma tarefa real, com o custo gravado** | Probe contra o modelo real: o agente escreve o arquivo pedido, há uma linha de consumo por volta e a soma bate com o banco. | ⬜ A fazer |
+| [FAB-301](E3-o-agente-e-as-ferramentas/FAB-301-ferramentas-de-arquivo-e-de-comando.md) | **Ferramentas de arquivo e de comando** | Ler, listar, buscar, escrever e editar arquivos; rodar comando com prazo, matando a árvore de processos inteira. | ✅ Concluída |
+| [FAB-302](E3-o-agente-e-as-ferramentas/FAB-302-confinamento-nenhum-agente-escreve-fora-do-projeto.md) | **Confinamento: nenhum agente escreve fora do projeto** | Toda ferramenta resolve o caminho real e recusa absoluto, `..`, link, junção, UNC e dispositivo; o shell do agente roda em sandbox. | ✅ Concluída |
+| [FAB-303](E3-o-agente-e-as-ferramentas/FAB-303-resumo-do-projeto-para-orientar-o-agente.md) | **Resumo do projeto para orientar o agente** | Índice denso gerado do código (árvore + assinaturas) e prefixo estável do prompt, com pontos de cache. | ✅ Concluída |
+| [FAB-304](E3-o-agente-e-as-ferramentas/FAB-304-o-agente-como-processo-supervisionado-com-limite-d.md) | **O agente como processo supervisionado, com limite de chamadas** | Laço de uso de ferramentas como processo OTP; teto de chamadas por papel imposto pelo sistema, não pedido no prompt. | ✅ Concluída |
+| [FAB-305](E3-o-agente-e-as-ferramentas/FAB-305-adaptadores-do-fornecedor-com-o-controle-medido-an.md) | **Adaptadores do fornecedor, com o controle medido antes** | Dois adaptadores atrás da mesma fronteira: o CLI do fornecedor (assinatura) e a API por token. A governança do CLI foi medida antes de decidir. | ✅ Concluída |
+| [FAB-306](E3-o-agente-e-as-ferramentas/FAB-306-marco-e3-um-agente-real-resolve-uma-tarefa-real-co.md) | **MARCO E3 — um agente real resolve uma tarefa real, com o custo gravado** | Probe contra o modelo real: o agente escreve o arquivo pedido, há uma linha de consumo por volta e a soma bate com o banco. | ✅ Concluída |
 
 ## E4 — Linha de produção de tarefas
 

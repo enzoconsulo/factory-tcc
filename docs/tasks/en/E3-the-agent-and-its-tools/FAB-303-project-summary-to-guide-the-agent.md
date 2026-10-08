@@ -1,6 +1,6 @@
 # FAB-303 · Project summary to guide the agent
 
-> ⬜ To do · Stage **E3 — The agent and its tools** · Package 3.1 · Story
+> ✅ Done · Stage **E3 — The agent and its tools** · Package 3.1 · Story
 
 ## The idea
 
@@ -33,8 +33,8 @@ Cuts context and cost per dispatch: the vendor cache only turns into cheap reads
 
 ## Acceptance criteria
 
-- [ ] `mix factory.map` generates the index deterministically
-- [ ] The prefix has stable bands and one cache breakpoint per band
+- [x] `mix factory.map` generates the index deterministically
+- [x] The prefix has stable bands and one cache breakpoint per band
 
 ## How to verify
 
@@ -47,3 +47,8 @@ mix factory.map
 ## Where it lives in the code
 
 `Factory.Index.CodeMap` · `Factory.Prompt.Prefix` · `Factory.Prompt.Block` · `Mix.Tasks.Factory.Map`
+
+## Commits
+
+- feat(index): add the dense code map and mix factory.map (FAB-303)
+- feat(prompt): add the stable prompt prefix with one cache breakpoint per band (FAB-303)
