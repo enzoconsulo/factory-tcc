@@ -69,3 +69,4 @@ provider and embedder are fakes.
 ## Other tasks
 
 - `mix factory.backup` / `mix factory.restore --latest` — database dump and restore
+- `mix factory.map` — generate the dense project index
