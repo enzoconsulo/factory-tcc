@@ -1,6 +1,6 @@
 # FAB-201 · Montar o ambiente e a verificação em um comando
 
-> ⬜ A fazer · Etapa **E2 — Fundação do sistema** · Pacote 2.1 · História · R12
+> ✅ Concluída · Etapa **E2 — Fundação do sistema** · Pacote 2.1 · História · R12
 
 ## A ideia
 
@@ -33,8 +33,8 @@ Garante R12 (verificação automática e reproduzível): o critério de 'pronto'
 
 ## Critérios de aceite
 
-- [ ] `mix factory.ci` roda todos os estágios, do mais barato ao mais caro
-- [ ] O primeiro estágio que falhar interrompe os seguintes
+- [x] `mix factory.ci` roda todos os estágios, do mais barato ao mais caro
+- [x] O primeiro estágio que falhar interrompe os seguintes
 
 ## Como verificar
 
@@ -46,3 +46,8 @@ mix factory.ci
 ## Onde está no código
 
 `Factory.CI` · `Mix.Tasks.Factory.Ci` · `Factory.Application` · `Factory.Repo`
+
+## Commits
+
+- chore: scaffold the Phoenix application (FAB-201)
+- feat(ci): add one-command verification with mix factory.ci (FAB-201)

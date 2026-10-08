@@ -1,6 +1,6 @@
 # FAB-202 · Criar o banco de dados e a contagem de custo
 
-> ⬜ A fazer · Etapa **E2 — Fundação do sistema** · Pacote 2.2 · História · R10
+> ✅ Concluída · Etapa **E2 — Fundação do sistema** · Pacote 2.2 · História · R10
 
 ## A ideia
 
@@ -33,9 +33,9 @@ Garante R10 (custo medido e consultável): o banco é a verdade do estado, e cad
 
 ## Critérios de aceite
 
-- [ ] Migrações criam todas as tabelas
-- [ ] Cada consumo grava tokens, cota e custo em dólar
-- [ ] O custo de um ciclo é consultável
+- [x] Migrações criam todas as tabelas
+- [x] Cada consumo grava tokens, cota e custo em dólar
+- [x] O custo de um ciclo é consultável
 
 ## Como verificar
 
@@ -47,3 +47,8 @@ mix test test/factory/cost/pricing_test.exs
 ## Onde está no código
 
 `Factory.Tasks.Task` · `Factory.Tasks.Cycle` · `Factory.Tasks.Dispatch` · `Factory.Tasks.Usage` · `Factory.Tasks.Area` · `Factory.Tasks.Criterion` · `Factory.Tasks.Dependency` · `Factory.Projects.Project` · `Factory.Projects.Specialist` · `Factory.Cost.Pricing` · `Factory.Cost.Usage`
+
+## Commits
+
+- feat(db): add schema for projects, tasks, cycles, dispatches and usage (FAB-202)
+- feat(cost): add pricing table and per-turn cost in quota and dollars (FAB-202)

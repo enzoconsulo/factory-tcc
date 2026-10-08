@@ -1,6 +1,6 @@
 # FAB-203 · Criar as fronteiras do modelo e da busca, com substitutos de teste
 
-> ⬜ A fazer · Etapa **E2 — Fundação do sistema** · Pacote 2.3 · História · R12, R15
+> ✅ Concluída · Etapa **E2 — Fundação do sistema** · Pacote 2.3 · História · R12, R15
 
 ## A ideia
 
@@ -34,8 +34,8 @@ Garante R12 e R15: toda a governança fica do lado de cá da fronteira e é test
 
 ## Critérios de aceite
 
-- [ ] Nenhum teste fala com o fornecedor do modelo
-- [ ] Os adaptadores falsos são o padrão no ambiente de teste
+- [x] Nenhum teste fala com o fornecedor do modelo
+- [x] Os adaptadores falsos são o padrão no ambiente de teste
 
 ## Como verificar
 
@@ -48,3 +48,8 @@ mix test test/factory/embedder_test.exs
 ## Onde está no código
 
 `Factory.Provider` · `Factory.Provider.Fake` · `Factory.Embedder` · `Factory.Embedder.Fake`
+
+## Commits
+
+- feat(provider): add the Provider boundary and its deterministic fake (FAB-203)
+- feat(embedder): add the Embedder boundary and its hash-vector fake (FAB-203)

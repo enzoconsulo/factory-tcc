@@ -1,6 +1,6 @@
 # FAB-204 · Database backup
 
-> ⬜ To do · Stage **E2 — System foundation** · Package 2.4 · Story
+> ✅ Done · Stage **E2 — System foundation** · Package 2.4 · Story
 
 ## The idea
 
@@ -32,8 +32,8 @@ Since the whole system state lives in the database, not losing work requires a r
 
 ## Acceptance criteria
 
-- [ ] Backup and restore preserve the data
-- [ ] The round-trip test runs isolated from the rest of the suite
+- [x] Backup and restore preserve the data
+- [x] The round-trip test runs isolated from the rest of the suite
 
 ## How to verify
 
@@ -44,3 +44,8 @@ mix test.backup
 ## Where it lives in the code
 
 `Factory.Backup` · `Mix.Tasks.Factory.Backup` · `Mix.Tasks.Factory.Restore`
+
+## Commits
+
+- feat(backup): add mix factory.backup and mix factory.restore (FAB-204)
+- ci: run the backup round trip as an isolated stage (FAB-204)

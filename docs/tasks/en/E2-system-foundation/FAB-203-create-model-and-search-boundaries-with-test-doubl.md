@@ -1,6 +1,6 @@
 # FAB-203 · Create model and search boundaries, with test doubles
 
-> ⬜ To do · Stage **E2 — System foundation** · Package 2.3 · Story · R12, R15
+> ✅ Done · Stage **E2 — System foundation** · Package 2.3 · Story · R12, R15
 
 ## The idea
 
@@ -34,8 +34,8 @@ Guarantees R12 and R15: all governance lives on this side of the boundary and is
 
 ## Acceptance criteria
 
-- [ ] No test talks to the model provider
-- [ ] Fake adapters are the default in the test environment
+- [x] No test talks to the model provider
+- [x] Fake adapters are the default in the test environment
 
 ## How to verify
 
@@ -48,3 +48,8 @@ mix test test/factory/embedder_test.exs
 ## Where it lives in the code
 
 `Factory.Provider` · `Factory.Provider.Fake` · `Factory.Embedder` · `Factory.Embedder.Fake`
+
+## Commits
+
+- feat(provider): add the Provider boundary and its deterministic fake (FAB-203)
+- feat(embedder): add the Embedder boundary and its hash-vector fake (FAB-203)

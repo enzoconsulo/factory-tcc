@@ -1,6 +1,6 @@
 # FAB-205 · MARCO E2 — a suíte roda sem internet e sem cota
 
-> ⬜ A fazer · Etapa **E2 — Fundação do sistema** · Pacote Marco · Marco · R12
+> ✅ Concluída · Etapa **E2 — Fundação do sistema** · Pacote Marco · Marco · R12
 
 ## A ideia
 
@@ -35,8 +35,8 @@ Garante R12: testar a governança não pode gastar dinheiro nem depender do forn
 
 ## Critérios de aceite
 
-- [ ] `mix test test/factory/milestone_e2_test.exs` passa
-- [ ] Roda em toda verificação, não só no dia do marco
+- [x] `mix test test/factory/milestone_e2_test.exs` passa
+- [x] Roda em toda verificação, não só no dia do marco
 
 ## Como verificar
 
@@ -47,3 +47,7 @@ mix test test/factory/milestone_e2_test.exs
 ## Onde está no código
 
 `Factory.MilestoneE2Test` · `Factory.NoNetwork`
+
+## Commits
+
+- test: prove the suite runs with no network, quota or API key (FAB-205)

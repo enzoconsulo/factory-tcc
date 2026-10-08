@@ -1,6 +1,6 @@
 # FAB-204 · Cópia de segurança do banco
 
-> ⬜ A fazer · Etapa **E2 — Fundação do sistema** · Pacote 2.4 · História
+> ✅ Concluída · Etapa **E2 — Fundação do sistema** · Pacote 2.4 · História
 
 ## A ideia
 
@@ -32,8 +32,8 @@ Como todo o estado do sistema vive no banco, não perder trabalho exige cópia r
 
 ## Critérios de aceite
 
-- [ ] Backup e restauração preservam os dados
-- [ ] O teste de ida e volta roda isolado do resto da suíte
+- [x] Backup e restauração preservam os dados
+- [x] O teste de ida e volta roda isolado do resto da suíte
 
 ## Como verificar
 
@@ -44,3 +44,8 @@ mix test.backup
 ## Onde está no código
 
 `Factory.Backup` · `Mix.Tasks.Factory.Backup` · `Mix.Tasks.Factory.Restore`
+
+## Commits
+
+- feat(backup): add mix factory.backup and mix factory.restore (FAB-204)
+- ci: run the backup round trip as an isolated stage (FAB-204)
