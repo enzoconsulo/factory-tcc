@@ -37,3 +37,9 @@ config :phoenix_live_view,
 # Sort query params output of verified routes for robust url comparisons
 config :phoenix,
   sort_verified_routes_query_params: true
+
+# Every Req request in the test suite goes to `Factory.NoNetwork`, a Plug that raises: a request
+# reaching it is one a test forgot to stub. A config-level Plug is used instead of
+# `Req.Test.stub/2` because stubs are per process and the suite runs `async: true`.
+# The E2 milestone test relies on this guarantee.
+config :req, default_options: [plug: Factory.NoNetwork]

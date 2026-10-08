@@ -57,7 +57,14 @@ mix factory.ci --fast   # skips Dialyzer
 
 Stages run in order and the first failure stops the rest: format, compile (warnings as
 errors), strict Credo, tests, Dialyzer and the isolated backup/restore cycle
-(`mix test.backup`).
+(`mix test.backup`). The suite runs offline: every HTTP request raises, and the configured
+provider and embedder are fakes.
+
+## Milestones
+
+| Stage | Proof |
+|---|---|
+| E2 | `mix test test/factory/milestone_e2_test.exs` — the suite runs with no network, quota or API key |
 
 ## Other tasks
 
