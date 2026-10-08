@@ -6,7 +6,9 @@ defmodule Factory.Provider do
 
   Adapters:
 
-    * `Factory.Provider.Fake` — deterministic double, no network, no cost (used by tests).
+    * `Factory.Provider.Fake` — deterministic double, no network, no cost (used by tests);
+    * `Factory.Provider.ClaudeCLI` — the default for operation, runs on the subscription;
+    * `Factory.Provider.MessagesAPI` — direct HTTP, with control over cache and TTL.
 
   The contract is a single synchronous function for ONE turn. Repeating, counting turns and
   deciding to stop belong to the agent loop, not to the adapter.
@@ -75,8 +77,8 @@ defmodule Factory.Provider do
   defmodule Block do
     @moduledoc """
     A prompt-prefix block. `cache_breakpoint: true` tells the adapter that this block closes
-    a stable segment. The mark lives in the request so prefix bytes can be tested without
-    network.
+    a stable segment; only `MessagesAPI` acts on it. The mark lives in the request so prefix
+    bytes can be tested without network.
     """
 
     @type t :: %__MODULE__{text: String.t(), cache_breakpoint: boolean()}
@@ -114,6 +116,11 @@ defmodule Factory.Provider do
     `prefix` is the stable part (tools, role doctrine, project index), in blocks ordered from
     most to least stable; `messages` is the conversation history. Editing the prefix
     invalidates the cache for everything after it.
+
+    `vocabulary`, when set, is an explicit list of internal tool names from
+    `Factory.Tools.Catalog` (e.g. `["write"]`) that `Factory.Provider.ClaudeCLI` uses instead
+    of the role's vocabulary, so a task that does not need `run` can start with fewer
+    privileges. `nil` (the default) derives the vocabulary from `role`.
     """
 
     alias Factory.Provider.Block
@@ -123,6 +130,7 @@ defmodule Factory.Provider do
     @type t :: %__MODULE__{
             model: String.t(),
             role: String.t(),
+            vocabulary: [String.t()] | nil,
             prefix: [Block.t()],
             messages: [message()],
             tools: [map()],
@@ -131,6 +139,7 @@ defmodule Factory.Provider do
 
     defstruct model: "haiku-4.5",
               role: "builder",
+              vocabulary: nil,
               prefix: [],
               messages: [],
               tools: [],
@@ -144,7 +153,7 @@ defmodule Factory.Provider do
     The loop reads `stop_reason` to decide whether to repeat: `:tool_use` means there is work
     to do before the next turn; the others end it. `:max_tokens` and `:max_turns` are the
     same budget overrun reported by different families: `:max_tokens` by a `:model_endpoint`
-    adapter, `:max_turns` by a `:full_agent` adapter.
+    adapter (`MessagesAPI`), `:max_turns` by a `:full_agent` adapter (`ClaudeCLI`).
     """
 
     alias Factory.Provider.Usage

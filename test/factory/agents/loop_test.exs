@@ -11,7 +11,10 @@ defmodule Factory.Agents.LoopTest do
 
   alias Factory.Agents.Loop
   alias Factory.Agents.ToolBudget
+  alias Factory.Cost.Pricing
+  alias Factory.Provider.ClaudeCLI
   alias Factory.Provider.Fake
+  alias Factory.Provider.Response
 
   # These three adapters exist ONLY in this test file: adding a provider of either family is
   # writing an adapter and declaring it, never touching the loop. They delegate to
@@ -44,6 +47,22 @@ defmodule Factory.Agents.LoopTest do
 
     @impl Factory.Provider
     def chat(request, opts), do: Fake.chat(request, opts)
+  end
+
+  # The REAL provider fed with the raw output of one recorded `claude` process: the needle
+  # carries the output and `ClaudeCLI.build_response/2` does what `chat/2` does, with no
+  # process, network or quota.
+  defmodule RecordedCLIProviderTest do
+    @moduledoc false
+    @behaviour Factory.Provider
+
+    @impl Factory.Provider
+    def family, do: ClaudeCLI.family()
+
+    @impl Factory.Provider
+    def chat(_request, opts) do
+      ClaudeCLI.build_response(Keyword.fetch!(opts, :needle), Keyword.fetch!(opts, :root))
+    end
   end
 
   defp request(name, arguments \\ %{}, id \\ nil) do
@@ -474,6 +493,93 @@ defmodule Factory.Agents.LoopTest do
 
       [request] = Fake.seen(needle)
       assert request.role == "builder"
+    end
+  end
+
+  describe "a provider error that already spent is accounted for" do
+    @sample "priv/probes/samples/session-with-tool.jsonl"
+
+    setup do
+      root =
+        Path.join([
+          File.cwd!(),
+          "_build",
+          "test",
+          "tmp",
+          "loop-usage-#{System.unique_integer([:positive])}"
+        ])
+
+      File.mkdir_p!(root)
+      on_exit(fn -> File.rm_rf(root) end)
+      {:ok, root: root}
+    end
+
+    defp run_recorded(output, root) do
+      Loop.run(
+        needle: output,
+        provider: RecordedCLIProviderTest,
+        model: "haiku-4.5",
+        root: root,
+        tools: %{}
+      )
+    end
+
+    defp total_cost_usd(stdout) do
+      stdout
+      |> String.split("\n", trim: true)
+      |> Enum.map(&Jason.decode!/1)
+      |> Enum.find(&(&1["type"] == "result"))
+      |> Map.fetch!("total_cost_usd")
+    end
+
+    test "a REAL stream ending in a result and refused as :outside_confinement: the spend is the result's",
+         %{root: root} do
+      stdout = File.read!(@sample)
+      output = %{stdout: stdout, stderr: ""}
+
+      # The recorded session read a file outside this root, so the dispatch is refused.
+      assert {:error, {:outside_confinement, _}} = ClaudeCLI.parse(output, root)
+
+      # The cost of that `result`, through the SAME path as an accepted dispatch.
+      {:ok, %Response{usage: usage}} = ClaudeCLI.parse(output)
+      {:ok, %{total_usd: result_cost}} = Pricing.estimate("haiku-4.5", usage)
+
+      assert {:ok, summary} = run_recorded(output, root)
+
+      assert summary.outcome == :error
+      assert summary.spent_usd == Float.round(result_cost, 6)
+      assert summary.spent_usd > 0
+      assert_in_delta summary.spent_usd, total_cost_usd(stdout), 1.0e-6
+      assert summary.turns == 1
+      assert summary.usages == [usage]
+    end
+
+    test "a timeout after assistant lines with usage: outcome :error and spend > 0", %{
+      root: root
+    } do
+      partial =
+        File.read!(@sample)
+        |> String.split("\n", trim: true)
+        |> Enum.reject(&(Jason.decode!(&1)["type"] == "result"))
+        |> Enum.join("\n")
+
+      assert {:ok, summary} =
+               run_recorded(%{stdout: partial, stderr: "", reason: :timeout}, root)
+
+      assert summary.outcome == :error
+      assert summary.spent_usd > 0
+      assert summary.turns == 1
+    end
+
+    test "an error WITHOUT measured usage stays as before: :error, 0.0 and no turn counted", %{
+      root: root
+    } do
+      assert {:ok, summary} = run_recorded(%{stdout: "", stderr: "", reason: :timeout}, root)
+
+      assert summary.outcome == :error
+      assert summary.spent_usd == 0.0
+      assert summary.turns == 0
+      assert summary.usages == []
     end
   end
 end

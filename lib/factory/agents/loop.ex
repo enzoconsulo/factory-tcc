@@ -209,6 +209,7 @@ defmodule Factory.Agents.Loop do
     %Request{
       model: state.model,
       role: state.role,
+      vocabulary: state.vocabulary,
       messages: state.messages,
       tools: request_tools(family, state),
       max_turns: state.max_turns

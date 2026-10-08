@@ -17,8 +17,8 @@ defmodule Factory.Cost.Pricing do
 
   ## Two units
 
-  Dollar values are an accounting estimate, not an invoice: under a subscription the limit is
-  the quota, under a token API it is money.
+  Dollar values are an accounting estimate, not an invoice: under `Factory.Provider.ClaudeCLI`
+  the limit is the subscription quota, under `Factory.Provider.MessagesAPI` it is money.
   `quota_units/2` gives the quota measure.
   """
 
@@ -32,7 +32,8 @@ defmodule Factory.Cost.Pricing do
   }
 
   # Long ids returned by the CLI, and its short aliases, map to the same rows, so
-  # "unpriced model" means a model nobody priced rather than one spelled differently.
+  # "unpriced model" means a model nobody priced rather than one spelled differently. The
+  # long ids must match `Factory.Provider.ClaudeCLI.cli_models/0` (a test checks both ends).
   # Short aliases resolve to the newest model of the family; the factory never generates
   # them (only probes do), because an unpriced model would count as zero cost.
   @aliases %{

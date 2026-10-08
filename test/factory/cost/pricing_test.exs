@@ -8,6 +8,7 @@ defmodule Factory.Cost.PricingTest do
 
   alias Factory.Cost.Pricing
   alias Factory.Cost.Usage, as: Cost
+  alias Factory.Provider.ClaudeCLI
   alias Factory.Provider.Usage
 
   defp usage(opts \\ []) do
@@ -60,6 +61,13 @@ defmodule Factory.Cost.PricingTest do
             do: {id, usage(input: 1_000)}
 
       assert {:ok, %{turns: 3}} = Pricing.summarize(turns)
+    end
+
+    test "every id ClaudeCLI sends in --model maps to its internal name's row" do
+      for {internal, id} <- ClaudeCLI.cli_models() do
+        assert Pricing.price(id) == Pricing.price(internal),
+               "#{id} (translation of #{internal}) is not on the same price row"
+      end
     end
   end
 
@@ -234,6 +242,97 @@ defmodule Factory.Cost.PricingTest do
     end
   end
 
+  # A `result` line in the format of `claude` 2.1.287. `cache_creation: nil` produces the
+  # format without the per-TTL split; base numbers come from a real haiku dispatch.
+  defp cli_result(opts) do
+    usage =
+      %{
+        "input_tokens" => Keyword.get(opts, :input, 9),
+        "cache_creation_input_tokens" => Keyword.get(opts, :write, 4_116),
+        "cache_read_input_tokens" => Keyword.get(opts, :read, 0),
+        "output_tokens" => Keyword.get(opts, :output, 61)
+      }
+
+    usage =
+      case Keyword.fetch!(opts, :cache_creation) do
+        nil -> usage
+        {five, hour} -> Map.put(usage, "cache_creation", cache_creation(five, hour))
+      end
+
+    line = Jason.encode!(%{"type" => "result", "subtype" => "success", "usage" => usage})
+    {:ok, response} = ClaudeCLI.parse(%{stdout: line, stderr: ""})
+    response.usage
+  end
+
+  defp cache_creation(five, hour) do
+    %{"ephemeral_5m_input_tokens" => five, "ephemeral_1h_input_tokens" => hour}
+  end
+
+  describe "cache writes charged by the TTL the CLI reports" do
+    test "1 hour: a real haiku dispatch reproduces the CLI's costUSD exactly" do
+      # input 9, write 4116 (all 1h), output 61 -> costUSD 0.008546.
+      {:ok, r} = Pricing.estimate("haiku-4.5", cli_result(cache_creation: {0, 4_116}))
+
+      assert_in_delta r.cache_write_usd, 4_116 * 2.0 / 1_000_000, 1.0e-12
+      assert r.total_usd == 0.008546
+    end
+
+    test "5 minutes: the same write costs 1.25x input" do
+      {:ok, r} = Pricing.estimate("haiku-4.5", cli_result(cache_creation: {4_116, 0}))
+
+      assert_in_delta r.cache_write_usd, 4_116 * 1.25 / 1_000_000, 1.0e-12
+    end
+
+    test "each TTL's multiplier is the table's: 1h / 5m = 2.0 / 1.25" do
+      {:ok, five} = Pricing.estimate("sonnet-5", cli_result(cache_creation: {4_116, 0}))
+      {:ok, hour} = Pricing.estimate("sonnet-5", cli_result(cache_creation: {0, 4_116}))
+
+      assert Float.round(hour.cache_write_usd / five.cache_write_usd, 6) ==
+               Float.round(2.0 / 1.25, 6)
+    end
+
+    test "neither TTL is free, and a mixed dispatch never costs less than exact" do
+      {usage, log} =
+        ExUnit.CaptureLog.with_log(fn ->
+          cli_result(write: 4_116, cache_creation: {1_000, 3_116})
+        end)
+
+      assert log =~ "both cache TTLs"
+
+      {:ok, r} = Pricing.estimate("haiku-4.5", usage)
+
+      assert r.cache_write_usd >= (1_000 * 1.25 + 3_116 * 2.0) / 1_000_000
+    end
+
+    test "a result WITHOUT cache_creation is priced as before, with a warning" do
+      {usage, log} = ExUnit.CaptureLog.with_log(fn -> cli_result(cache_creation: nil) end)
+      {:ok, r} = Pricing.estimate("haiku-4.5", usage)
+
+      assert log =~ "without usage.cache_creation"
+
+      assert usage.cache_ttl == :no_cache
+      assert r.cache_write_usd == 0.0
+      assert r.total_usd == (9 * 1.0 + 61 * 5.0) / 1_000_000
+    end
+
+    test "a result with ZERO cache_creation (reads only) costs the same as before" do
+      # Real numbers of a read-only sonnet dispatch: costUSD 0.0065986.
+      usage =
+        cli_result(
+          input: 2,
+          write: 0,
+          read: 32_773,
+          output: 4,
+          cache_creation: {0, 0}
+        )
+
+      {:ok, r} = Pricing.estimate("claude-sonnet-5-5", usage)
+
+      assert r.cache_write_usd == 0.0
+      assert r.total_usd == 0.0065986
+    end
+  end
+
   describe "the CLI's short aliases are priced" do
     # An unpriced alias would count as zero cost per turn.
     for {alias_name, internal} <- [
@@ -249,6 +348,13 @@ defmodule Factory.Cost.PricingTest do
 
         assert Pricing.price(@alias_name) == Pricing.price(@internal)
         assert Pricing.estimate(@alias_name, u) == Pricing.estimate(@internal, u)
+      end
+    end
+
+    test "every short alias ClaudeCLI accepts has a price" do
+      for alias_name <- ClaudeCLI.cli_aliases() do
+        assert {:ok, ^alias_name} = ClaudeCLI.cli_model(alias_name)
+        assert Pricing.price(alias_name) != nil, "#{alias_name} passes ClaudeCLI but has no price"
       end
     end
   end

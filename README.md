@@ -36,7 +36,8 @@ na `main`.
 
 - Elixir 1.19 / Erlang/OTP 28, Phoenix 1.8 + LiveView
 - PostgreSQL 18 (state and cost accounting)
-- Model providers: a deterministic fake for tests
+- Req (HTTP adapter)
+- Model providers: provider CLI (default), token API, and a deterministic fake for tests
 
 ## Running
 
