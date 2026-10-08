@@ -3,8 +3,8 @@ defmodule Factory.Tasks.Task do
   The factory's unit of work.
 
   `status` is an `Ecto.Enum` with the six pipeline states plus the two terminal ones, so an
-  invented status never reaches the database. This module is only the schema; transition
-  rules do not live here.
+  invented status never reaches the database. Transition rules live in
+  `Factory.Tasks.StateMachine`; this module is only the schema.
   """
 
   use Ecto.Schema
