@@ -1,0 +1,8 @@
+# Fim de linha LF em todo arquivo de texto, seja qual for o core.autocrlf da maquina.
+#
+# O Git para Windows vem com autocrlf=true no gitconfig do SISTEMA. Com ele, o checkout regrava
+# CRLF na copia de trabalho de arquivos que no repositorio sao LF, e `mix format
+# --check-formatted` / `credo --strict` reprovam o que nunca esteve errado no git. Como troca so
+# de fim de linha nao gera diff, o conserto feito a mao some no checkout seguinte e nao deixa
+# rastro em `git show --stat` — foi assim que a T-045 e a T-046 queimaram ciclos (13/09).
+* text=auto eol=lf
