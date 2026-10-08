@@ -376,6 +376,11 @@ defmodule Factory.Tools.CommandTest do
       assert {:ok, result} = Command.run_split_streams(root, line, dir: "sub")
       assert result.stdout =~ "inside-sub"
     end
+
+    test "refuses to run OUTSIDE the confinement", %{root: root} do
+      assert {:error, :outside_confinement} =
+               Command.run_split_streams(root, "dir", dir: "../..")
+    end
   end
 
   describe "platform" do

@@ -2,19 +2,22 @@ defmodule Factory.Tools.Files do
   @moduledoc """
   The agent's file tools: `read`, `write`, `edit`, `list` and `search`.
 
-  Every path is relative to the project directory; none of the tools has another way to
-  reach the file system.
+  All of them are confined to the project directory through `Factory.Tools.Confinement`;
+  none has another way to reach the file system.
 
   `edit` is an EXACT replacement: it refuses when the target appears zero times (the agent was
   looking at another version of the file) or more than once (it does not know which one will
   change).
   """
 
+  alias Factory.Tools.Confinement
+
   @max_size 2_000_000
 
   @typedoc "Named error."
   @type error ::
-          :file_missing
+          Confinement.reason()
+          | :file_missing
           | :file_too_large
           | :target_missing
           | :target_ambiguous
@@ -23,7 +26,7 @@ defmodule Factory.Tools.Files do
   @doc "Reads a project file."
   @spec read(Path.t(), Path.t()) :: {:ok, String.t()} | {:error, error()}
   def read(root, path) do
-    with {:ok, absolute} <- resolve(root, path),
+    with {:ok, absolute} <- Confinement.resolve(root, path),
          {:ok, %{size: size, type: :regular}} <- stat(absolute),
          :ok <- fits?(size) do
       read_file(absolute)
@@ -36,7 +39,7 @@ defmodule Factory.Tools.Files do
   @doc "Writes a project file, creating missing directories."
   @spec write(Path.t(), Path.t(), String.t()) :: {:ok, Path.t()} | {:error, error()}
   def write(root, path, content) do
-    with {:ok, absolute} <- resolve(root, path) do
+    with {:ok, absolute} <- Confinement.resolve(root, path) do
       File.mkdir_p!(Path.dirname(absolute))
       File.write!(absolute, content)
       {:ok, absolute}
@@ -51,7 +54,7 @@ defmodule Factory.Tools.Files do
   """
   @spec edit(Path.t(), Path.t(), String.t(), String.t()) :: {:ok, Path.t()} | {:error, error()}
   def edit(root, path, target, new) do
-    with {:ok, absolute} <- resolve(root, path),
+    with {:ok, absolute} <- Confinement.resolve(root, path),
          {:ok, content} <- read(root, path),
          {:ok, replaced} <- replace(content, target, new) do
       File.write!(absolute, replaced)
@@ -62,7 +65,7 @@ defmodule Factory.Tools.Files do
   @doc "Lists the project files matching the pattern, in deterministic order."
   @spec list(Path.t(), String.t()) :: {:ok, [Path.t()]} | {:error, error()}
   def list(root, pattern \\ "**/*") do
-    with {:ok, absolute} <- resolve(root, ".") do
+    with {:ok, absolute} <- Confinement.resolve(root, ".") do
       files =
         absolute
         |> Path.join(pattern)
@@ -123,8 +126,6 @@ defmodule Factory.Tools.Files do
   defp occurrences(content, target) do
     content |> String.split(target) |> length() |> Kernel.-(1)
   end
-
-  defp resolve(root, path), do: {:ok, Path.expand(path, root)}
 
   # Any file-system error (POSIX reason) is reported as `:file_missing`.
   defp stat(absolute) do

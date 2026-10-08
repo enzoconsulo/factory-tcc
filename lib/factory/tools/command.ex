@@ -17,6 +17,7 @@ defmodule Factory.Tools.Command do
 
   require Logger
 
+  alias Factory.Tools.Confinement
   alias Factory.Tools.ProcessTree
 
   @default_timeout 120_000
@@ -39,7 +40,7 @@ defmodule Factory.Tools.Command do
   @doc """
   Runs `program` with `args` inside `root`.
 
-  The working directory is ALWAYS the project root (or a `:dir` inside it), never the
+  The working directory is ALWAYS the project root resolved by the confinement, never the
   factory root.
   """
   @spec run(Path.t(), String.t(), [String.t()], keyword()) ::
@@ -47,7 +48,7 @@ defmodule Factory.Tools.Command do
   def run(root, program, args \\ [], opts \\ []) do
     timeout = Keyword.get(opts, :timeout, @default_timeout)
 
-    with {:ok, dir} <- working_dir(root, opts),
+    with {:ok, dir} <- Confinement.resolve(root, Keyword.get(opts, :dir, ".")),
          {:ok, executable} <- locate(program) do
       start = System.monotonic_time(:millisecond)
 
@@ -85,7 +86,7 @@ defmodule Factory.Tools.Command do
   def run_split_streams(root, line, opts \\ []) do
     stdin = Keyword.get(opts, :stdin, :empty)
 
-    with {:ok, dir} <- working_dir(root, opts),
+    with {:ok, dir} <- Confinement.resolve(root, Keyword.get(opts, :dir, ".")),
          :ok <- validate_stdin(stdin) do
       mark = System.unique_integer([:positive])
       out = Path.join(System.tmp_dir!(), "cmd-out-#{mark}")
@@ -110,8 +111,6 @@ defmodule Factory.Tools.Command do
       end
     end
   end
-
-  defp working_dir(root, opts), do: {:ok, Path.expand(Keyword.get(opts, :dir, "."), root)}
 
   defp validate_stdin(:empty), do: :ok
 

@@ -35,6 +35,10 @@ defmodule Factory.Tools.FilesTest do
       assert {:error, :not_a_file} = Files.read(root, "lib")
     end
 
+    test "refuses to read outside the confinement", %{root: root} do
+      assert {:error, :outside_confinement} = Files.read(root, "../../etc/passwd")
+    end
+
     test "a file that is too large is refused, not read halfway", %{root: root} do
       create(root, "huge.txt", String.duplicate("x", 2_000_001))
       assert {:error, :file_too_large} = Files.read(root, "huge.txt")
@@ -51,6 +55,17 @@ defmodule Factory.Tools.FilesTest do
       create(root, "x.ex", "old")
       assert {:ok, _} = Files.write(root, "x.ex", "new")
       assert {:ok, "new"} = Files.read(root, "x.ex")
+    end
+
+    test "refuses to write outside the confinement", %{root: root} do
+      assert {:error, :outside_confinement} =
+               Files.write(root, "../outside.txt", "should not")
+
+      refute File.exists?(Path.join(Path.dirname(root), "outside.txt"))
+    end
+
+    test "refuses to write to a device", %{root: root} do
+      assert {:error, :device} = Files.write(root, "NUL", "swallowed")
     end
   end
 
@@ -102,6 +117,10 @@ defmodule Factory.Tools.FilesTest do
 
     test "editing a missing file returns the file error, not the target error", %{root: root} do
       assert {:error, :file_missing} = Files.edit(root, "does-not-exist.ex", "a", "b")
+    end
+
+    test "refuses to edit outside the confinement", %{root: root} do
+      assert {:error, :outside_confinement} = Files.edit(root, "../x.ex", "a", "b")
     end
   end
 
