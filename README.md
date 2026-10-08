@@ -40,7 +40,8 @@ na `main`.
 
 ## Running
 
-Requires PostgreSQL on `127.0.0.1:5432`.
+Requires PostgreSQL on `127.0.0.1:5432`. The `pg_dump`/`pg_restore` location is set with
+`FACTORY_PG_BIN` (default `C:/pgsql/18/bin`).
 
 ```
 mix setup          # dependencies, database and assets
@@ -55,4 +56,9 @@ mix factory.ci --fast   # skips Dialyzer
 ```
 
 Stages run in order and the first failure stops the rest: format, compile (warnings as
-errors), strict Credo, tests and Dialyzer.
+errors), strict Credo, tests, Dialyzer and the isolated backup/restore cycle
+(`mix test.backup`).
+
+## Other tasks
+
+- `mix factory.backup` / `mix factory.restore --latest` — database dump and restore

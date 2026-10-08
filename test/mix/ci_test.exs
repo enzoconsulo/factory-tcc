@@ -142,17 +142,18 @@ defmodule Factory.CITest do
   end
 
   describe "_management/ci.json" do
-    test "is read and declares the five stages, in order, with the real commands" do
+    test "is read and declares the six stages, in order, with the real commands" do
       {:ok, stages} = CI.stages()
 
-      assert Enum.map(stages, & &1.name) == ~w[format compile lint tests types]
+      assert Enum.map(stages, & &1.name) == ~w[format compile lint tests types backup]
 
       assert Enum.map(stages, & &1.command) == [
                "mix format --check-formatted",
                "mix compile --warnings-as-errors",
                "mix credo --strict",
                "mix test",
-               "mix dialyzer"
+               "mix dialyzer",
+               "mix test.backup"
              ]
     end
 

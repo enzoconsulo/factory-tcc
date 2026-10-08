@@ -36,6 +36,12 @@
       "command": "mix dialyzer",
       "fast": false,
       "description": "static type analysis; the first run builds the PLT"
+    },
+    {
+      "name": "backup",
+      "command": "mix test.backup",
+      "fast": true,
+      "description": "backup/restore round trip, isolated from the rest of the suite"
     }
   ]
 }
