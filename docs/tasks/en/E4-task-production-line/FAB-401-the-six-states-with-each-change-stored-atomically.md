@@ -1,6 +1,6 @@
 # FAB-401 · The six states, with each change stored atomically
 
-> ⬜ To do · Stage **E4 — Task production line** · Package 4.1 · Story · R2
+> ✅ Done · Stage **E4 — Task production line** · Package 4.1 · Story · R2
 
 ## The idea
 
@@ -34,9 +34,9 @@ Guarantees R2 (fixed-state lifecycle): no code path writes a status without chec
 
 ## Acceptance criteria
 
-- [ ] An invalid transition is rejected
-- [ ] State, cycle, dispatch and usage stored in one transaction
-- [ ] The attempt counter belongs to the system
+- [x] An invalid transition is rejected
+- [x] State, cycle, dispatch and usage stored in one transaction
+- [x] The attempt counter belongs to the system
 
 ## How to verify
 
@@ -48,3 +48,8 @@ mix test test/factory/tasks/transition_test.exs
 ## Where it lives in the code
 
 `Factory.Tasks.StateMachine` · `Factory.Tasks.Transition`
+
+## Commits
+
+- feat(tasks): add the six-state machine with its legal transitions (FAB-401)
+- feat(tasks): apply every transition in one transaction with its cycle record (FAB-401)

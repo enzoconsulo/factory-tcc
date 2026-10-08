@@ -9,7 +9,7 @@ Cada tarefa corresponde a um pacote do plano de desenvolvimento. Abaixo, o resum
 | **E1** Planejamento e arquitetura | Requisitos, arquitetura, tarefas, critérios e projetos de teste aprovados. | 🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜ 4/5 |
 | **E2** Fundação do sistema | Os testes rodam sem internet e sem consumir o serviço do modelo. | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 5/5 |
 | **E3** O agente e as ferramentas | Um agente resolve uma tarefa real com o custo gravado, e trocar de fornecedor não mexe no núcleo. | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 6/6 |
-| **E4** Linha de produção de tarefas | Uma tarefa percorre os seis estados, é reprovada de propósito, é refeita e conclui. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/8 |
+| **E4** Linha de produção de tarefas | Uma tarefa percorre os seis estados, é reprovada de propósito, é refeita e conclui. | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 8/8 |
 | **E5** Paralelismo e tolerância a falhas | Três tarefas em paralelo; encerrar uma no meio não afeta as outras, e ela volta à fila. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6 |
 | **E6** Memória do projeto | O agente cita a decisão anterior, com a fonte certa, em vez de decidir de novo. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6 |
 | **E7** Painel e automação | Um projeto inteiro acompanhado na tela, do pedido à entrega, com o custo em tempo real. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/8 |
@@ -57,18 +57,18 @@ Cada tarefa corresponde a um pacote do plano de desenvolvimento. Abaixo, o resum
 ## E4 — Linha de produção de tarefas
 
 **Proposta da etapa:** Uma tarefa percorre os seis estados, é reprovada de propósito, é refeita e conclui.  
-**Progresso:** ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/8
+**Progresso:** 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 8/8
 
 | Chave | Título | O que fez | Status |
 |---|---|---|---|
-| [FAB-401](E4-linha-de-producao-de-tarefas/FAB-401-os-seis-estados-com-a-mudanca-gravada-de-uma-vez-s.md) | **Os seis estados, com a mudança gravada de uma vez só** | Máquina de estados pura e transição transacional: estado, relatório e custo na mesma transação. | ⬜ A fazer |
-| [FAB-402](E4-linha-de-producao-de-tarefas/FAB-402-fila-por-dependencias-e-equipe-especializada.md) | **Fila por dependências e equipe especializada** | Promover tarefas cujas dependências concluíram e ordenar a fila; resolver o especialista que constrói cada tarefa. | ⬜ A fazer |
-| [FAB-403](E4-linha-de-producao-de-tarefas/FAB-403-criterios-de-aceite-executados-sozinhos.md) | **Critérios de aceite executados sozinhos** | Ler os comandos `verify:` da tarefa, rodar só os permitidos e separar comando quebrado de entrega errada. | ⬜ A fazer |
-| [FAB-404](E4-linha-de-producao-de-tarefas/FAB-404-os-dois-portoes.md) | **Os dois portões** | Verificador (funciona?) e revisor (é o que foi pedido? está correto?). O revisor não recebe ferramenta de escrita. | ⬜ A fazer |
-| [FAB-405](E4-linha-de-producao-de-tarefas/FAB-405-diagnostico-da-reprovacao-e-escada-de-resposta.md) | **Diagnóstico da reprovação e escada de resposta** | Decidir COMO refazer: modelo mais forte, outro especialista, replanejar e, se a substituta também esgotar os ciclos, passar ao humano. | ⬜ A fazer |
-| [FAB-406](E4-linha-de-producao-de-tarefas/FAB-406-teto-de-gasto-por-rodada-e-por-tarefa.md) | **Teto de gasto por rodada e por tarefa** | O sistema não deixa começar o trabalho que não cabe no teto — e nunca corta no meio. | ⬜ A fazer |
-| [FAB-407](E4-linha-de-producao-de-tarefas/FAB-407-do-pedido-as-tarefas-o-planejador.md) | **Do pedido às tarefas: o planejador** | Traduzir um pedido em linguagem natural num grafo de 8 a 12 tarefas validado, gravado numa transação, e publicar tarefas em markdown. | ⬜ A fazer |
-| [FAB-408](E4-linha-de-producao-de-tarefas/FAB-408-marco-e4-reprovada-de-proposito-refeita-e-concluid.md) | **MARCO E4 — reprovada de propósito, refeita e concluída** | Teste permanente: uma tarefa percorre a linha de pronta a concluída, é reprovada por entrega errada, sobe de modelo e conclui. | ⬜ A fazer |
+| [FAB-401](E4-linha-de-producao-de-tarefas/FAB-401-os-seis-estados-com-a-mudanca-gravada-de-uma-vez-s.md) | **Os seis estados, com a mudança gravada de uma vez só** | Máquina de estados pura e transição transacional: estado, relatório e custo na mesma transação. | ✅ Concluída |
+| [FAB-402](E4-linha-de-producao-de-tarefas/FAB-402-fila-por-dependencias-e-equipe-especializada.md) | **Fila por dependências e equipe especializada** | Promover tarefas cujas dependências concluíram e ordenar a fila; resolver o especialista que constrói cada tarefa. | ✅ Concluída |
+| [FAB-403](E4-linha-de-producao-de-tarefas/FAB-403-criterios-de-aceite-executados-sozinhos.md) | **Critérios de aceite executados sozinhos** | Ler os comandos `verify:` da tarefa, rodar só os permitidos e separar comando quebrado de entrega errada. | ✅ Concluída |
+| [FAB-404](E4-linha-de-producao-de-tarefas/FAB-404-os-dois-portoes.md) | **Os dois portões** | Verificador (funciona?) e revisor (é o que foi pedido? está correto?). O revisor não recebe ferramenta de escrita. | ✅ Concluída |
+| [FAB-405](E4-linha-de-producao-de-tarefas/FAB-405-diagnostico-da-reprovacao-e-escada-de-resposta.md) | **Diagnóstico da reprovação e escada de resposta** | Decidir COMO refazer: modelo mais forte, outro especialista, replanejar e, se a substituta também esgotar os ciclos, passar ao humano. | ✅ Concluída |
+| [FAB-406](E4-linha-de-producao-de-tarefas/FAB-406-teto-de-gasto-por-rodada-e-por-tarefa.md) | **Teto de gasto por rodada e por tarefa** | O sistema não deixa começar o trabalho que não cabe no teto — e nunca corta no meio. | ✅ Concluída |
+| [FAB-407](E4-linha-de-producao-de-tarefas/FAB-407-do-pedido-as-tarefas-o-planejador.md) | **Do pedido às tarefas: o planejador** | Traduzir um pedido em linguagem natural num grafo de 8 a 12 tarefas validado, gravado numa transação, e publicar tarefas em markdown. | ✅ Concluída |
+| [FAB-408](E4-linha-de-producao-de-tarefas/FAB-408-marco-e4-reprovada-de-proposito-refeita-e-concluid.md) | **MARCO E4 — reprovada de propósito, refeita e concluída** | Teste permanente: uma tarefa percorre a linha de pronta a concluída, é reprovada por entrega errada, sobe de modelo e conclui. | ✅ Concluída |
 
 ## E5 — Paralelismo e tolerância a falhas
 

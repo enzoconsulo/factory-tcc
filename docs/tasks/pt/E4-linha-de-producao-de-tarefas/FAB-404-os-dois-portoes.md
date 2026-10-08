@@ -1,6 +1,6 @@
 # FAB-404 · Os dois portões
 
-> ⬜ A fazer · Etapa **E4 — Linha de produção de tarefas** · Pacote 4.4 · História · R3
+> ✅ Concluída · Etapa **E4 — Linha de produção de tarefas** · Pacote 4.4 · História · R3
 
 ## A ideia
 
@@ -36,9 +36,9 @@ Garante R3 (dois portões independentes): um portão que pode consertar o que re
 
 ## Critérios de aceite
 
-- [ ] Os dois portões reprovam por motivos diferentes
-- [ ] Reprovação por conformidade não exige defeito
-- [ ] Achados do revisor reprovam mesmo quando registrados pela ferramenta de resultado
+- [x] Os dois portões reprovam por motivos diferentes
+- [x] Reprovação por conformidade não exige defeito
+- [x] Achados do revisor reprovam mesmo quando registrados pela ferramenta de resultado
 
 ## Como verificar
 
@@ -50,3 +50,7 @@ mix test test/factory/gates/reviewer_test.exs
 ## Onde está no código
 
 `Factory.Gates.Verifier` · `Factory.Gates.Reviewer`
+
+## Commits
+
+- feat(gates): add the verifier and reviewer gates with the conformance verdict (FAB-404)

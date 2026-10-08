@@ -1,6 +1,6 @@
 # FAB-407 · Do pedido às tarefas: o planejador
 
-> ⬜ A fazer · Etapa **E4 — Linha de produção de tarefas** · Pacote R1 · História · R1
+> ✅ Concluída · Etapa **E4 — Linha de produção de tarefas** · Pacote R1 · História · R1
 
 ## A ideia
 
@@ -35,8 +35,8 @@ Garante R1 (do pedido às tarefas sem intervenção): plano inválido é recusad
 
 ## Critérios de aceite
 
-- [ ] `mix factory.plan` gera tarefas válidas a partir de um pedido
-- [ ] Cada tarefa pode ser publicada em markdown determinístico e commitada só com as suas áreas
+- [x] `mix factory.plan` gera tarefas válidas a partir de um pedido
+- [x] Cada tarefa pode ser publicada em markdown determinístico e commitada só com as suas áreas
 
 ## Como verificar
 
@@ -50,3 +50,10 @@ mix test test/mix/plan_test.exs
 ## Onde está no código
 
 `Factory.Planner` · `Factory.Publishing.Markdown` · `Factory.Publishing.Git` · `Factory.Projects.Phase` · `Factory.Projects.Milestone` · `Mix.Tasks.Factory.Plan`
+
+## Commits
+
+- feat(db): add the phases and milestones schema (FAB-407)
+- feat(planner): turn a request into a validated task graph in one transaction (FAB-407)
+- feat(publishing): publish the plan as markdown and commit it with git (FAB-407)
+- feat(planner): add mix factory.plan as the single human entry point (FAB-407)

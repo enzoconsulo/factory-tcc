@@ -1,6 +1,6 @@
 # FAB-402 · Fila por dependências e equipe especializada
 
-> ⬜ A fazer · Etapa **E4 — Linha de produção de tarefas** · Pacote 4.2 · História
+> ✅ Concluída · Etapa **E4 — Linha de produção de tarefas** · Pacote 4.2 · História
 
 ## A ideia
 
@@ -35,9 +35,9 @@ Tira do modelo decisões que cabem num teste (promoção e ordem) e mantém a di
 
 ## Critérios de aceite
 
-- [ ] Tarefa só fica pronta com todas as dependências concluídas
-- [ ] Empate na fila: primeiro a que destrava mais tarefas
-- [ ] O especialista soma ao papel, não o substitui
+- [x] Tarefa só fica pronta com todas as dependências concluídas
+- [x] Empate na fila: primeiro a que destrava mais tarefas
+- [x] O especialista soma ao papel, não o substitui
 
 ## Como verificar
 
@@ -49,3 +49,8 @@ mix test test/factory/team/resolution_test.exs
 ## Onde está no código
 
 `Factory.Tasks.Scheduler` · `Factory.Team` · `Factory.Team.Resolution`
+
+## Commits
+
+- feat(tasks): add the dependency scheduler and queue order (FAB-402)
+- feat(team): add versioned specialists and builder resolution (FAB-402)

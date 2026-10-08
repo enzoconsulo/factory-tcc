@@ -1,6 +1,6 @@
 # FAB-405 · Diagnóstico da reprovação e escada de resposta
 
-> ⬜ A fazer · Etapa **E4 — Linha de produção de tarefas** · Pacote 4.5 · História · R4, R5
+> ✅ Concluída · Etapa **E4 — Linha de produção de tarefas** · Pacote 4.5 · História · R4, R5
 
 ## A ideia
 
@@ -35,9 +35,9 @@ Garante R4 e R5 (limite de ciclos e autocorreção): cada ciclo muda a estratég
 
 ## Critérios de aceite
 
-- [ ] Cada ciclo muda a estratégia
-- [ ] No 2º ciclo o modelo sobe
-- [ ] Esgotados 3 ciclos, replaneja; se já foi replanejada, bloqueia para o humano
+- [x] Cada ciclo muda a estratégia
+- [x] No 2º ciclo o modelo sobe
+- [x] Esgotados 3 ciclos, replaneja; se já foi replanejada, bloqueia para o humano
 
 ## Como verificar
 
@@ -49,3 +49,8 @@ mix test test/factory/rework/diagnosis_test.exs
 ## Onde está no código
 
 `Factory.Rework.Ladder` · `Factory.Rework.Diagnosis` · `Factory.Rework.Policy`
+
+## Commits
+
+- feat(rework): add the model escalation ladder and its policy (FAB-405)
+- feat(rework): diagnose each rejection before choosing the response (FAB-405)
