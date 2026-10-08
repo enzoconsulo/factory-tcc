@@ -184,7 +184,7 @@ defmodule Factory.Provider.FakeTest do
       {:ok, needle} = Fake.start(script: [Fake.response()])
       assert {:ok, _} = Fake.chat(request(), needle: needle)
 
-      # `Req` is a dependency; what matters is that Fake's source never
+      # `Req` is a dependency (for MessagesAPI); what matters is that Fake's source never
       # references it. The suite-wide network block is checked in the E2 milestone test.
       source = File.read!("lib/factory/provider/fake.ex")
       pattern = ~r/(?<![A-Za-z0-9_.])Req(?![A-Za-z0-9_])/

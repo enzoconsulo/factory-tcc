@@ -8,9 +8,10 @@ defmodule Factory.MilestoneE2Test do
   library":
 
     * every `Req` request goes to a Plug that raises (`Factory.NoNetwork`);
-    * no production file references `Req` or opens sockets by hand;
-    * no module reads credentials, and the credential variables are not even set in the
-      suite's environment;
+    * only the network owner (`MessagesAPI`) may reference `Req`, and no production file
+      opens sockets by hand;
+    * exactly ONE module reads credentials (`MessagesAPI`), and the credential variables are
+      not even set in the suite's environment;
     * the configured adapters are the fakes, and no embedding model library is loadable.
   """
 
@@ -24,6 +25,12 @@ defmodule Factory.MilestoneE2Test do
   # Independent HTTP clients that no adapter uses. `Finch` and `Mint` are Req's transport.
   @foreign_clients [HTTPoison, Tesla]
   @foreign_apps [:hackney, :gun, :ibrowse, :httpoison, :tesla]
+
+  # The only module allowed to read credentials: exclusivity is the guarantee.
+  @network_owner "lib/factory/provider/messages_api.ex"
+
+  # Modules allowed to speak HTTP (reference `Req`). They all run under the raising double.
+  @network_owners [@network_owner]
 
   defp production_sources, do: Path.wildcard("lib/**/*.ex")
 
@@ -63,11 +70,12 @@ defmodule Factory.MilestoneE2Test do
       end
     end
 
-    test "no production source references Req" do
+    test "only the HTTP adapters reference Req" do
       pattern = ~r/(?<![A-Za-z0-9_.])Req(?![A-Za-z0-9_])/
 
-      for file <- production_sources() do
-        refute Regex.match?(pattern, File.read!(file)), "#{file} references Req."
+      for file <- production_sources(), file not in @network_owners do
+        refute Regex.match?(pattern, File.read!(file)),
+               "#{file} references Req. Only the network owners may: #{inspect(@network_owners)}."
       end
     end
 
@@ -88,16 +96,17 @@ defmodule Factory.MilestoneE2Test do
   end
 
   describe "no quota and no API key" do
-    test "no module reads environment variables" do
+    test "EXACTLY ONE module reads environment variables" do
       readers = Enum.filter(production_sources(), &(code_only(&1) =~ "System.get_env"))
 
-      assert readers == [], "environment variable read: #{inspect(readers)}"
+      assert readers == [@network_owner],
+             "environment variable read outside the network adapter: #{inspect(readers)}"
     end
 
-    test "no module cites ANTHROPIC_API_KEY in code" do
+    test "EXACTLY ONE module cites ANTHROPIC_API_KEY in code" do
       readers = Enum.filter(production_sources(), &(code_only(&1) =~ "ANTHROPIC_API_KEY"))
 
-      assert readers == []
+      assert readers == [@network_owner]
     end
 
     test "no production source contains a literal secret" do
@@ -106,8 +115,9 @@ defmodule Factory.MilestoneE2Test do
         refute File.read!(file) =~ "sk-ant-", "#{file} contains a literal secret (sk-ant-)"
       end
 
-      # "Bearer " is a header scheme.
-      for file <- production_sources() do
+      # "Bearer " is a header scheme: network owners build it from a configured key, so they
+      # are exempt from this check only.
+      for file <- production_sources(), file not in @network_owners do
         refute File.read!(file) =~ "Bearer ", "#{file} contains a literal secret (Bearer )"
       end
     end

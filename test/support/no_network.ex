@@ -18,9 +18,9 @@ defmodule Factory.NoNetwork do
     an HTTP request tried to LEAVE during the test suite: #{conn.method} #{conn.host}#{conn.request_path}
 
     The suite runs without network. Stub the call in the test itself by passing `plug:` to
-    the request:
+    the adapter:
 
-        Req.get!(url, plug: fn conn -> Req.Test.json(conn, response) end)
+        MessagesAPI.chat(request, plug: fn conn -> Req.Test.json(conn, response) end)
     """
   end
 end
