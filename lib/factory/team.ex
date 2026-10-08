@@ -9,6 +9,9 @@ defmodule Factory.Team do
 
   `define/2` deactivates and inserts in one transaction: a crash in between would otherwise
   leave the project with no active specialist, silently falling back to the generic role.
+
+  This module decides *who*, not *how strongly* — model escalation belongs to
+  `Factory.Rework.Ladder`.
   """
 
   import Ecto.Query, only: [from: 2]
