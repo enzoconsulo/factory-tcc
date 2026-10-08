@@ -1,0 +1,41 @@
+{
+  "ecosystem": "elixir",
+  "services": [
+    {
+      "name": "postgres",
+      "check": "pg_isready -h 127.0.0.1 -p 5432"
+    }
+  ],
+  "stages": [
+    {
+      "name": "format",
+      "command": "mix format --check-formatted",
+      "fast": true,
+      "description": "code is formatted"
+    },
+    {
+      "name": "compile",
+      "command": "mix compile --warnings-as-errors",
+      "fast": true,
+      "description": "compiles with no warnings"
+    },
+    {
+      "name": "lint",
+      "command": "mix credo --strict",
+      "fast": true,
+      "description": "strict Credo, no excluded checks"
+    },
+    {
+      "name": "tests",
+      "command": "mix test",
+      "fast": true,
+      "description": "the whole suite, offline and without quota"
+    },
+    {
+      "name": "types",
+      "command": "mix dialyzer",
+      "fast": false,
+      "description": "static type analysis; the first run builds the PLT"
+    }
+  ]
+}
