@@ -7,7 +7,7 @@ Cada tarefa corresponde a um pacote do plano de desenvolvimento. Abaixo, o resum
 | Etapa | Proposta da etapa | Progresso |
 |---|---|---|
 | **E1** Planejamento e arquitetura | Requisitos, arquitetura, tarefas, critérios e projetos de teste aprovados. | 🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜ 4/5 |
-| **E2** Fundação do sistema | Os testes rodam sem internet e sem consumir o serviço do modelo. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/5 |
+| **E2** Fundação do sistema | Os testes rodam sem internet e sem consumir o serviço do modelo. | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 5/5 |
 | **E3** O agente e as ferramentas | Um agente resolve uma tarefa real com o custo gravado, e trocar de fornecedor não mexe no núcleo. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6 |
 | **E4** Linha de produção de tarefas | Uma tarefa percorre os seis estados, é reprovada de propósito, é refeita e conclui. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/8 |
 | **E5** Paralelismo e tolerância a falhas | Três tarefas em paralelo; encerrar uma no meio não afeta as outras, e ela volta à fila. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6 |
@@ -30,15 +30,15 @@ Cada tarefa corresponde a um pacote do plano de desenvolvimento. Abaixo, o resum
 ## E2 — Fundação do sistema
 
 **Proposta da etapa:** Os testes rodam sem internet e sem consumir o serviço do modelo.  
-**Progresso:** ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/5
+**Progresso:** 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 5/5
 
 | Chave | Título | O que fez | Status |
 |---|---|---|---|
-| [FAB-201](E2-fundacao-do-sistema/FAB-201-montar-o-ambiente-e-a-verificacao-em-um-comando.md) | **Montar o ambiente e a verificação em um comando** | Projeto Phoenix com formatação, compilação sem avisos, Credo estrito, testes e Dialyzer encadeados em `mix factory.ci`. | ⬜ A fazer |
-| [FAB-202](E2-fundacao-do-sistema/FAB-202-criar-o-banco-de-dados-e-a-contagem-de-custo.md) | **Criar o banco de dados e a contagem de custo** | Esquema de projetos, tarefas, ciclos, despachos e consumos; custo contado em duas unidades (cota e dólar). | ⬜ A fazer |
-| [FAB-203](E2-fundacao-do-sistema/FAB-203-criar-as-fronteiras-do-modelo-e-da-busca-com-subst.md) | **Criar as fronteiras do modelo e da busca, com substitutos de teste** | Behaviours para o executor de agentes e para o gerador de embeddings, cada um com um adaptador falso usado nos testes. | ⬜ A fazer |
-| [FAB-204](E2-fundacao-do-sistema/FAB-204-copia-de-seguranca-do-banco.md) | **Cópia de segurança do banco** | `mix factory.backup` e `mix factory.restore`, com ida e volta provada num estágio próprio da verificação. | ⬜ A fazer |
-| [FAB-205](E2-fundacao-do-sistema/FAB-205-marco-e2-a-suite-roda-sem-internet-e-sem-cota.md) | **MARCO E2 — a suíte roda sem internet e sem cota** | Teste permanente que falha se houver tráfego de rede, cliente HTTP carregado ou chave de acesso no ambiente. | ⬜ A fazer |
+| [FAB-201](E2-fundacao-do-sistema/FAB-201-montar-o-ambiente-e-a-verificacao-em-um-comando.md) | **Montar o ambiente e a verificação em um comando** | Projeto Phoenix com formatação, compilação sem avisos, Credo estrito, testes e Dialyzer encadeados em `mix factory.ci`. | ✅ Concluída |
+| [FAB-202](E2-fundacao-do-sistema/FAB-202-criar-o-banco-de-dados-e-a-contagem-de-custo.md) | **Criar o banco de dados e a contagem de custo** | Esquema de projetos, tarefas, ciclos, despachos e consumos; custo contado em duas unidades (cota e dólar). | ✅ Concluída |
+| [FAB-203](E2-fundacao-do-sistema/FAB-203-criar-as-fronteiras-do-modelo-e-da-busca-com-subst.md) | **Criar as fronteiras do modelo e da busca, com substitutos de teste** | Behaviours para o executor de agentes e para o gerador de embeddings, cada um com um adaptador falso usado nos testes. | ✅ Concluída |
+| [FAB-204](E2-fundacao-do-sistema/FAB-204-copia-de-seguranca-do-banco.md) | **Cópia de segurança do banco** | `mix factory.backup` e `mix factory.restore`, com ida e volta provada num estágio próprio da verificação. | ✅ Concluída |
+| [FAB-205](E2-fundacao-do-sistema/FAB-205-marco-e2-a-suite-roda-sem-internet-e-sem-cota.md) | **MARCO E2 — a suíte roda sem internet e sem cota** | Teste permanente que falha se houver tráfego de rede, cliente HTTP carregado ou chave de acesso no ambiente. | ✅ Concluída |
 
 ## E3 — O agente e as ferramentas
 

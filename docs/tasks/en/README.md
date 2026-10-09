@@ -7,7 +7,7 @@ Each task is one package of the development plan. Below is a summary of every ta
 | Stage | Stage goal | Progress |
 |---|---|---|
 | **E1** Planning and architecture | Requirements, architecture, tasks, performance criteria and test projects approved. | 🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜ 4/5 |
-| **E2** System foundation | The test suite runs with no network access and without consuming the model service. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/5 |
+| **E2** System foundation | The test suite runs with no network access and without consuming the model service. | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 5/5 |
 | **E3** The agent and its tools | An agent solves a real task with its cost recorded, and switching providers does not touch the core. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6 |
 | **E4** Task production line | A task goes through the six states, is rejected on purpose, is reworked and completes. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/8 |
 | **E5** Parallelism and fault tolerance | Three tasks in parallel; killing one midway does not affect the others, and it returns to the queue. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6 |
@@ -30,15 +30,15 @@ Each task is one package of the development plan. Below is a summary of every ta
 ## E2 — System foundation
 
 **Stage goal:** The test suite runs with no network access and without consuming the model service.  
-**Progress:** ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/5
+**Progress:** 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 5/5
 
 | Key | Title | What it did | Status |
 |---|---|---|---|
-| [FAB-201](E2-system-foundation/FAB-201-set-up-the-environment-and-one-command-verificatio.md) | **Set up the environment and one-command verification** | Phoenix project with formatting, warning-free compile, strict Credo, tests and Dialyzer chained in `mix factory.ci`. | ⬜ To do |
-| [FAB-202](E2-system-foundation/FAB-202-create-the-database-and-cost-accounting.md) | **Create the database and cost accounting** | Schema for projects, tasks, cycles, dispatches and usage; cost counted in two units (quota and dollars). | ⬜ To do |
-| [FAB-203](E2-system-foundation/FAB-203-create-model-and-search-boundaries-with-test-doubl.md) | **Create model and search boundaries, with test doubles** | Behaviours for the agent runner and for the embedding generator, each with a fake adapter used by the tests. | ⬜ To do |
-| [FAB-204](E2-system-foundation/FAB-204-database-backup.md) | **Database backup** | `mix factory.backup` and `mix factory.restore`, with the round trip proven in its own verification stage. | ⬜ To do |
-| [FAB-205](E2-system-foundation/FAB-205-milestone-e2-the-suite-runs-offline-and-without-qu.md) | **MILESTONE E2 — the suite runs offline and without quota** | Permanent test that fails on any network traffic, loaded HTTP client or access key in the environment. | ⬜ To do |
+| [FAB-201](E2-system-foundation/FAB-201-set-up-the-environment-and-one-command-verificatio.md) | **Set up the environment and one-command verification** | Phoenix project with formatting, warning-free compile, strict Credo, tests and Dialyzer chained in `mix factory.ci`. | ✅ Done |
+| [FAB-202](E2-system-foundation/FAB-202-create-the-database-and-cost-accounting.md) | **Create the database and cost accounting** | Schema for projects, tasks, cycles, dispatches and usage; cost counted in two units (quota and dollars). | ✅ Done |
+| [FAB-203](E2-system-foundation/FAB-203-create-model-and-search-boundaries-with-test-doubl.md) | **Create model and search boundaries, with test doubles** | Behaviours for the agent runner and for the embedding generator, each with a fake adapter used by the tests. | ✅ Done |
+| [FAB-204](E2-system-foundation/FAB-204-database-backup.md) | **Database backup** | `mix factory.backup` and `mix factory.restore`, with the round trip proven in its own verification stage. | ✅ Done |
+| [FAB-205](E2-system-foundation/FAB-205-milestone-e2-the-suite-runs-offline-and-without-qu.md) | **MILESTONE E2 — the suite runs offline and without quota** | Permanent test that fails on any network traffic, loaded HTTP client or access key in the environment. | ✅ Done |
 
 ## E3 — The agent and its tools
 

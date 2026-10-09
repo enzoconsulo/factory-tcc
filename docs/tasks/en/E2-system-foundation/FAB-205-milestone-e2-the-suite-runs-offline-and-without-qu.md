@@ -1,6 +1,6 @@
 # FAB-205 · MILESTONE E2 — the suite runs offline and without quota
 
-> ⬜ To do · Stage **E2 — System foundation** · Package Marco · Milestone · R12
+> ✅ Done · Stage **E2 — System foundation** · Package Marco · Milestone · R12
 
 ## The idea
 
@@ -35,8 +35,8 @@ Guarantees R12: testing governance must not spend money or depend on the vendor;
 
 ## Acceptance criteria
 
-- [ ] `mix test test/factory/milestone_e2_test.exs` passes
-- [ ] Runs on every verification, not only on milestone day
+- [x] `mix test test/factory/milestone_e2_test.exs` passes
+- [x] Runs on every verification, not only on milestone day
 
 ## How to verify
 
@@ -47,3 +47,7 @@ mix test test/factory/milestone_e2_test.exs
 ## Where it lives in the code
 
 `Factory.MilestoneE2Test` · `Factory.NoNetwork`
+
+## Commits
+
+- test: prove the suite runs with no network, quota or API key (FAB-205)

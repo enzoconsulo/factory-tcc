@@ -1,6 +1,6 @@
 # FAB-201 · Set up the environment and one-command verification
 
-> ⬜ To do · Stage **E2 — System foundation** · Package 2.1 · Story · R12
+> ✅ Done · Stage **E2 — System foundation** · Package 2.1 · Story · R12
 
 ## The idea
 
@@ -33,8 +33,8 @@ Guarantees R12 (automatic, reproducible verification): the system's own definiti
 
 ## Acceptance criteria
 
-- [ ] `mix factory.ci` runs every stage, cheapest first
-- [ ] The first failing stage stops the rest
+- [x] `mix factory.ci` runs every stage, cheapest first
+- [x] The first failing stage stops the rest
 
 ## How to verify
 
@@ -46,3 +46,8 @@ mix factory.ci
 ## Where it lives in the code
 
 `Factory.CI` · `Mix.Tasks.Factory.Ci` · `Factory.Application` · `Factory.Repo`
+
+## Commits
+
+- chore: scaffold the Phoenix application (FAB-201)
+- feat(ci): add one-command verification with mix factory.ci (FAB-201)

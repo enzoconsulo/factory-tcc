@@ -1,6 +1,6 @@
 # FAB-202 · Create the database and cost accounting
 
-> ⬜ To do · Stage **E2 — System foundation** · Package 2.2 · Story · R10
+> ✅ Done · Stage **E2 — System foundation** · Package 2.2 · Story · R10
 
 ## The idea
 
@@ -33,9 +33,9 @@ Guarantees R10 (measured, queryable cost): the database is the source of truth, 
 
 ## Acceptance criteria
 
-- [ ] Migrations create every table
-- [ ] Each usage row stores tokens, quota and dollar cost
-- [ ] The cost of a cycle can be queried
+- [x] Migrations create every table
+- [x] Each usage row stores tokens, quota and dollar cost
+- [x] The cost of a cycle can be queried
 
 ## How to verify
 
@@ -47,3 +47,8 @@ mix test test/factory/cost/pricing_test.exs
 ## Where it lives in the code
 
 `Factory.Tasks.Task` · `Factory.Tasks.Cycle` · `Factory.Tasks.Dispatch` · `Factory.Tasks.Usage` · `Factory.Tasks.Area` · `Factory.Tasks.Criterion` · `Factory.Tasks.Dependency` · `Factory.Projects.Project` · `Factory.Projects.Specialist` · `Factory.Cost.Pricing` · `Factory.Cost.Usage`
+
+## Commits
+
+- feat(db): add schema for projects, tasks, cycles, dispatches and usage (FAB-202)
+- feat(cost): add pricing table and per-turn cost in quota and dollars (FAB-202)
