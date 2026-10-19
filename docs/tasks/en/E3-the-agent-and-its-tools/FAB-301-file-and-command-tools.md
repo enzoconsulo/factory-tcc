@@ -1,6 +1,6 @@
 # FAB-301 · File and command tools
 
-> ⬜ To do · Stage **E3 — The agent and its tools** · Package 3.1 · Story
+> ✅ Done · Stage **E3 — The agent and its tools** · Package 3.1 · Story
 
 ## The idea
 
@@ -41,9 +41,9 @@ Governance shows up as an absence: no role gets a tool that changes task status 
 
 ## Acceptance criteria
 
-- [ ] A command past its deadline is killed with all its children
-- [ ] stdout and stderr arrive separate and complete
-- [ ] The agent records its result without being able to change the task state
+- [x] A command past its deadline is killed with all its children
+- [x] stdout and stderr arrive separate and complete
+- [x] The agent records its result without being able to change the task state
 
 ## How to verify
 
@@ -56,3 +56,8 @@ mix test test/factory/tools/report_result_test.exs
 ## Where it lives in the code
 
 `Factory.Tools.Files` · `Factory.Tools.Command` · `Factory.Tools.ProcessTree` · `Factory.Tools.Catalog` · `Factory.Tools.ReportResult`
+
+## Commits
+
+- feat(tools): add file tools and a command runner that kills the process tree (FAB-301)
+- feat(tools): add the per-role tool catalog and report_result (FAB-301)

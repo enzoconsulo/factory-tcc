@@ -1,6 +1,6 @@
 # FAB-304 · O agente como processo supervisionado, com limite de chamadas
 
-> ⬜ A fazer · Etapa **E3 — O agente e as ferramentas** · Pacote 3.3 · História
+> ✅ Concluída · Etapa **E3 — O agente e as ferramentas** · Pacote 3.3 · História
 
 ## A ideia
 
@@ -39,9 +39,9 @@ Os tetos de voltas e de gasto vivem no estado do processo, não no prompt: o mod
 
 ## Critérios de aceite
 
-- [ ] Cada volta grava uma linha de consumo
-- [ ] O teto de chamadas por papel é imposto
-- [ ] A raiz do projeto chega ao executor em toda volta
+- [x] Cada volta grava uma linha de consumo
+- [x] O teto de chamadas por papel é imposto
+- [x] A raiz do projeto chega ao executor em toda volta
 
 ## Como verificar
 
@@ -53,3 +53,8 @@ mix test test/factory/agents/tool_budget_test.exs
 ## Onde está no código
 
 `Factory.Agents.Loop` · `Factory.Agents.State` · `Factory.Agents.ToolBudget`
+
+## Commits
+
+- feat(agents): add the per-role tool call ceiling (FAB-304)
+- feat(agents): run the tool-use loop as a supervised process with caps in its state (FAB-304)

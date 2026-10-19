@@ -36,7 +36,8 @@ na `main`.
 
 - Elixir 1.19 / Erlang/OTP 28, Phoenix 1.8 + LiveView
 - PostgreSQL 18 (state and cost accounting)
-- Model providers: a deterministic fake for tests
+- Req (HTTP adapter)
+- Model providers: provider CLI (default), token API, and a deterministic fake for tests
 
 ## Running
 
@@ -65,7 +66,9 @@ provider and embedder are fakes.
 | Stage | Proof |
 |---|---|
 | E2 | `mix test test/factory/milestone_e2_test.exs` — the suite runs with no network, quota or API key |
+| E3 | `mix run priv/probes/milestone_e3_agent.exs` — a real agent solves a real task; one usage row per turn (uses quota) |
 
 ## Other tasks
 
 - `mix factory.backup` / `mix factory.restore --latest` — database dump and restore
+- `mix factory.map` — generate the dense project index

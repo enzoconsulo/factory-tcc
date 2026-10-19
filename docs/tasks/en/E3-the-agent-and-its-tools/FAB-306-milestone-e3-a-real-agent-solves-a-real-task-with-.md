@@ -1,6 +1,6 @@
 # FAB-306 · MILESTONE E3 — a real agent solves a real task, with cost recorded
 
-> ⬜ To do · Stage **E3 — The agent and its tools** · Package Marco · Milestone · R15
+> ✅ Done · Stage **E3 — The agent and its tools** · Package Marco · Milestone · R15
 
 ## The idea
 
@@ -35,8 +35,8 @@ Guarantees R15 and R10 with the real vendor: the loop, the CLI adapter and per-t
 
 ## Acceptance criteria
 
-- [ ] `mix run priv/probes/milestone_e3_agent.exs` prints PROBE OK
-- [ ] All three assertions pass: task solved, one row per turn, totals match
+- [x] `mix run priv/probes/milestone_e3_agent.exs` prints PROBE OK
+- [x] All three assertions pass: task solved, one row per turn, totals match
 
 ## How to verify
 
@@ -48,3 +48,7 @@ mix run priv/probes/milestone_e3_agent.exs
 ## Where it lives in the code
 
 `Factory.Agents.Loop` · `Factory.Provider.ClaudeCLI` · `Factory.Tasks.Transition`
+
+## Commits
+
+- test: add the E3 milestone probe against the real model (FAB-306)

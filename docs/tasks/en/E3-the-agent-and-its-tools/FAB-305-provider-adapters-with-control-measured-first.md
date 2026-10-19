@@ -1,6 +1,6 @@
 # FAB-305 · Provider adapters, with control measured first
 
-> ⬜ To do · Stage **E3 — The agent and its tools** · Package 3.4 · Story · R15
+> ✅ Done · Stage **E3 — The agent and its tools** · Package 3.4 · Story · R15
 
 ## The idea
 
@@ -36,9 +36,9 @@ Guarantees R15 (vendor independence): switching adapters does not change the cor
 
 ## Acceptance criteria
 
-- [ ] Switching adapters does not change the core
-- [ ] CLI permissions, tool vocabulary and turn ceiling are applied
-- [ ] The real dispatch cost matches the provider's
+- [x] Switching adapters does not change the core
+- [x] CLI permissions, tool vocabulary and turn ceiling are applied
+- [x] The real dispatch cost matches the provider's
 
 ## How to verify
 
@@ -52,3 +52,9 @@ mix factory.syntax priv/probes/cli_real.exs
 ## Where it lives in the code
 
 `Factory.Provider.ClaudeCLI` · `Factory.Provider.MessagesAPI`
+
+## Commits
+
+- feat(provider): add the token API adapter with cache and TTL control (FAB-305)
+- feat(provider): add the provider CLI adapter with permissions, tool vocabulary and turn ceiling (FAB-305)
+- test(provider): add the real-binary probes for CLI governance and confinement (FAB-305)

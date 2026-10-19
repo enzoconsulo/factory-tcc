@@ -1,6 +1,6 @@
 # FAB-301 · Ferramentas de arquivo e de comando
 
-> ⬜ A fazer · Etapa **E3 — O agente e as ferramentas** · Pacote 3.1 · História
+> ✅ Concluída · Etapa **E3 — O agente e as ferramentas** · Pacote 3.1 · História
 
 ## A ideia
 
@@ -41,9 +41,9 @@ A governança aparece como ausência: nenhum papel recebe ferramenta que altere 
 
 ## Critérios de aceite
 
-- [ ] Comando que estoura o prazo é morto com todos os filhos
-- [ ] stdout e stderr chegam separados e completos
-- [ ] O agente registra o resultado sem poder mudar o estado da tarefa
+- [x] Comando que estoura o prazo é morto com todos os filhos
+- [x] stdout e stderr chegam separados e completos
+- [x] O agente registra o resultado sem poder mudar o estado da tarefa
 
 ## Como verificar
 
@@ -56,3 +56,8 @@ mix test test/factory/tools/report_result_test.exs
 ## Onde está no código
 
 `Factory.Tools.Files` · `Factory.Tools.Command` · `Factory.Tools.ProcessTree` · `Factory.Tools.Catalog` · `Factory.Tools.ReportResult`
+
+## Commits
+
+- feat(tools): add file tools and a command runner that kills the process tree (FAB-301)
+- feat(tools): add the per-role tool catalog and report_result (FAB-301)

@@ -1,6 +1,6 @@
 # FAB-306 · MARCO E3 — um agente real resolve uma tarefa real, com o custo gravado
 
-> ⬜ A fazer · Etapa **E3 — O agente e as ferramentas** · Pacote Marco · Marco · R15
+> ✅ Concluída · Etapa **E3 — O agente e as ferramentas** · Pacote Marco · Marco · R15
 
 ## A ideia
 
@@ -35,8 +35,8 @@ Garante R15 e R10 com o fornecedor de verdade: o laço, o adaptador CLI e a cont
 
 ## Critérios de aceite
 
-- [ ] `mix run priv/probes/milestone_e3_agent.exs` imprime PROBE OK
-- [ ] As três afirmações passam: tarefa resolvida, uma linha por volta, soma igual
+- [x] `mix run priv/probes/milestone_e3_agent.exs` imprime PROBE OK
+- [x] As três afirmações passam: tarefa resolvida, uma linha por volta, soma igual
 
 ## Como verificar
 
@@ -48,3 +48,7 @@ mix run priv/probes/milestone_e3_agent.exs
 ## Onde está no código
 
 `Factory.Agents.Loop` · `Factory.Provider.ClaudeCLI` · `Factory.Tasks.Transition`
+
+## Commits
+
+- test: add the E3 milestone probe against the real model (FAB-306)
