@@ -7,6 +7,8 @@ defmodule Factory.PlanTaskTest do
 
   use Factory.DataCase, async: true
 
+  doctest Mix.Tasks.Factory.Plan, only: [default_path: 2]
+
   alias Factory.Projects.Project
   alias Factory.Provider.Fake
   alias Factory.Repo
@@ -41,6 +43,11 @@ defmodule Factory.PlanTaskTest do
   defp valid_plan(count) do
     tasks = Enum.map(1..count, &task_json/1)
     %{"tasks" => tasks}
+  end
+
+  defp git!(root, args) do
+    {output, 0} = System.cmd("git", args, cd: root, stderr_to_stdout: true)
+    output
   end
 
   defp script!(map) do
@@ -115,6 +122,139 @@ defmodule Factory.PlanTaskTest do
 
       assert report.project.id == project.id
       assert Repo.aggregate(Ecto.Query.where(Project, name: ^name), :count) == 1
+    end
+  end
+
+  describe "plan/3 — project git repository" do
+    test "a new project gets its own .git and one commit", %{root: root, name: name} do
+      needle = script!(valid_plan(8))
+
+      assert {:ok, _report} = Plan.plan("build something new", name, needle: needle, path: root)
+
+      assert File.dir?(Path.join(root, ".git"))
+
+      top = root |> git!(["rev-parse", "--show-toplevel"]) |> String.trim()
+      assert Path.basename(top) == Path.basename(root)
+
+      log = git!(root, ["log", "--oneline"])
+      assert log =~ "chore: project #{name} created"
+
+      assert log
+             |> String.split("
+",
+               trim: true
+             )
+             |> length() == 1
+    end
+
+    test "an existing project gets no new commit", %{root: root, name: name} do
+      File.mkdir_p!(root)
+      git!(root, ["init", "--quiet"])
+      git!(root, ["config", "user.email", "factory@test.local"])
+      git!(root, ["config", "user.name", "Factory Test"])
+      git!(root, ["commit", "--allow-empty", "-m", "initial", "--quiet"])
+
+      %Project{} |> Project.changeset(%{name: name, path: root}) |> Repo.insert!()
+
+      needle = script!(valid_plan(8))
+
+      assert {:ok, _report} =
+               Plan.plan("continue the existing project", name, needle: needle, path: root)
+
+      log = git!(root, ["log", "--oneline"])
+
+      assert log
+             |> String.split("
+",
+               trim: true
+             )
+             |> length() == 1
+    end
+
+    test "a directory that already has .git is left alone", %{root: root, name: name} do
+      File.mkdir_p!(root)
+      git!(root, ["init", "--quiet"])
+      git!(root, ["config", "user.email", "factory@test.local"])
+      git!(root, ["config", "user.name", "Factory Test"])
+      git!(root, ["commit", "--allow-empty", "-m", "already here", "--quiet"])
+
+      needle = script!(valid_plan(8))
+
+      assert {:ok, _report} =
+               Plan.plan("build on a versioned directory", name, needle: needle, path: root)
+
+      log = git!(root, ["log", "--oneline"])
+      refute log =~ "chore: project"
+
+      assert log
+             |> String.split("
+",
+               trim: true
+             )
+             |> length() == 1
+    end
+  end
+
+  describe "plan/3 — domain" do
+    test "a new project with a domain stores it", %{
+      root: root,
+      name: name
+    } do
+      needle = script!(valid_plan(8))
+
+      assert {:ok, report} =
+               Plan.plan("build a presentation deck", name,
+                 needle: needle,
+                 path: root,
+                 domain: "presentation"
+               )
+
+      assert report.project.domain == "presentation"
+    end
+
+    test "without a domain, a new project is created as \"software\"", %{root: root, name: name} do
+      needle = script!(valid_plan(8))
+
+      assert {:ok, report} = Plan.plan("build module Z", name, needle: needle, path: root)
+
+      assert report.project.domain == "software"
+    end
+
+    test "an existing project with a different domain is refused, writing no task", %{
+      root: root,
+      name: name
+    } do
+      File.mkdir_p!(root)
+
+      project =
+        %Project{}
+        |> Project.changeset(%{name: name, path: root, domain: "software"})
+        |> Repo.insert!()
+
+      needle = script!(valid_plan(8))
+
+      assert {:error, {:domain_mismatch, "software", "presentation"}} =
+               Plan.plan("continue the project", name,
+                 needle: needle,
+                 path: root,
+                 domain: "presentation"
+               )
+
+      assert Repo.aggregate(Ecto.Query.where(Task, project_id: ^project.id), :count) == 0
+    end
+  end
+
+  describe "default_path/2 — where a new project is created" do
+    test "is INSIDE the factory, under generated-projects/, not next to it" do
+      base = Path.expand("/factory")
+      path = Plan.default_path("chess", base)
+
+      assert path == Path.join([base, "generated-projects", "chess"])
+      assert String.starts_with?(path, base <> "/")
+    end
+
+    test "without a base, uses the current working directory" do
+      assert Plan.default_path("x") == Path.join([File.cwd!(), "generated-projects", "x"])
     end
   end
 
