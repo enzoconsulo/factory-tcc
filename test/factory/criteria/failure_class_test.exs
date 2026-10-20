@@ -283,8 +283,13 @@ defmodule Factory.Criteria.FailureClassTest do
     end
 
     test "a timeout reruns ONCE and the rerun is counted" do
+      # Never finishes by itself (schedules a ~28h timer), so it exceeds any short timeout
+      # structurally rather than by machine speed. `=>` is avoided: a bare `>` is already
+      # rejected by the allowlist as chaining.
+      endless_command = "node -e setTimeout(function(){},99999999)"
+
       results =
-        Criteria.run([criterion("the suite", "git rev-parse --git-dir")], @root, timeout: 1)
+        Criteria.run([criterion("the suite", endless_command)], @root, timeout: 1)
 
       assert [result] = results
       assert result.state == :inconclusive
