@@ -16,11 +16,11 @@ defmodule Factory.Budget do
 
   The estimate calibrates itself: it is the mean cost per COMPLETED TASK measured in this job
   (never per stage, which would underestimate a whole task). With no measurement yet it falls
-  back to the declared default of US$ 7.8241 per completed task, an accounting estimate from
+  back to the declared default of US$ 11.04 per completed task, an accounting estimate from
   token counts, not an invoice.
   """
 
-  @default_estimate 7.8241
+  @default_estimate 11.04
 
   @default_task_fraction 0.3
 
@@ -30,7 +30,7 @@ defmodule Factory.Budget do
   @typedoc "The decision: start, or stop cleanly with a reason."
   @type decision :: :ok | {:stop, reason()}
 
-  @doc "The declared default for when the job has measured nothing yet (US$ 7.8241)."
+  @doc "The declared default for when the job has measured nothing yet (US$ 11.04)."
   @spec default_estimate() :: float()
   def default_estimate, do: @default_estimate
 
@@ -48,7 +48,7 @@ defmodule Factory.Budget do
       5.0
 
       iex> Factory.Budget.estimate_next_task([])
-      7.8241
+      11.04
   """
   @spec estimate_next_task([number()]) :: float()
   def estimate_next_task([]), do: @default_estimate

@@ -65,11 +65,11 @@ defmodule Factory.BudgetTest do
 
   describe "without own measurements, the estimate falls back to the declared default" do
     test "an empty list returns the default" do
-      assert Budget.estimate_next_task([]) == 7.8241
+      assert Budget.estimate_next_task([]) == 11.04
     end
 
     test "default_estimate/0 exposes the same constant" do
-      assert Budget.default_estimate() == 7.8241
+      assert Budget.default_estimate() == 11.04
     end
   end
 end
