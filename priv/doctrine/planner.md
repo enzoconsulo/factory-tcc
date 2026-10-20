@@ -20,6 +20,30 @@ Use `report_result` only for the `blocker` channel: if the request genuinely can
 (contradictory, missing information, asking for something that already exists and is complete),
 record the reason there instead of forcing a plan.
 
+## The first task of a new project is the foundation, and it creates `_management/ci.json`
+
+When the project does not exist yet (no `_management/ci.json`), the FIRST task of the plan is
+always the foundation: it declares `_management/ci.json` in `areas` and a criterion that creates
+it. The factory takes the implicit suite command and the command prefixes the agent may run on
+Windows (including the installer — `npm install`/`mix deps.get`) from that file; without it the
+next agent cannot even install a dependency.
+
+The file declares:
+- `"ecosystem"`: `"node"`, `"elixir"`, `"python"`, `"rust"`, `"go"` or `"dotnet"`;
+- `"stages"`: a list of `{"name", "command"}`, with at least the `"tests"` stage, whose
+  `command` is the project's test runner (e.g. `npm test`).
+
+Minimal example, for a Node project:
+
+```json
+{
+  "ecosystem": "node",
+  "stages": [
+    {"name": "tests", "command": "npm test"}
+  ]
+}
+```
+
 ## The exact JSON format
 
 ```json
@@ -55,6 +79,35 @@ The code that reads this JSON **checks these rules and refuses violations**:
 
 A JSON that does not parse, or breaks any rule above, is refused entirely — no partial task is
 written. Prefer a smaller coherent plan to a large one with a circular dependency.
+
+## The `command` contract: it passes with exit code 0 — and nothing else
+
+When a criterion has a `command`, `Factory.Criteria` runs it — **without a shell**, as argv split
+on spaces. `;`, `|`, `&&`, `$?` and redirection do not exist in that world, because there is no
+shell to interpret them; a command that needs them is refused before running. The verdict is
+binary: the criterion **passes if and only if the command exits with code 0**. What it prints is
+irrelevant — only the exit code counts.
+
+This has a consequence for a criterion whose EXPECTED behaviour is to **fail** ("invalid input is
+refused", "unknown command exits with an error"): the failing command itself **cannot be the
+criterion's `command`**, because its non-zero exit is read as "the task failed", even when the
+delivery is right. That criterion becomes a test in the project's runner that ASSERTS the
+failure — and it is the test, not the command under test, that exits 0 when the assertion holds —
+or it stays without a `command`, for the verifier to judge.
+
+**Wrong** (the delivery is right — `foo` is unknown and the process exits 1, as it should — but
+the mechanical pass reads that 1 as a failure, and the task is never approved):
+
+```json
+{"text": "unknown command prints an error and exits with a code != 0", "command": "node bin/cli.js foo"}
+```
+
+**Right** (the test calls the CLI internally, checks the message AND the exit code, and it is
+THE TEST that exits 0 when the expected failure happens):
+
+```json
+{"text": "unknown command prints an error and exits with a code != 0", "command": "node --test test/cli.test.js"}
+```
 
 ## `report_result` is the blocker channel — never `status`/`attempts`
 
