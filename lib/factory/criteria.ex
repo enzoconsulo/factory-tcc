@@ -153,15 +153,47 @@ defmodule Factory.Criteria do
     end
   end
 
-  # A single retry for environment failures: rerunning costs seconds of CPU, a false failure
-  # costs a dispatch plus one of the task's cycles. A real regression fails both times.
+  # Two retry policies, neither meant to run the same thing twice for no reason:
+  #
+  # 1. A SINGLE retry for environment failures: rerunning costs seconds of CPU, a false failure
+  #    costs a dispatch plus one of the task's cycles. A real regression fails both times.
+  # 2. UP TO TWO more for LOST output. Under high concurrency on Windows, the Erlang port driver
+  #    can drop the short output of a fast process: the command exits with the RIGHT code, but
+  #    no `{:data, _}` arrives (0% up to 4 concurrent spawns, ~4% at 24, ~10% at 48). Without
+  #    the output, `FailureClass` misses the signal (e.g. "unrecognized argument") and a broken
+  #    tool becomes `:delivery`. It only fires on a real non-zero exit code: timeouts (code nil)
+  #    are covered by policy 1, and a spawn that never started always carries an output.
   defp execute(criterion, argv, root, opts) do
-    first = single_run(criterion, argv, root, opts)
+    {first, code} = single_run(criterion, argv, root, opts)
 
-    if first.state == :inconclusive and FailureClass.rerun?(first.class) do
-      %{single_run(criterion, argv, root, opts) | rerun: true}
+    cond do
+      first.state == :inconclusive and FailureClass.rerun?(first.class) ->
+        {again, _code} = single_run(criterion, argv, root, opts)
+        %{again | rerun: true}
+
+      lost_output?(first, code) ->
+        rerun_until_output(criterion, argv, root, opts, 2)
+
+      true ->
+        first
+    end
+  end
+
+  defp lost_output?(result, code) do
+    result.state in [:failed, :inconclusive] and code not in [nil, 0] and
+      String.trim(result.output) == ""
+  end
+
+  # Stops at the FIRST run that brings output. If none does, the last one stays, still marked
+  # `rerun: true`, because it is no longer the first run.
+  defp rerun_until_output(criterion, argv, root, opts, remaining) do
+    {result, _code} = single_run(criterion, argv, root, opts)
+    marked = %{result | rerun: true}
+
+    if String.trim(marked.output) != "" or remaining <= 1 do
+      marked
     else
-      first
+      rerun_until_output(criterion, argv, root, opts, remaining - 1)
     end
   end
 
@@ -170,19 +202,21 @@ defmodule Factory.Criteria do
 
     case Command.run(root, program, args, timeout: timeout) do
       {:ok, %{code: 0, reason: :normal} = output} ->
-        result(criterion, :passed, output)
+        {result(criterion, :passed, output), 0}
 
       {:ok, output} ->
-        judge(criterion, argv, output, root)
+        {judge(criterion, argv, output, root), output.code}
 
       # Spawning itself failed: there was no run to judge, so this is a tool problem by definition.
       {:error, reason} ->
-        %{
+        result = %{
           base(criterion)
           | state: :inconclusive,
             class: :broken_tool,
             output: inspect(reason)
         }
+
+        {result, nil}
     end
   end
 

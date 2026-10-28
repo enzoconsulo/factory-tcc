@@ -207,6 +207,64 @@ defmodule Factory.CriteriaTest do
     end
   end
 
+  describe "retry when the output is lost (FAB-403.2)" do
+    setup do
+      dir = Path.join(System.tmp_dir!(), "lost-output-#{System.unique_integer([:positive])}")
+      File.mkdir_p!(dir)
+      on_exit(fn -> File.rm_rf(dir) end)
+      %{dir: dir}
+    end
+
+    defp write_fake(dir, js) do
+      path = Path.join(dir, "fake.js")
+      File.write!(path, js)
+      path
+    end
+
+    test "1st call fails printing nothing, 2nd prints: keeps the 2nd output", %{dir: dir} do
+      counter = Path.join(dir, "counter")
+
+      path =
+        write_fake(dir, """
+        const fs = require('fs');
+        const counter = process.argv[2];
+        let n = 0;
+        try { n = parseInt(fs.readFileSync(counter, 'utf8'), 10) || 0; } catch (e) {}
+        fs.writeFileSync(counter, String(n + 1));
+        if (n === 0) { process.exit(1); }
+        console.log('unrecognized argument: --x');
+        process.exit(1);
+        """)
+
+      assert [result] = Criteria.run([criterion("runs the fake", "node #{path} #{counter}")], dir)
+
+      assert result.rerun
+      assert result.output =~ "unrecognized argument"
+      assert File.read!(counter) == "2"
+    end
+
+    test "a failure WITH output on the 1st call is not rerun", %{dir: dir} do
+      counter = Path.join(dir, "counter")
+
+      path =
+        write_fake(dir, """
+        const fs = require('fs');
+        const counter = process.argv[2];
+        let n = 0;
+        try { n = parseInt(fs.readFileSync(counter, 'utf8'), 10) || 0; } catch (e) {}
+        fs.writeFileSync(counter, String(n + 1));
+        console.log('a real failure, with text');
+        process.exit(1);
+        """)
+
+      assert [result] = Criteria.run([criterion("runs the fake", "node #{path} #{counter}")], dir)
+
+      refute result.rerun
+      assert result.output =~ "a real failure"
+      assert File.read!(counter) == "1"
+    end
+  end
+
   describe "deduplication within a batch" do
     test "two criteria with the same command run ONCE" do
       criteria = [
