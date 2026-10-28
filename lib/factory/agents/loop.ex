@@ -64,7 +64,13 @@ defmodule Factory.Agents.Loop do
     module = state.provider || Provider.configured()
     family = Provider.family(module)
 
-    case module.chat(request(state, family), needle: state.needle, root: state.root) do
+    # `tools` reach a `:full_agent` provider too: `ClaudeCLI` serves them to the CLI over MCP,
+    # so its actions run through the same bound functions as this loop's own.
+    case module.chat(request(state, family),
+           needle: state.needle,
+           root: state.root,
+           tools: state.tools
+         ) do
       {:ok, response} ->
         handle_response(family, state, response)
 
