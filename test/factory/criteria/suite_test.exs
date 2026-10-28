@@ -204,6 +204,110 @@ defmodule Factory.Criteria.SuiteTest do
     end
   end
 
+  describe "includes_suite: a command that already runs the suite skips the implicit one" do
+    test "a criterion with a command listed in includes_suite skips the implicit one" do
+      root =
+        project([
+          {"mix.exs", ""},
+          {"_management/ci.json", Jason.encode!(%{"includes_suite" => ["mix factory.ci"]})}
+        ])
+
+      written = [
+        %{text: "the battery", command: "mix factory.ci", checked: false, implicit: false}
+      ]
+
+      assert Suite.append(written, root) == written
+    end
+
+    test "a criterion with another command keeps the implicit one" do
+      root =
+        project([
+          {"mix.exs", ""},
+          {"_management/ci.json", Jason.encode!(%{"includes_suite" => ["mix factory.ci"]})}
+        ])
+
+      written = [
+        %{text: "one file", command: "mix test test/x_test.exs", checked: false, implicit: false}
+      ]
+
+      assert [%{text: "one file"}, %{implicit: true}] = Suite.append(written, root)
+    end
+
+    test "without the field, the implicit one still goes in" do
+      root = project([{"mix.exs", ""}])
+
+      written = [
+        %{text: "the battery", command: "mix factory.ci", checked: false, implicit: false}
+      ]
+
+      assert [%{text: "the battery"}, %{implicit: true}] = Suite.append(written, root)
+    end
+
+    test "a string instead of a list does not raise and keeps the implicit one" do
+      root =
+        project([
+          {"mix.exs", ""},
+          {"_management/ci.json", Jason.encode!(%{"includes_suite" => "mix factory.ci"})}
+        ])
+
+      written = [
+        %{text: "the battery", command: "mix factory.ci", checked: false, implicit: false}
+      ]
+
+      assert [%{text: "the battery"}, %{implicit: true}] = Suite.append(written, root)
+    end
+
+    test "a list with a number is invalid as a whole and keeps the implicit one" do
+      root =
+        project([
+          {"mix.exs", ""},
+          {"_management/ci.json", Jason.encode!(%{"includes_suite" => ["mix factory.ci", 42]})}
+        ])
+
+      written = [
+        %{text: "the battery", command: "mix factory.ci", checked: false, implicit: false}
+      ]
+
+      assert [%{text: "the battery"}, %{implicit: true}] = Suite.append(written, root)
+    end
+
+    test "broken JSON does not raise and keeps the implicit one" do
+      root = project([{"mix.exs", ""}, {"_management/ci.json", "{ not json"}])
+
+      written = [
+        %{text: "the battery", command: "mix factory.ci", checked: false, implicit: false}
+      ]
+
+      assert [%{text: "the battery"}, %{implicit: true}] = Suite.append(written, root)
+    end
+
+    test "matching uses the same command_key (.exe/.bat normalised)" do
+      root =
+        project([
+          {"mix.exs", ""},
+          {"_management/ci.json", Jason.encode!(%{"includes_suite" => ["mix.bat factory.ci"]})}
+        ])
+
+      written = [
+        %{text: "the battery", command: "mix factory.ci", checked: false, implicit: false}
+      ]
+
+      assert Suite.append(written, root) == written
+    end
+
+    test "a criterion without a command never skips the implicit one" do
+      root =
+        project([
+          {"mix.exs", ""},
+          {"_management/ci.json", Jason.encode!(%{"includes_suite" => ["mix factory.ci"]})}
+        ])
+
+      written = [%{text: "human judgement", command: nil, checked: false, implicit: false}]
+
+      assert [%{text: "human judgement"}, %{implicit: true}] = Suite.append(written, root)
+    end
+  end
+
   describe "the implicit criterion in the report" do
     test "is marked [implicit]" do
       # A fake project declaring a cheap command: running the pass over the factory itself
