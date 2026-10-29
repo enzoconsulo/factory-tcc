@@ -48,6 +48,9 @@ defmodule Factory.Provider.ClaudeCLI do
       the model as an error result, and the action cap lives in the session. The audit of
       half 2 then only covers built-in tools; the server's calls were already judged.
       Measured against the real binary by `priv/probes/cli_tool_server.exs`.
+    * **Long root.** The working directory, the tool server and the audit all use the root
+      with Windows short segments expanded (`long_root/2`); a root that cannot be expanded is
+      refused before the CLI starts.
     * **The remaining gap.** Shell commands cannot be judged by path. The options were:
       (a) do not allow the shell tool under `:full_agent`; (b) serve the factory's tools over
       MCP; (c) accept the gap and declare it; (d) confine the shell in the CLI's
@@ -175,13 +178,69 @@ defmodule Factory.Provider.ClaudeCLI do
   @spec tool_server?() :: boolean()
   def tool_server?, do: Application.get_env(:factory, :claude_cli_tool_server, true)
 
+  # A Windows 8.3 short segment: `ENZOCO~1`, `PROGRA~2`.
+  @short_segment ~r/~\d/
+
+  @doc """
+  The root the CLI starts in, with Windows 8.3 short segments (`ENZOCO~1`) expanded to the
+  long name.
+
+  With a short root the CLI does not recognise its own working directory in the paths it
+  checks: every file access asks for manual approval, nobody can answer it under `--print`,
+  and the whole session fails after being paid for. `%TEMP%` comes short on Windows, so this
+  is not rare. A root with no short segment is returned untouched; one that cannot be
+  expanded is refused before the CLI starts, with `{:short_path_root, root}`.
+
+  `expand` asks the OS for the long name (tests pass their own).
+  """
+  @spec long_root(Path.t(), (Path.t() -> {:ok, Path.t()} | :error)) ::
+          {:ok, Path.t()} | {:error, {:short_path_root, Path.t()}}
+  def long_root(root, expand \\ &os_long_name/1) do
+    with true <- Regex.match?(@short_segment, root),
+         {:ok, long} <- expand.(root) do
+      {:ok, long}
+    else
+      false -> {:ok, root}
+      :error -> {:error, {:short_path_root, root}}
+    end
+  end
+
+  # `Get-Item` resolves the short name on Windows PowerShell 5.1 with no compiled helper. The
+  # root goes through the environment, never into the command text. Elsewhere `~1` is an
+  # ordinary name.
+  defp os_long_name(path) do
+    case :os.type() do
+      {:win32, _} ->
+        {output, code} =
+          System.cmd(
+            "powershell",
+            [
+              "-NoProfile",
+              "-NonInteractive",
+              "-Command",
+              "(Get-Item -LiteralPath $env:FACTORY_ROOT -ErrorAction Stop).FullName"
+            ],
+            env: [{"FACTORY_ROOT", path}],
+            stderr_to_stdout: true
+          )
+
+        long = String.trim(output)
+        if code == 0 and File.dir?(long), do: {:ok, long}, else: :error
+
+      _ ->
+        {:ok, path}
+    end
+  rescue
+    ErlangError -> :error
+  end
+
   @impl Factory.Provider
   def chat(%Request{} = request, opts) do
-    root = Keyword.get(opts, :root, ".")
     timeout = Keyword.get(opts, :timeout, @default_timeout)
 
     # The model is checked first: an untranslated one fails before any process or temp file.
     with {:ok, _model} <- cli_model(request.model),
+         {:ok, root} <- long_root(Keyword.get(opts, :root, ".")),
          {:ok, served} <- open_tool_server(request, root, opts) do
       {:ok, line} = command_line(request, served: served)
       prompt_file = write_prompt(prompt_text(request))

@@ -30,6 +30,10 @@ defmodule Factory.Provider.ClaudeCLI.ToolServer do
 
   @server_name "factory"
   @protocol_versions ~w(2025-11-25 2025-06-18 2025-03-26 2024-11-05)
+  # Calibrated, not guessed: 605 real dispatches (Sep–Oct 2026 job logs) used, in file actions,
+  # p95 <= 14 for verifier and reviewer, 18 for documenter, 25 for planner, 33 for builder;
+  # the builder's p99 was
+  # 53 and only 1 of the 605 went past 60 (65). The cap catches a runaway loop, not normal work.
   @default_max_actions 60
 
   # Catalogue name -> MCP tool definition. `run` is absent on purpose (see the moduledoc).

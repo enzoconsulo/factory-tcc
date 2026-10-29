@@ -854,6 +854,44 @@ defmodule Factory.Provider.ClaudeCLITest do
     end
   end
 
+  describe "the root reaches the CLI with its long name" do
+    test "a root with no short segment is returned untouched, without asking the OS" do
+      expand = fn _ -> flunk("the OS must not be asked") end
+
+      assert {:ok, "C:/Users/someone/project"} =
+               ClaudeCLI.long_root("C:/Users/someone/project", expand)
+
+      assert {:ok, "."} = ClaudeCLI.long_root(".", expand)
+    end
+
+    test "a short segment (8.3) is expanded to the long name" do
+      expand = fn "C:\\Users\\ENZOCO~1\\project" -> {:ok, "C:\\Users\\someone\\project"} end
+
+      assert {:ok, "C:\\Users\\someone\\project"} =
+               ClaudeCLI.long_root("C:\\Users\\ENZOCO~1\\project", expand)
+    end
+
+    test "a short root that cannot be expanded is refused, not handed to the CLI" do
+      assert {:error, {:short_path_root, "C:/X/PROGRA~9"}} =
+               ClaudeCLI.long_root("C:/X/PROGRA~9", fn _ -> :error end)
+    end
+
+    test "the real temp directory comes out with no short segment and still exists" do
+      assert {:ok, long} = ClaudeCLI.long_root(System.tmp_dir!())
+      refute long =~ ~r/~\d/
+      assert File.dir?(long)
+    end
+
+    if match?({:win32, _}, :os.type()) do
+      test "chat/2 refuses a short root that does not exist before starting the CLI" do
+        request = %Request{role: "builder", model: "haiku", messages: []}
+        root = "C:/factory-missing-#{System.unique_integer([:positive])}/ABCDEF~1"
+
+        assert {:error, {:short_path_root, ^root}} = ClaudeCLI.chat(request, root: root)
+      end
+    end
+  end
+
   describe "the confinement audit (half 2), via Confinement.resolve/2" do
     # Under `_build` rather than `System.tmp_dir!/0`, to avoid 8.3 short paths.
     setup do
