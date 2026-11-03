@@ -1,6 +1,6 @@
 # FAB-406 · Spending ceiling per round and per task
 
-> ⬜ To do · Stage **E4 — Task production line** · Package 4.5 · Story · R14
+> ✅ Done · Stage **E4 — Task production line** · Package 4.5 · Story · R14
 
 ## The idea
 
@@ -36,8 +36,8 @@ Guarantees R14 (bounded spend): interrupting an agent mid-way costs the same and
 
 ## Acceptance criteria
 
-- [ ] A dispatch that does not fit does not start
-- [ ] Work in progress is never interrupted by the ceiling
+- [x] A dispatch that does not fit does not start
+- [x] Work in progress is never interrupted by the ceiling
 
 ## How to verify
 
@@ -48,3 +48,7 @@ mix test test/factory/budget_test.exs
 ## Where it lives in the code
 
 `Factory.Budget`
+
+## Commits
+
+- feat(budget): add the spending ceiling checked before each dispatch (FAB-406)

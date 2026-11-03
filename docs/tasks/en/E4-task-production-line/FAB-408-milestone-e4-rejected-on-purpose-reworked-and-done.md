@@ -1,6 +1,6 @@
 # FAB-408 · MILESTONE E4 — rejected on purpose, reworked and done
 
-> ⬜ To do · Stage **E4 — Task production line** · Package Marco · Milestone · R2, R3, R4
+> ✅ Done · Stage **E4 — Task production line** · Package Marco · Milestone · R2, R3, R4
 
 ## The idea
 
@@ -34,9 +34,9 @@ Proves R2, R3 and R4 together: fixed states, a gate that really rejects and a re
 
 ## Acceptance criteria
 
-- [ ] `mix test test/factory/milestone_e4_test.exs` passes
-- [ ] History: ready → in progress → testing → in progress → testing → review → done
-- [ ] Cost per cycle can be queried separately
+- [x] `mix test test/factory/milestone_e4_test.exs` passes
+- [x] History: ready → in progress → testing → in progress → testing → review → done
+- [x] Cost per cycle can be queried separately
 
 ## How to verify
 
@@ -47,3 +47,7 @@ mix test test/factory/milestone_e4_test.exs
 ## Where it lives in the code
 
 `Factory.Tasks.Transition` · `Factory.Rework.Ladder` · `Factory.Cost.Pricing` · `Factory.Publishing.Markdown`
+
+## Commits
+
+- test: prove the six states, a rejection and a stronger rework end in done (FAB-408)

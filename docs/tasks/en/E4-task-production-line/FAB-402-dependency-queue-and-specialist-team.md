@@ -1,6 +1,6 @@
 # FAB-402 · Dependency queue and specialist team
 
-> ⬜ To do · Stage **E4 — Task production line** · Package 4.2 · Story
+> ✅ Done · Stage **E4 — Task production line** · Package 4.2 · Story
 
 ## The idea
 
@@ -35,9 +35,9 @@ Takes away from the model decisions that fit in a test (promotion and order), an
 
 ## Acceptance criteria
 
-- [ ] A task becomes ready only when all dependencies are done
-- [ ] Queue ties: the task that unblocks most goes first
-- [ ] The specialist adds to the role, it does not replace it
+- [x] A task becomes ready only when all dependencies are done
+- [x] Queue ties: the task that unblocks most goes first
+- [x] The specialist adds to the role, it does not replace it
 
 ## How to verify
 
@@ -49,3 +49,8 @@ mix test test/factory/team/resolution_test.exs
 ## Where it lives in the code
 
 `Factory.Tasks.Scheduler` · `Factory.Team` · `Factory.Team.Resolution`
+
+## Commits
+
+- feat(tasks): add the dependency scheduler and queue order (FAB-402)
+- feat(team): add versioned specialists and builder resolution (FAB-402)

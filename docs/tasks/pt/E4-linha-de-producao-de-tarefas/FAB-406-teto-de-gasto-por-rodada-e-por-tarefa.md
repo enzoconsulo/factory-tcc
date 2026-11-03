@@ -1,6 +1,6 @@
 # FAB-406 · Teto de gasto por rodada e por tarefa
 
-> ⬜ A fazer · Etapa **E4 — Linha de produção de tarefas** · Pacote 4.5 · História · R14
+> ✅ Concluída · Etapa **E4 — Linha de produção de tarefas** · Pacote 4.5 · História · R14
 
 ## A ideia
 
@@ -36,8 +36,8 @@ Garante R14 (gasto limitado): interromper um agente no meio custa o mesmo e não
 
 ## Critérios de aceite
 
-- [ ] Despacho que não cabe não começa
-- [ ] Trabalho em andamento nunca é interrompido pelo teto
+- [x] Despacho que não cabe não começa
+- [x] Trabalho em andamento nunca é interrompido pelo teto
 
 ## Como verificar
 
@@ -48,3 +48,7 @@ mix test test/factory/budget_test.exs
 ## Onde está no código
 
 `Factory.Budget`
+
+## Commits
+
+- feat(budget): add the spending ceiling checked before each dispatch (FAB-406)

@@ -42,10 +42,20 @@ defmodule Factory.Provider.ClaudeCLI do
       `Confinement.resolve(root, path)` and returns
       `{:error, {:outside_confinement, paths}}`, wrapped with the measured usage by
       `build_response/2`, because the session already ran and was paid for.
-    * **The remaining gap.** Shell commands cannot be audited by path. The options were:
+    * **File tools served by the factory (default).** With `tool_server?/0` on, the CLI's
+      built-in file tools are off and the factory's own (`ToolServer`, over MCP) take their
+      place: every read, write, edit and report is judged BEFORE it runs, a refusal reaches
+      the model as an error result, and the action cap lives in the session. The audit of
+      half 2 then only covers built-in tools; the server's calls were already judged.
+      Measured against the real binary by `priv/probes/cli_tool_server.exs`.
+    * **Long root.** The working directory, the tool server and the audit all use the root
+      with Windows short segments expanded (`long_root/2`); a root that cannot be expanded is
+      refused before the CLI starts.
+    * **The remaining gap.** Shell commands cannot be judged by path. The options were:
       (a) do not allow the shell tool under `:full_agent`; (b) serve the factory's tools over
       MCP; (c) accept the gap and declare it; (d) confine the shell in the CLI's
-      OS-level sandbox. The factory uses (d); the shell can still read outside the root.
+      OS-level sandbox. The file tools use (b); the shell uses (d) and can still read
+      outside the root.
     * **Stop reason from the terminal event.** Blocks accumulate every turn of the CLI
       session, so a `tool_use` in them is a record, not a pending request. This provider
       never returns `:tool_use`: only `:end_turn`, `:max_turns` or `:refusal`.
@@ -58,6 +68,7 @@ defmodule Factory.Provider.ClaudeCLI do
 
   require Logger
 
+  alias Factory.Provider.ClaudeCLI.ToolServer
   alias Factory.Provider.Request
   alias Factory.Provider.Response
   alias Factory.Provider.Usage
@@ -77,6 +88,8 @@ defmodule Factory.Provider.ClaudeCLI do
     "edit" => "Edit",
     "run" => "Bash"
   }
+
+  @cli_shell Map.fetch!(@cli_vocabulary, "run")
 
   # Internal model name -> full CLI model ID. Full IDs on purpose: the short aliases follow
   # the newest model silently. `Factory.Cost.Pricing` must price exactly these IDs.
@@ -156,13 +169,80 @@ defmodule Factory.Provider.ClaudeCLI do
 
   defp already_cli?(name), do: name in Map.values(@cli_models) or name in @cli_aliases
 
+  @doc """
+  Tells whether the file tools are served by the factory (`ToolServer`) instead of the CLI's
+  own, when the caller passes its bound tools in `opts[:tools]` (`Agents.Loop` does). On by
+  default; `config :factory, :claude_cli_tool_server, false` goes back to the built-in tools
+  plus the path audit.
+  """
+  @spec tool_server?() :: boolean()
+  def tool_server?, do: Application.get_env(:factory, :claude_cli_tool_server, true)
+
+  # A Windows 8.3 short segment: `ENZOCO~1`, `PROGRA~2`.
+  @short_segment ~r/~\d/
+
+  @doc """
+  The root the CLI starts in, with Windows 8.3 short segments (`ENZOCO~1`) expanded to the
+  long name.
+
+  With a short root the CLI does not recognise its own working directory in the paths it
+  checks: every file access asks for manual approval, nobody can answer it under `--print`,
+  and the whole session fails after being paid for. `%TEMP%` comes short on Windows, so this
+  is not rare. A root with no short segment is returned untouched; one that cannot be
+  expanded is refused before the CLI starts, with `{:short_path_root, root}`.
+
+  `expand` asks the OS for the long name (tests pass their own).
+  """
+  @spec long_root(Path.t(), (Path.t() -> {:ok, Path.t()} | :error)) ::
+          {:ok, Path.t()} | {:error, {:short_path_root, Path.t()}}
+  def long_root(root, expand \\ &os_long_name/1) do
+    with true <- Regex.match?(@short_segment, root),
+         {:ok, long} <- expand.(root) do
+      {:ok, long}
+    else
+      false -> {:ok, root}
+      :error -> {:error, {:short_path_root, root}}
+    end
+  end
+
+  # `Get-Item` resolves the short name on Windows PowerShell 5.1 with no compiled helper. The
+  # root goes through the environment, never into the command text. Elsewhere `~1` is an
+  # ordinary name.
+  defp os_long_name(path) do
+    case :os.type() do
+      {:win32, _} ->
+        {output, code} =
+          System.cmd(
+            "powershell",
+            [
+              "-NoProfile",
+              "-NonInteractive",
+              "-Command",
+              "(Get-Item -LiteralPath $env:FACTORY_ROOT -ErrorAction Stop).FullName"
+            ],
+            env: [{"FACTORY_ROOT", path}],
+            stderr_to_stdout: true
+          )
+
+        long = String.trim(output)
+        if code == 0 and File.dir?(long), do: {:ok, long}, else: :error
+
+      _ ->
+        {:ok, path}
+    end
+  rescue
+    ErlangError -> :error
+  end
+
   @impl Factory.Provider
   def chat(%Request{} = request, opts) do
-    root = Keyword.get(opts, :root, ".")
     timeout = Keyword.get(opts, :timeout, @default_timeout)
 
-    # Build the line first: an untranslated model fails before any process or temp file.
-    with {:ok, line} <- command_line(request) do
+    # The model is checked first: an untranslated one fails before any process or temp file.
+    with {:ok, _model} <- cli_model(request.model),
+         {:ok, root} <- long_root(Keyword.get(opts, :root, ".")),
+         {:ok, served} <- open_tool_server(request, root, opts) do
+      {:ok, line} = command_line(request, served: served)
       prompt_file = write_prompt(prompt_text(request))
 
       result =
@@ -172,11 +252,66 @@ defmodule Factory.Provider.ClaudeCLI do
         )
 
       remove_prompt(prompt_file)
+      calls = close_tool_server(served)
 
       case result do
-        {:ok, output} -> build_response(output, root)
+        {:ok, output} -> output |> build_response(root) |> with_action_cap(calls, served)
         {:error, reason} -> {:error, reason}
       end
+    end
+  end
+
+  # One tool server per dispatch, serving the caller's BOUND tools (`opts[:tools]`, the same
+  # map `Agents.Loop` runs on the `:model_endpoint` path) restricted to the request's
+  # vocabulary. With nothing to serve (no map, or only the shell), the CLI keeps its built-in
+  # tools and the path audit, as before.
+  defp open_tool_server(request, root, opts) do
+    tools =
+      opts |> Keyword.get(:tools, %{}) |> Map.take(catalogue_names(request) -- ["run"])
+
+    if tool_server?() and map_size(tools) > 0 do
+      with {:ok, session} <-
+             ToolServer.open(
+               root: root,
+               tools: tools,
+               max_actions:
+                 opts[:max_actions] ||
+                   Application.get_env(:factory, :claude_cli_max_actions, 60)
+             ) do
+        config = write_prompt(ToolServer.mcp_config(session))
+        {:ok, %{session: session, config: config}}
+      end
+    else
+      {:ok, nil}
+    end
+  end
+
+  defp close_tool_server(nil), do: []
+
+  defp close_tool_server(%{session: session, config: config}) do
+    calls = ToolServer.calls(session)
+    ToolServer.close(session)
+    remove_prompt(config)
+    calls
+  end
+
+  # A session that ended normally after the action cap refused a call ran out of budget:
+  # the same `:max_turns` the CLI reports for its own turn cap.
+  defp with_action_cap({:ok, %Response{stop_reason: :end_turn} = response}, calls, %{}) do
+    if Enum.any?(calls, &(&1.error and &1.content =~ "action_cap")),
+      do: {:ok, %{response | stop_reason: :max_turns}},
+      else: {:ok, response}
+  end
+
+  defp with_action_cap(verdict, _calls, _served), do: verdict
+
+  defp catalogue_names(%Request{vocabulary: vocabulary}) when is_list(vocabulary),
+    do: vocabulary
+
+  defp catalogue_names(%Request{role: role}) do
+    case Catalog.for_role(role) do
+      {:ok, tools} -> Map.keys(tools)
+      {:error, _} -> []
     end
   end
 
@@ -305,15 +440,16 @@ defmodule Factory.Provider.ClaudeCLI do
   The approval and sandbox rules read the already translated tool list, so they hold the same
   for a role's vocabulary and for an explicit `request.vocabulary`.
   """
-  @spec command_line(Request.t()) :: {:ok, String.t()} | {:error, {:untranslated_model, term()}}
-  def command_line(%Request{} = request) do
+  @spec command_line(Request.t(), keyword()) ::
+          {:ok, String.t()} | {:error, {:untranslated_model, term()}}
+  def command_line(%Request{} = request, opts \\ []) do
     with {:ok, model} <- cli_model(request.model) do
       tools = request_tools(request)
 
       {:ok,
        ~s(#{executable()} --print --verbose --output-format stream-json ) <>
-         ~s(--permission-mode acceptEdits --tools "#{Enum.join(tools, ",")}" ) <>
-         shell_approval(tools) <>
+         ~s(--permission-mode acceptEdits ) <>
+         tool_flags(tools, Keyword.get(opts, :served)) <>
          ~s(--max-turns #{request.max_turns} ) <>
          ~s(--setting-sources user ) <>
          shell_sandbox(tools) <>
@@ -321,16 +457,33 @@ defmodule Factory.Provider.ClaudeCLI do
     end
   end
 
+  defp tool_flags(tools, nil) do
+    ~s(--tools "#{Enum.join(tools, ",")}" ) <> approved(shell_rules(tools))
+  end
+
+  # Served by the factory: of the built-in tools only the shell remains (it cannot be judged
+  # by path, so it keeps the OS sandbox); the file tools are the server's, approved by name.
+  # `--strict-mcp-config` keeps any other MCP server the user configured out of the session.
+  defp tool_flags(tools, %{session: session, config: config}) do
+    shell = Enum.filter(tools, &(&1 == @cli_shell))
+
+    ~s(--tools "#{Enum.join(shell, ",")}" ) <>
+      approved(Enum.map(ToolServer.cli_names(session), &~s("#{&1}")) ++ shell_rules(shell)) <>
+      ~s(--strict-mcp-config --mcp-config "#{config}" )
+  end
+
+  # One `--allowedTools` with every rule, each quoted on its own.
+  defp approved([]), do: ""
+  defp approved(rules), do: ~s(--allowedTools #{Enum.join(rules, " ")} )
+
   defp request_tools(%Request{vocabulary: vocabulary}) when is_list(vocabulary) do
     cli_tools_for_vocabulary(vocabulary)
   end
 
   defp request_tools(%Request{role: role}), do: cli_tools(role)
 
-  @cli_shell Map.fetch!(@cli_vocabulary, "run")
-
-  defp shell_approval(tools) do
-    if @cli_shell in tools, do: ~s(--allowedTools "#{@cli_shell}" ), else: ""
+  defp shell_rules(tools) do
+    if @cli_shell in tools, do: [~s("#{@cli_shell}")], else: []
   end
 
   # Inline JSON keeps `command_line/1` pure. Quoted as "..." with each inner quote as \",
@@ -639,15 +792,25 @@ defmodule Factory.Provider.ClaudeCLI do
   end
 
   # Path audit (half 2 of confinement), using the same function as the factory's own tools.
+  # Calls to the factory's tool server are skipped: they were judged BEFORE running, and a
+  # refused one already reached the model as an error result. Auditing them again would throw
+  # away a session that obeyed the refusal and finished the rest of the work.
   defp outside_confinement(_blocks, nil), do: []
 
   defp outside_confinement(blocks, root) do
     blocks
-    |> Enum.filter(&(&1.type == :tool_use))
+    |> Enum.filter(&(&1.type == :tool_use and not tool_server_call?(&1)))
     |> Enum.flat_map(&block_paths/1)
     |> Enum.uniq()
     |> Enum.filter(&outside_root?(root, &1))
   end
+
+  @served_prefix "mcp__#{ToolServer.server_name()}__"
+
+  defp tool_server_call?(%{name: name}) when is_binary(name),
+    do: String.starts_with?(name, @served_prefix)
+
+  defp tool_server_call?(_block), do: false
 
   defp block_paths(%{arguments: arguments}) do
     arguments

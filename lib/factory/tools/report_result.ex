@@ -10,7 +10,7 @@ defmodule Factory.Tools.ReportResult do
   Fields outside the allowlist are dropped WITH A WARNING returned in the same response;
   dropping them silently would leave the agent believing it changed state.
 
-  The `cycles` row only exists at the END of a dispatch, when the dispatch is recorded,
+  The `cycles` row only exists at the END of a dispatch (inside `Factory.Tasks.Transition`),
   but agents report DURING the loop. So reports go to an in-memory collector
   (`start_collector/0`, `append/2`); the caller reads them with `reports/1` after the loop,
   merges them with `format_reports/1` and passes the text as the report of the same

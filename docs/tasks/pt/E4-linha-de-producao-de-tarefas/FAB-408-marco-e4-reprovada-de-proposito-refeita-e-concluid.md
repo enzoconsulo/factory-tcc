@@ -1,6 +1,6 @@
 # FAB-408 · MARCO E4 — reprovada de propósito, refeita e concluída
 
-> ⬜ A fazer · Etapa **E4 — Linha de produção de tarefas** · Pacote Marco · Marco · R2, R3, R4
+> ✅ Concluída · Etapa **E4 — Linha de produção de tarefas** · Pacote Marco · Marco · R2, R3, R4
 
 ## A ideia
 
@@ -34,9 +34,9 @@ Prova R2, R3 e R4 juntos: estados fixos, portão que reprova de verdade e escada
 
 ## Critérios de aceite
 
-- [ ] `mix test test/factory/milestone_e4_test.exs` passa
-- [ ] Histórico: pronta → execução → teste → execução → teste → revisão → concluída
-- [ ] Custo por ciclo consultável separadamente
+- [x] `mix test test/factory/milestone_e4_test.exs` passa
+- [x] Histórico: pronta → execução → teste → execução → teste → revisão → concluída
+- [x] Custo por ciclo consultável separadamente
 
 ## Como verificar
 
@@ -47,3 +47,7 @@ mix test test/factory/milestone_e4_test.exs
 ## Onde está no código
 
 `Factory.Tasks.Transition` · `Factory.Rework.Ladder` · `Factory.Cost.Pricing` · `Factory.Publishing.Markdown`
+
+## Commits
+
+- test: prove the six states, a rejection and a stronger rework end in done (FAB-408)

@@ -1,5 +1,5 @@
 # Milestone E3 probe: an agent solves a real task through `Agents.Loop` against the REAL
-# `claude` (`Provider.ClaudeCLI`), and the result is persisted as cycle, dispatch and usages.
+# `claude` (`Provider.ClaudeCLI`), and the result is persisted by `Tasks.Transition.apply/3`.
 #
 #     mix run priv/probes/milestone_e3_agent.exs
 #
@@ -18,15 +18,12 @@
 # model needed; the report prints loop turns next to the session's tool calls so the
 # difference is visible.
 
-alias Ecto.Multi
 alias Factory.Agents.Loop
 alias Factory.Projects.Project
 alias Factory.Provider.ClaudeCLI
 alias Factory.Repo
-alias Factory.Tasks.Cycle
-alias Factory.Tasks.Dispatch
 alias Factory.Tasks.Task
-alias Factory.Tasks.Usage
+alias Factory.Tasks.Transition
 alias Factory.Tools.Command
 
 Application.put_env(:factory, :provider, ClaudeCLI)
@@ -144,7 +141,7 @@ IO.puts("  content read ....... #{inspect(file_content)}")
 IO.puts("  expected secret .... #{secret}")
 IO.puts("  [#{if claim_1, do: "ok", else: "FAILED"}] the file contains the secret")
 
-# Explicit Loop -> database link: persists cycle + dispatch + usages in one transaction.
+# Explicit Loop -> Transition link: persists dispatch + usages as the engine would.
 {:ok, project} =
   %Project{}
   |> Project.changeset(%{
@@ -159,57 +156,38 @@ IO.puts("  [#{if claim_1, do: "ok", else: "FAILED"}] the file contains the secre
     project_id: project.id,
     code: "T-999",
     title: "write result.txt with the secret (milestone E3 probe)",
-    status: :in_progress
+    status: :backlog
   })
   |> Repo.insert()
 
-store_usages = fn multi ->
-  summary.usages
-  |> Enum.with_index(1)
-  |> Enum.reduce(multi, fn {usage, turn}, acc ->
-    Multi.insert(acc, {:usage, turn}, fn %{dispatch: dispatch} ->
-      Usage.changeset(%Usage{}, %{
-        dispatch_id: dispatch.id,
-        turn: turn,
-        input_tokens: usage.input_tokens,
-        cache_write_tokens: usage.cache_write_tokens,
-        cache_read_tokens: usage.cache_read_tokens,
-        output_tokens: usage.output_tokens,
-        duration_ms: usage.duration_ms
-      })
-    end)
+{:ok, task} = Transition.apply(task, :ready)
+{:ok, task} = Transition.apply(task, :in_progress)
+
+usages_to_store =
+  Enum.map(summary.usages, fn usage ->
+    %{
+      input_tokens: usage.input_tokens,
+      cache_write_tokens: usage.cache_write_tokens,
+      cache_read_tokens: usage.cache_read_tokens,
+      output_tokens: usage.output_tokens,
+      duration_ms: usage.duration_ms
+    }
   end)
-end
 
 persistence_result =
-  Multi.new()
-  |> Multi.insert(
-    :cycle,
-    Cycle.changeset(%Cycle{}, %{
-      task_id: task.id,
-      number: 1,
-      role: "builder",
-      outcome: to_string(summary.outcome),
-      report: "milestone E3 probe: #{summary.turns} turn(s)"
-    })
+  Transition.apply(task, :in_testing,
+    role: "builder",
+    outcome: to_string(summary.outcome),
+    report: "milestone E3 probe: #{summary.turns} turn(s)",
+    dispatch: %{provider: "ClaudeCLI", model: "haiku", turns: summary.turns},
+    usages: usages_to_store
   )
-  |> Multi.insert(:dispatch, fn %{cycle: cycle} ->
-    Dispatch.changeset(%Dispatch{}, %{
-      cycle_id: cycle.id,
-      provider: "ClaudeCLI",
-      model: "haiku",
-      turns: summary.turns,
-      outcome: to_string(summary.outcome)
-    })
-  end)
-  |> store_usages.()
-  |> Repo.transaction()
 
 case persistence_result do
-  {:ok, _steps} ->
+  {:ok, final_task} ->
     task_with_data =
-      Task
-      |> Repo.get!(task.id)
+      Factory.Tasks.Task
+      |> Repo.get!(final_task.id)
       |> Repo.preload(cycles: [dispatches: :usages])
 
     [cycle] = task_with_data.cycles
@@ -260,8 +238,8 @@ case persistence_result do
       System.halt(1)
     end
 
-  {:error, step, reason, _changes} ->
-    IO.puts("\nERROR persisting step #{inspect(step)}: #{inspect(reason)}")
+  {:error, reason} ->
+    IO.puts("\nERROR persisting through Transition.apply/3: #{inspect(reason)}")
     IO.puts("[FAILED] claims 2 and 3 could not be proven: persistence failed")
     System.halt(1)
 end

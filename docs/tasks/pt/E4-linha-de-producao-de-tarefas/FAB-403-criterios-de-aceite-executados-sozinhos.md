@@ -1,6 +1,6 @@
 # FAB-403 · Critérios de aceite executados sozinhos
 
-> ⬜ A fazer · Etapa **E4 — Linha de produção de tarefas** · Pacote 4.3 · História
+> ✅ Concluída · Etapa **E4 — Linha de produção de tarefas** · Pacote 4.3 · História
 
 ## A ideia
 
@@ -38,9 +38,9 @@ Separa 'o comando está errado' de 'a entrega está errada': sem isso, o constru
 
 ## Critérios de aceite
 
-- [ ] Só binários da lista permitida rodam
-- [ ] Falha de ambiente não conta como entrega reprovada
-- [ ] A suíte do projeto entra como critério implícito
+- [x] Só binários da lista permitida rodam
+- [x] Falha de ambiente não conta como entrega reprovada
+- [x] A suíte do projeto entra como critério implícito
 
 ## Como verificar
 
@@ -53,3 +53,8 @@ mix test test/factory/criteria/suite_test.exs
 ## Onde está no código
 
 `Factory.Criteria` · `Factory.Criteria.Allowlist` · `Factory.Criteria.FailureClass` · `Factory.Criteria.Suite` · `Factory.Ecosystems`
+
+## Commits
+
+- feat(criteria): run executable acceptance criteria behind a command allowlist (FAB-403)
+- test(criteria): cover failure classes and the implicit suite per ecosystem (FAB-403)

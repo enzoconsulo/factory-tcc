@@ -1,6 +1,6 @@
 # FAB-401 · Os seis estados, com a mudança gravada de uma vez só
 
-> ⬜ A fazer · Etapa **E4 — Linha de produção de tarefas** · Pacote 4.1 · História · R2
+> ✅ Concluída · Etapa **E4 — Linha de produção de tarefas** · Pacote 4.1 · História · R2
 
 ## A ideia
 
@@ -34,9 +34,9 @@ Garante R2 (ciclo de vida com estados fixos): nenhum caminho grava estado sem ch
 
 ## Critérios de aceite
 
-- [ ] Transição inválida é recusada
-- [ ] Estado, ciclo, despacho e consumo gravados numa transação
-- [ ] O contador de tentativas é do sistema
+- [x] Transição inválida é recusada
+- [x] Estado, ciclo, despacho e consumo gravados numa transação
+- [x] O contador de tentativas é do sistema
 
 ## Como verificar
 
@@ -48,3 +48,8 @@ mix test test/factory/tasks/transition_test.exs
 ## Onde está no código
 
 `Factory.Tasks.StateMachine` · `Factory.Tasks.Transition`
+
+## Commits
+
+- feat(tasks): add the six-state machine with its legal transitions (FAB-401)
+- feat(tasks): apply every transition in one transaction with its cycle record (FAB-401)

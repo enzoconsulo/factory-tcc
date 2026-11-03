@@ -1,6 +1,6 @@
 # FAB-404 · The two gates
 
-> ⬜ To do · Stage **E4 — Task production line** · Package 4.4 · Story · R3
+> ✅ Done · Stage **E4 — Task production line** · Package 4.4 · Story · R3
 
 ## The idea
 
@@ -36,9 +36,9 @@ Guarantees R3 (two independent gates): a gate that can fix what it rejects is no
 
 ## Acceptance criteria
 
-- [ ] The two gates reject for different reasons
-- [ ] A conformance rejection needs no defect
-- [ ] Reviewer findings reject even when recorded through the result tool
+- [x] The two gates reject for different reasons
+- [x] A conformance rejection needs no defect
+- [x] Reviewer findings reject even when recorded through the result tool
 
 ## How to verify
 
@@ -50,3 +50,7 @@ mix test test/factory/gates/reviewer_test.exs
 ## Where it lives in the code
 
 `Factory.Gates.Verifier` · `Factory.Gates.Reviewer`
+
+## Commits
+
+- feat(gates): add the verifier and reviewer gates with the conformance verdict (FAB-404)

@@ -9,7 +9,7 @@ Each task is one package of the development plan. Below is a summary of every ta
 | **E1** Planning and architecture | Requirements, architecture, tasks, performance criteria and test projects approved. | 🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜ 4/5 |
 | **E2** System foundation | The test suite runs with no network access and without consuming the model service. | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 5/5 |
 | **E3** The agent and its tools | An agent solves a real task with its cost recorded, and switching providers does not touch the core. | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 6/6 |
-| **E4** Task production line | A task goes through the six states, is rejected on purpose, is reworked and completes. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/8 |
+| **E4** Task production line | A task goes through the six states, is rejected on purpose, is reworked and completes. | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 8/8 |
 | **E5** Parallelism and fault tolerance | Three tasks in parallel; killing one midway does not affect the others, and it returns to the queue. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6 |
 | **E6** Project memory | The agent cites the earlier decision, with the right source, instead of deciding again. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/6 |
 | **E7** Dashboard and automation | A whole project followed on screen, from request to delivery, with live cost. | ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/8 |
@@ -52,23 +52,31 @@ Each task is one package of the development plan. Below is a summary of every ta
 | [FAB-303](E3-the-agent-and-its-tools/FAB-303-project-summary-to-guide-the-agent.md) | **Project summary to guide the agent** | Dense index generated from the code (tree + signatures) and a stable prompt prefix with cache breakpoints. | ✅ Done |
 | [FAB-304](E3-the-agent-and-its-tools/FAB-304-the-agent-as-a-supervised-process-with-a-call-limi.md) | **The agent as a supervised process, with a call limit** | Tool-use loop as an OTP process; per-role call ceiling enforced by the system, not requested in the prompt. | ✅ Done |
 | [FAB-305](E3-the-agent-and-its-tools/FAB-305-provider-adapters-with-control-measured-first.md) | **Provider adapters, with control measured first** | Two adapters behind the same boundary: the provider CLI (subscription) and the token API. CLI governance was measured before deciding. | ✅ Done |
+| [FAB-305.1](E3-the-agent-and-its-tools/FAB-305.1-factory-tools-served-to-the-cli-judged-before-they-run.md) | **↳ The factory's tools served to the CLI, judged before they run** | Plus of FAB-305: Plus: in the CLI adapter, reading, writing, editing and reporting go through the factory's own tools (over MCP); a refusal reaches the agent as an error and the action cap holds inside the session. | ✅ Done |
+| [FAB-305.2](E3-the-agent-and-its-tools/FAB-305.2-long-name-root-and-measured-action-cap.md) | **↳ Long-name root and a measured action cap** | Subtask of FAB-305: The CLI starts in the project folder with its Windows long name (a short root that cannot be expanded is refused first), and the 60-action cap was checked against 605 real dispatches. | ✅ Done |
 | [FAB-306](E3-the-agent-and-its-tools/FAB-306-milestone-e3-a-real-agent-solves-a-real-task-with-.md) | **MILESTONE E3 — a real agent solves a real task, with cost recorded** | Probe against the real model: the agent writes the requested file, there is one usage row per turn and the total matches the database. | ✅ Done |
 
 ## E4 — Task production line
 
 **Stage goal:** A task goes through the six states, is rejected on purpose, is reworked and completes.  
-**Progress:** ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 0/8
+**Progress:** 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 8/8
 
 | Key | Title | What it did | Status |
 |---|---|---|---|
-| [FAB-401](E4-task-production-line/FAB-401-the-six-states-with-each-change-stored-atomically.md) | **The six states, with each change stored atomically** | Pure state machine and transactional transition: state, report and cost in the same transaction. | ⬜ To do |
-| [FAB-402](E4-task-production-line/FAB-402-dependency-queue-and-specialist-team.md) | **Dependency queue and specialist team** | Promote tasks whose dependencies are done and order the queue; resolve the specialist that builds each task. | ⬜ To do |
-| [FAB-403](E4-task-production-line/FAB-403-acceptance-criteria-executed-automatically.md) | **Acceptance criteria executed automatically** | Read the task's `verify:` commands, run only allowed ones and tell a broken command from a wrong delivery. | ⬜ To do |
-| [FAB-404](E4-task-production-line/FAB-404-the-two-gates.md) | **The two gates** | Verifier (does it work?) and reviewer (is it what was asked? is it correct?). The reviewer gets no write tool. | ⬜ To do |
-| [FAB-405](E4-task-production-line/FAB-405-rejection-diagnosis-and-response-ladder.md) | **Rejection diagnosis and response ladder** | Decide HOW to redo: stronger model, another specialist, replan and, if the replacement also exhausts its cycles, hand over to a human. | ⬜ To do |
-| [FAB-406](E4-task-production-line/FAB-406-spending-ceiling-per-round-and-per-task.md) | **Spending ceiling per round and per task** | The system does not let work start if it does not fit the ceiling — and never cuts work midway. | ⬜ To do |
-| [FAB-407](E4-task-production-line/FAB-407-from-request-to-tasks-the-planner.md) | **From request to tasks: the planner** | Turn a natural-language request into a validated graph of 8 to 12 tasks, stored in one transaction, and publish tasks as markdown. | ⬜ To do |
-| [FAB-408](E4-task-production-line/FAB-408-milestone-e4-rejected-on-purpose-reworked-and-done.md) | **MILESTONE E4 — rejected on purpose, reworked and done** | Permanent test: a task goes down the line from ready to done, is rejected for a wrong delivery, gets a stronger model and completes. | ⬜ To do |
+| [FAB-401](E4-task-production-line/FAB-401-the-six-states-with-each-change-stored-atomically.md) | **The six states, with each change stored atomically** | Pure state machine and transactional transition: state, report and cost in the same transaction. | ✅ Done |
+| [FAB-402](E4-task-production-line/FAB-402-dependency-queue-and-specialist-team.md) | **Dependency queue and specialist team** | Promote tasks whose dependencies are done and order the queue; resolve the specialist that builds each task. | ✅ Done |
+| [FAB-403](E4-task-production-line/FAB-403-acceptance-criteria-executed-automatically.md) | **Acceptance criteria executed automatically** | Read the task's `verify:` commands, run only allowed ones and tell a broken command from a wrong delivery. | ✅ Done |
+| [FAB-403.1](E4-task-production-line/FAB-403.1-timeout-test-independent-of-machine-speed.md) | **↳ Timeout test independent of machine speed** | Subtask of FAB-403: The rerun-after-timeout test uses a command that never ends, instead of relying on the machine being slow. | ✅ Done |
+| [FAB-403.2](E4-task-production-line/FAB-403.2-criterion-with-lost-output-is-rerun.md) | **↳ A criterion that fails with no output is rerun** | Subtask of FAB-403: A criterion that fails with a non-zero exit code and empty output is rerun up to 2 times, because the output was lost on the way. | ✅ Done |
+| [FAB-403.3](E4-task-production-line/FAB-403.3-implicit-suite-does-not-run-twice.md) | **↳ The implicit suite does not run twice** | Subtask of FAB-403: When the task already declares a command that runs the suite (`mix factory.ci`), the implicit suite is not appended. | ✅ Done |
+| [FAB-404](E4-task-production-line/FAB-404-the-two-gates.md) | **The two gates** | Verifier (does it work?) and reviewer (is it what was asked? is it correct?). The reviewer gets no write tool. | ✅ Done |
+| [FAB-405](E4-task-production-line/FAB-405-rejection-diagnosis-and-response-ladder.md) | **Rejection diagnosis and response ladder** | Decide HOW to redo: stronger model, another specialist, replan and, if the replacement also exhausts its cycles, hand over to a human. | ✅ Done |
+| [FAB-406](E4-task-production-line/FAB-406-spending-ceiling-per-round-and-per-task.md) | **Spending ceiling per round and per task** | The system does not let work start if it does not fit the ceiling — and never cuts work midway. | ✅ Done |
+| [FAB-406.1](E4-task-production-line/FAB-406.1-default-per-task-estimate-recalibrated.md) | **↳ Default per-task estimate recalibrated** | Subtask of FAB-406: The starting per-completed-task estimate was recalibrated. | ✅ Done |
+| [FAB-407](E4-task-production-line/FAB-407-from-request-to-tasks-the-planner.md) | **From request to tasks: the planner** | Turn a natural-language request into a validated graph of 8 to 12 tasks, stored in one transaction, and publish tasks as markdown. | ✅ Done |
+| [FAB-407.1](E4-task-production-line/FAB-407.1-planner-doctrine-requires-ci-json-and-exit-code-contract.md) | **↳ Planner doctrine: ci.json in the foundation and the exit-code contract** | Subtask of FAB-407: The doctrine makes the first task create `_management/ci.json` and says a criterion command passes on exit code 0. | ✅ Done |
+| [FAB-407.2](E4-task-production-line/FAB-407.2-mix-factory-plan-creates-the-project-as-its-own-git-repository.md) | **↳ `mix factory.plan` creates the project as its own git repository, with a `--domain` option** | Subtask of FAB-407: A new project is created in `generated-projects/<name>` as its own git repository; `--domain` picks the domain. | ✅ Done |
+| [FAB-408](E4-task-production-line/FAB-408-milestone-e4-rejected-on-purpose-reworked-and-done.md) | **MILESTONE E4 — rejected on purpose, reworked and done** | Permanent test: a task goes down the line from ready to done, is rejected for a wrong delivery, gets a stronger model and completes. | ✅ Done |
 
 ## E5 — Parallelism and fault tolerance
 

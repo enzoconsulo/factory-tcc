@@ -1,6 +1,6 @@
 # FAB-407 · From request to tasks: the planner
 
-> ⬜ To do · Stage **E4 — Task production line** · Package R1 · Story · R1
+> ✅ Done · Stage **E4 — Task production line** · Package R1 · Story · R1
 
 ## The idea
 
@@ -35,8 +35,8 @@ Guarantees R1 (from request to tasks without intervention): an invalid plan is r
 
 ## Acceptance criteria
 
-- [ ] `mix factory.plan` produces valid tasks from a request
-- [ ] Each task can be published as deterministic markdown and committed with its areas only
+- [x] `mix factory.plan` produces valid tasks from a request
+- [x] Each task can be published as deterministic markdown and committed with its areas only
 
 ## How to verify
 
@@ -50,3 +50,10 @@ mix test test/mix/plan_test.exs
 ## Where it lives in the code
 
 `Factory.Planner` · `Factory.Publishing.Markdown` · `Factory.Publishing.Git` · `Factory.Projects.Phase` · `Factory.Projects.Milestone` · `Mix.Tasks.Factory.Plan`
+
+## Commits
+
+- feat(db): add the phases and milestones schema (FAB-407)
+- feat(planner): turn a request into a validated task graph in one transaction (FAB-407)
+- feat(publishing): publish the plan as markdown and commit it with git (FAB-407)
+- feat(planner): add mix factory.plan as the single human entry point (FAB-407)

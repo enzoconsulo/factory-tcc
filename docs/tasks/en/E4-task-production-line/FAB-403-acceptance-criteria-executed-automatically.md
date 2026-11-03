@@ -1,6 +1,6 @@
 # FAB-403 · Acceptance criteria executed automatically
 
-> ⬜ To do · Stage **E4 — Task production line** · Package 4.3 · Story
+> ✅ Done · Stage **E4 — Task production line** · Package 4.3 · Story
 
 ## The idea
 
@@ -38,9 +38,9 @@ Separates 'the command is wrong' from 'the delivery is wrong': otherwise the bui
 
 ## Acceptance criteria
 
-- [ ] Only allow-listed binaries run
-- [ ] An environment failure does not count as a rejected delivery
-- [ ] The project test suite is an implicit criterion
+- [x] Only allow-listed binaries run
+- [x] An environment failure does not count as a rejected delivery
+- [x] The project test suite is an implicit criterion
 
 ## How to verify
 
@@ -53,3 +53,8 @@ mix test test/factory/criteria/suite_test.exs
 ## Where it lives in the code
 
 `Factory.Criteria` · `Factory.Criteria.Allowlist` · `Factory.Criteria.FailureClass` · `Factory.Criteria.Suite` · `Factory.Ecosystems`
+
+## Commits
+
+- feat(criteria): run executable acceptance criteria behind a command allowlist (FAB-403)
+- test(criteria): cover failure classes and the implicit suite per ecosystem (FAB-403)

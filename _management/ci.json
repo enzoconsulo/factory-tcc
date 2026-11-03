@@ -6,6 +6,10 @@
       "check": "pg_isready -h 127.0.0.1 -p 5432"
     }
   ],
+  "includes_suite": [
+    "mix factory.ci",
+    "mix factory.ci --fast"
+  ],
   "stages": [
     {
       "name": "format",

@@ -1,6 +1,6 @@
 # FAB-405 · Rejection diagnosis and response ladder
 
-> ⬜ To do · Stage **E4 — Task production line** · Package 4.5 · Story · R4, R5
+> ✅ Done · Stage **E4 — Task production line** · Package 4.5 · Story · R4, R5
 
 ## The idea
 
@@ -35,9 +35,9 @@ Guarantees R4 and R5 (cycle limit and self-correction): each cycle changes strat
 
 ## Acceptance criteria
 
-- [ ] Each cycle changes the strategy
-- [ ] The model is upgraded on the 2nd cycle
-- [ ] After 3 cycles it replans; if already replanned, it blocks for a human
+- [x] Each cycle changes the strategy
+- [x] The model is upgraded on the 2nd cycle
+- [x] After 3 cycles it replans; if already replanned, it blocks for a human
 
 ## How to verify
 
@@ -49,3 +49,8 @@ mix test test/factory/rework/diagnosis_test.exs
 ## Where it lives in the code
 
 `Factory.Rework.Ladder` · `Factory.Rework.Diagnosis` · `Factory.Rework.Policy`
+
+## Commits
+
+- feat(rework): add the model escalation ladder and its policy (FAB-405)
+- feat(rework): diagnose each rejection before choosing the response (FAB-405)

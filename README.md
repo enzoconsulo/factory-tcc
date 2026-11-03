@@ -67,8 +67,10 @@ provider and embedder are fakes.
 |---|---|
 | E2 | `mix test test/factory/milestone_e2_test.exs` — the suite runs with no network, quota or API key |
 | E3 | `mix run priv/probes/milestone_e3_agent.exs` — a real agent solves a real task; one usage row per turn (uses quota) |
+| E4 | `mix test test/factory/milestone_e4_test.exs` — six states, rejected on purpose, reworked on a stronger model, done |
 
 ## Other tasks
 
 - `mix factory.backup` / `mix factory.restore --latest` — database dump and restore
+- `mix factory.plan "<request>" --project <name>` — turn a request into tasks
 - `mix factory.map` — generate the dense project index
