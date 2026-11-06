@@ -10,7 +10,7 @@ Be able to copy the whole database and rebuild it, with proof that it works. Pos
 
 ```mermaid
 flowchart LR
-  DB[("Banco")] -- "pg_dump" --> A["arquivo .dump datado"] -- "pg_restore" --> DB2[("Banco reconstruído")]
+  DB[("Database")] -- "pg_dump" --> A["dated .dump file"] -- "pg_restore" --> DB2[("Rebuilt database")]
 ```
 
 ## What was done

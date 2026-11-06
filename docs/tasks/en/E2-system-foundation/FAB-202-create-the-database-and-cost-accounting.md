@@ -10,7 +10,7 @@ Keep all system state in a relational database (PostgreSQL) and record the cost 
 
 ```mermaid
 flowchart LR
-  T["Tarefa"] --> C["Ciclos<br/>construir, verificar, revisar"] --> D["Chamadas ao modelo"] --> V["Voltas<br/>tokens, dólar, cota"]
+  T["Task"] --> C["Cycles<br/>build, verify, review"] --> D["Model calls"] --> V["Turns<br/>tokens, dollars, quota"]
 ```
 
 ## What was done

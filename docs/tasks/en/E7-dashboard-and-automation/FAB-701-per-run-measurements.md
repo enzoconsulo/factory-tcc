@@ -10,12 +10,12 @@ The engine announces what it does through named events, and whoever needs to kno
 
 ```mermaid
 flowchart LR
-  F["fila<br/>início e fim de despacho"] --> T{{"telemetry<br/>um handler só"}}
-  Q["cota<br/>parede e rearme"] --> T
+  F["queue<br/>dispatch start and end"] --> T{{"telemetry<br/>a single handler"}}
+  Q["quota<br/>wall and rearm"] --> T
   T --> P["PubSub"]
-  P --> B["quadro"]
+  P --> B["board"]
   P --> C["console"]
-  P --> A["piloto automático"]
+  P --> A["autopilot"]
 ```
 
 ## What was done

@@ -10,10 +10,10 @@ When the usage quota runs out the system does not treat it as a failure: it paus
 
 ```mermaid
 flowchart LR
-  N["rodando"] --> H["cota esgotada"]
-  H --> P["pausa as filas"]
-  P --> T["dorme até a reabertura + 2 min"]
-  T --> R["rearma"]
+  N["running"] --> H["quota exhausted"]
+  H --> P["pauses the queues"]
+  P --> T["sleeps until it reopens + 2 min"]
+  T --> R["rearms"]
   R --> N
 ```
 

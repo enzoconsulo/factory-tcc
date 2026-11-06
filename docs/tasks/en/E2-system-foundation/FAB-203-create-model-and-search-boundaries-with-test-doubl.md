@@ -10,9 +10,9 @@ The system core does not know the AI model provider: it only knows an interface 
 
 ```mermaid
 flowchart LR
-  N["Núcleo"] --> I{{"Interface"}}
-  I --> F["Substituto falso<br/>testes"]
-  I -. "E3" .-> R["Fornecedor real"]
+  N["Core"] --> I{{"Interface"}}
+  I --> F["Fake double<br/>tests"]
+  I -. "E3" .-> R["Real provider"]
 ```
 
 ## What was done

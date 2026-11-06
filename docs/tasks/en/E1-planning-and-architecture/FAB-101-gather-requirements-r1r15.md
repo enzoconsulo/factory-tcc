@@ -10,9 +10,9 @@ Write down, before any code, what the system must do and under which constraints
 
 ```mermaid
 flowchart LR
-  F["R1–R8<br/>o que o sistema faz"] --> E["cada um com<br/>etapa responsável"]
-  S["R9–R15<br/>restrições"] --> E
-  E --> V["e forma<br/>de verificar"]
+  F["R1–R8<br/>what the system does"] --> E["each one with<br/>an owning stage"]
+  S["R9–R15<br/>constraints"] --> E
+  E --> V["and a way<br/>to verify it"]
 ```
 
 ## What was done
@@ -38,7 +38,7 @@ Without requirements that can be checked objectively, no stage would have a defi
 
 ## How to verify
 
-- `docs/planejamento/requisitos.md`
+- `docs/planning/requirements.md`
 
 ## Commits
 

@@ -10,12 +10,12 @@ After a crash, recovery finds tasks with no live agent, restores their state and
 
 ```mermaid
 flowchart LR
-  O["tarefa órfã"] --> S{"estado?"}
-  S -- "execução" --> F["fica"]
-  S -- "teste ou revisão" --> V["volta para execução"]
-  F --> C["commita o parcial das áreas"]
+  O["orphaned task"] --> S{"state?"}
+  S -- "in progress" --> F["stays"]
+  S -- "testing or review" --> V["back to in progress"]
+  F --> C["commits the partial work in the areas"]
   V --> C
-  C --> R["relatório, sempre"]
+  C --> R["report, always"]
 ```
 
 ## What was done

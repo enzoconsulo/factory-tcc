@@ -1,6 +1,6 @@
 # FAB-708 · MILESTONE E7 — a whole project, no intervention, followed on screen
 
-> ⬜ To do · Stage **E7 — Dashboard and automation** · Package Marco · Milestone · R8
+> ⬜ To do · Stage **E7 — Dashboard and automation** · Package Milestone · Milestone · R8
 
 ## The idea
 
@@ -10,11 +10,11 @@ The thesis's final proof: a whole test project, from request to delivery, driven
 
 ```mermaid
 flowchart LR
-  P["pedido"] --> PL["plano e tarefas"]
-  PL --> A["piloto<br/>dois freios"]
-  A --> R["rodadas<br/>agente real + portões"]
-  R --> E["entrega"]
-  R -. "acompanhado ao vivo" .-> T["quadro e console"]
+  P["request"] --> PL["plan and tasks"]
+  PL --> A["autopilot<br/>two brakes"]
+  A --> R["rounds<br/>real agent + gates"]
+  R --> E["delivery"]
+  R -. "followed live" .-> T["board and console"]
 ```
 
 ## What was done
