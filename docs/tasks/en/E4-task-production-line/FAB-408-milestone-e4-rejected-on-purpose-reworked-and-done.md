@@ -1,6 +1,6 @@
 # FAB-408 · MILESTONE E4 — rejected on purpose, reworked and done
 
-> ✅ Done · Stage **E4 — Task production line** · Package Marco · Milestone · R2, R3, R4
+> ✅ Done · Stage **E4 — Task production line** · Package Milestone · Milestone · R2, R3, R4
 
 ## The idea
 
