@@ -10,11 +10,11 @@ Each agent runs in its own process, with an address and a supervisor that notice
 
 ```mermaid
 flowchart LR
-  S["supervisor"] --> A["agente A"]
-  S --> B["agente B"]
-  S --> C["agente C"]
-  C -- "morre" --> X["aviso: tarefa e motivo"]
-  X --> Q["volta à fila"]
+  S["supervisor"] --> A["agent A"]
+  S --> B["agent B"]
+  S --> C["agent C"]
+  C -- "dies" --> X["notice: task and reason"]
+  X --> Q["back to the queue"]
 ```
 
 ## What was done

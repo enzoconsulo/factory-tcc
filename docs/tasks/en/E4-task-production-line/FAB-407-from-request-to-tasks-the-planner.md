@@ -10,9 +10,9 @@ Turn a natural-language request into a graph of 8 to 12 tasks, checked before wr
 
 ```mermaid
 flowchart LR
-  P["pedido"] --> A["planejador<br/>JSON"] --> V{"válido?"}
-  V -- "não" --> X["nada gravado"]
-  V -- "sim" --> T["uma transação<br/>8 a 12 tarefas"] --> R["sem pendência<br/>→ pronta"]
+  P["request"] --> A["planner<br/>JSON"] --> V{"valid?"}
+  V -- "no" --> X["nothing stored"]
+  V -- "yes" --> T["one transaction<br/>8 to 12 tasks"] --> R["no pending dependency<br/>→ ready"]
 ```
 
 ## What was done

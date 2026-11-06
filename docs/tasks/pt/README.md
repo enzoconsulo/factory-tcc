@@ -1,5 +1,7 @@
 # Quadro de tarefas
 
+[English](../en/README.md) · **Português (BR)**
+
 Cada tarefa corresponde a um pacote do plano de desenvolvimento. Abaixo, o resumo de todas; clique na chave para ver os detalhes.
 
 ## Visão geral

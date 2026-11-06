@@ -10,11 +10,11 @@ Split two questions into two gates that write nothing: the verifier asks "does i
 
 ```mermaid
 flowchart LR
-  C["construtor"] --> V{{"verificador<br/>funciona?"}}
-  V -- "aprova" --> R{{"revisor<br/>é o pedido? correto?"}}
-  R -- "aprova" --> D["concluída"]
-  V -- "reprova" --> C
-  R -- "reprova" --> C
+  C["builder"] --> V{{"verifier<br/>does it work?"}}
+  V -- "approves" --> R{{"reviewer<br/>is it what was asked? correct?"}}
+  R -- "approves" --> D["done"]
+  V -- "rejects" --> C
+  R -- "rejects" --> C
 ```
 
 ## What was done

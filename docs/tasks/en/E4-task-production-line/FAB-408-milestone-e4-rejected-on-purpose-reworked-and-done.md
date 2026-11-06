@@ -1,6 +1,6 @@
 # FAB-408 · MILESTONE E4 — rejected on purpose, reworked and done
 
-> ✅ Done · Stage **E4 — Task production line** · Package Marco · Milestone · R2, R3, R4
+> ✅ Done · Stage **E4 — Task production line** · Package Milestone · Milestone · R2, R3, R4
 
 ## The idea
 
@@ -10,8 +10,8 @@ Prove the whole line in a permanent test: a task is rejected on purpose for a wr
 
 ```mermaid
 flowchart LR
-  A["pronta"] --> B["execução 1"] --> C["teste"]
-  C -- "reprovada" --> D["execução 2<br/>modelo mais forte"] --> E["teste"] --> F["revisão"] --> G["concluída"]
+  A["ready"] --> B["run 1"] --> C["testing"]
+  C -- "rejected" --> D["run 2<br/>stronger model"] --> E["testing"] --> F["review"] --> G["done"]
 ```
 
 ## What was done

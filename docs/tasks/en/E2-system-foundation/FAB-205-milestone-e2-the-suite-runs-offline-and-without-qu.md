@@ -1,6 +1,6 @@
 # FAB-205 · MILESTONE E2 — the suite runs offline and without quota
 
-> ✅ Done · Stage **E2 — System foundation** · Package Marco · Milestone · R12
+> ✅ Done · Stage **E2 — System foundation** · Package Milestone · Milestone · R12
 
 ## The idea
 
@@ -10,9 +10,9 @@ An automated test file (`test/factory/milestone_e2_test.exs`) whose job is to pr
 
 ```mermaid
 flowchart TB
-  M["Teste do marco E2"] --> A["Algo sai da máquina?"]
-  M --> B["Dá para gastar cota<br/>ou existe senha?"]
-  M --> C["Os testes usam<br/>os substitutos?"]
+  M["E2 milestone test"] --> A["Does anything leave the machine?"]
+  M --> B["Can quota be spent<br/>or is there a key?"]
+  M --> C["Do the tests use<br/>the doubles?"]
 ```
 
 ## What was done

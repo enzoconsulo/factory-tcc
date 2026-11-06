@@ -10,8 +10,8 @@ One command that tells whether the project is healthy. Instead of remembering se
 
 ```mermaid
 flowchart LR
-  F["formato"] --> C["compila sem avisos"] --> L["estilo"] --> T["testes sem internet"] --> Y["tipos"] --> B["backup"]
-  C -. "falhou: para aqui" .-> X(("vermelho"))
+  F["format"] --> C["compiles without warnings"] --> L["style"] --> T["offline tests"] --> Y["types"] --> B["backup"]
+  C -. "failed: stops here" .-> X(("red"))
 ```
 
 ## What was done

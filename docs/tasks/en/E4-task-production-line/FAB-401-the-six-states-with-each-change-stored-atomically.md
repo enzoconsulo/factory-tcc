@@ -10,9 +10,9 @@ Give every task the same line of states — backlog, ready, in progress, testing
 
 ```mermaid
 flowchart LR
-  B["backlog"] --> P["pronta"] --> E["em execução"] --> T["em teste"] --> R["em revisão"] --> C["concluída"]
-  T -- "reprova" --> E
-  R -- "reprova" --> E
+  B["backlog"] --> P["ready"] --> E["in progress"] --> T["in testing"] --> R["in review"] --> C["done"]
+  T -- "rejects" --> E
+  R -- "rejects" --> E
 ```
 
 ## What was done

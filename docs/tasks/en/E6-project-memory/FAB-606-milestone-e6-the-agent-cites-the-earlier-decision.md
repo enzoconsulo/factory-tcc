@@ -1,6 +1,6 @@
 # FAB-606 · MILESTONE E6 — the agent cites the earlier decision
 
-> ⬜ To do · Stage **E6 — Project memory** · Package Marco · Milestone · R7
+> ⬜ To do · Stage **E6 — Project memory** · Package Milestone · Milestone · R7
 
 ## The idea
 
@@ -10,8 +10,8 @@ Watch a real agent cite the earlier decision with the right source. The pieces e
 
 ```mermaid
 flowchart LR
-  H["histórico"] --> I["ingestão"] --> S["busca"] --> K["bloco com fonte"]
-  K -. "falta a ligação" .-> A["mensagem do agente real"]
+  H["history"] --> I["ingestion"] --> S["search"] --> K["block with source"]
+  K -. "wiring missing" .-> A["real agent's message"]
 ```
 
 ## What was done

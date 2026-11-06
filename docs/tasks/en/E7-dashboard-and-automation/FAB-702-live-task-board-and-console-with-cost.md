@@ -10,9 +10,9 @@ Two pages that update themselves from the engine's events: the board shows which
 
 ```mermaid
 flowchart LR
-  E["eventos do motor"] --> B["/board<br/>colunas por estado<br/>custo por tarefa"]
-  E --> C["/console<br/>agentes em voo<br/>custo e cota"]
-  R["tabela usages"] --> B
+  E["engine events"] --> B["/board<br/>columns by state<br/>cost per task"]
+  E --> C["/console<br/>agents in flight<br/>cost and quota"]
+  R["usages table"] --> B
   R --> C
 ```
 

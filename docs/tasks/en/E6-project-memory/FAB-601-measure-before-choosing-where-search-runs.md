@@ -10,12 +10,12 @@ Measure before choosing where text becomes a vector: the in-Elixir model is heav
 
 ```mermaid
 flowchart LR
-  T["textos"] --> I{{"Embedder<br/>a interface"}}
-  I --> F["Fake · testes"]
-  I --> O["Ollama · padrão<br/>768 números"]
-  I --> L["Local · só Linux/macOS"]
-  I --> S["Service · pago, sem config"]
-  O --> D{"dimensão da coluna<br/>= do embedder?"}
+  T["texts"] --> I{{"Embedder<br/>the interface"}}
+  I --> F["Fake · tests"]
+  I --> O["Ollama · default<br/>768 numbers"]
+  I --> L["Local · Linux/macOS only"]
+  I --> S["Service · paid, not configured"]
+  O --> D{"column dimension<br/>= embedder's?"}
 ```
 
 ## What was done

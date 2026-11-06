@@ -10,10 +10,10 @@ Several tasks run at once, but two never touch the same file: each task's declar
 
 ```mermaid
 flowchart LR
-  P["tarefas prontas"] --> L{"áreas disjuntas?<br/>até 2 construtores?"}
-  L -- "sim" --> R["rodam em paralelo"]
-  L -- "não" --> E["espera a próxima rodada"]
-  W["escrita fora das áreas"] --> X["recusada"]
+  P["ready tasks"] --> L{"disjoint areas?<br/>at most 2 builders?"}
+  L -- "yes" --> R["run in parallel"]
+  L -- "no" --> E["waits for the next round"]
+  W["write outside the areas"] --> X["refused"]
 ```
 
 ## What was done
