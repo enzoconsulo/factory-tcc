@@ -1,6 +1,6 @@
 # FAB-205 · MILESTONE E2 — the suite runs offline and without quota
 
-> ✅ Done · Stage **E2 — System foundation** · Package Marco · Milestone · R12
+> ✅ Done · Stage **E2 — System foundation** · Package Milestone · Milestone · R12
 
 ## The idea
 
