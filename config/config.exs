@@ -65,6 +65,9 @@ config :phoenix_live_view, :colocated_assets, disable_symlink_warning: true
 # a client of the wrong version produces dumps that fail at restore time.
 config :factory, :pg_bin, System.get_env("FACTORY_PG_BIN", "C:/pgsql/18/bin")
 
+# Data directory of the local PostgreSQL cluster started by `mix factory.db start`.
+config :factory, :pg_data, System.get_env("FACTORY_PG_DATA", "C:/pgsql/data")
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

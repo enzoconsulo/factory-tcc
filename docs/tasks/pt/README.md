@@ -37,6 +37,7 @@ Cada tarefa corresponde a um pacote do plano de desenvolvimento. Abaixo, o resum
 | Chave | Título | O que fez | Status |
 |---|---|---|---|
 | [FAB-201](E2-fundacao-do-sistema/FAB-201-montar-o-ambiente-e-a-verificacao-em-um-comando.md) | **Montar o ambiente e a verificação em um comando** | Projeto Phoenix com formatação, compilação sem avisos, Credo estrito, testes e Dialyzer encadeados em `mix factory.ci`. | ✅ Concluída |
+| [FAB-201.1](E2-fundacao-do-sistema/FAB-201.1-um-comando-para-subir-o-banco-local.md) | **↳ Um comando para subir o banco local** | Subtarefa de FAB-201: `mix factory.db` cria, sobe, derruba e consulta o cluster PostgreSQL local, para o sistema rodar só a partir deste repositório. | ✅ Concluída |
 | [FAB-202](E2-fundacao-do-sistema/FAB-202-criar-o-banco-de-dados-e-a-contagem-de-custo.md) | **Criar o banco de dados e a contagem de custo** | Esquema de projetos, tarefas, ciclos, despachos e consumos; custo contado em duas unidades (cota e dólar). | ✅ Concluída |
 | [FAB-203](E2-fundacao-do-sistema/FAB-203-criar-as-fronteiras-do-modelo-e-da-busca-com-subst.md) | **Criar as fronteiras do modelo e da busca, com substitutos de teste** | Behaviours para o executor de agentes e para o gerador de embeddings, cada um com um adaptador falso usado nos testes. | ✅ Concluída |
 | [FAB-204](E2-fundacao-do-sistema/FAB-204-copia-de-seguranca-do-banco.md) | **Cópia de segurança do banco** | `mix factory.backup` e `mix factory.restore`, com ida e volta provada num estágio próprio da verificação. | ✅ Concluída |
