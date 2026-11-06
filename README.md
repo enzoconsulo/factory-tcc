@@ -1,5 +1,7 @@
 # Factory — a multi-agent software factory
 
+**English** · [Português (BR)](README.pt-BR.md)
+
 Final-year thesis (TCC) project. The system takes a project request in natural language and
 builds it end to end: agents plan, implement, verify and review the work, each with limited
 authority. Governance is enforced by the structure of the program, not by instructions in the
@@ -12,25 +14,25 @@ prompt:
 | Whoever builds does not approve | the reviewer gets no write tool |
 | Never exceed the budget | work that does not fit the ceiling never starts |
 
-## Como acompanhar este repositório (TCC)
+## Following this repository (TCC)
 
-O desenvolvimento segue o plano em cascata: **cada etapa é uma branch**, criada a partir da
-anterior, com um commit por entrega. No dia da apresentação de cada etapa, a branch dela entra
-na `main`.
+Development follows a waterfall plan: **each stage is a branch**, created from the previous
+one, with one commit per deliverable. On the day each stage is presented, its branch is merged
+into `main`. Branch names keep the Portuguese word for stage (`etapa`).
 
-| Branch | Etapa | Entrega |
+| Branch | Stage | Deliverable |
 |---|---|---|
-| `etapa/e1-planejamento` | E1 · Planejamento e arquitetura | requisitos, arquitetura, tarefas, critérios |
-| `etapa/e2-fundacao` | E2 · Fundação do sistema | testes sem internet e sem cota |
-| `etapa/e3-agente` | E3 · O agente e as ferramentas | agente real resolve tarefa real, com custo gravado |
-| `etapa/e4-linha-de-producao` | E4 · Linha de produção de tarefas | reprovada de propósito, refeita e concluída |
-| `etapa/e5-paralelismo` | E5 · Paralelismo e tolerância a falhas | três em paralelo; matar uma não derruba as outras |
-| `etapa/e6-memoria` | E6 · Memória do projeto | o agente cita a decisão anterior |
-| `etapa/e7-painel` | E7 · Painel e automação | projeto inteiro acompanhado na tela |
+| `etapa/e1-planejamento` | E1 · Planning and architecture | requirements, architecture, tasks, criteria |
+| `etapa/e2-fundacao` | E2 · System foundation | tests run offline and without quota |
+| `etapa/e3-agente` | E3 · The agent and its tools | a real agent solves a real task, with its cost recorded |
+| `etapa/e4-linha-de-producao` | E4 · Task production line | rejected on purpose, reworked and done |
+| `etapa/e5-paralelismo` | E5 · Parallelism and fault tolerance | three in parallel; killing one does not bring the others down |
+| `etapa/e6-memoria` | E6 · Project memory | the agent cites the earlier decision |
+| `etapa/e7-painel` | E7 · Dashboard and automation | a whole project followed on screen |
 
-- Planejamento: [`docs/planejamento/`](docs/planejamento/) — requisitos, arquitetura, critérios, projetos de teste.
-- Tarefas (estilo Jira, PT e EN): [`docs/tasks/pt/`](docs/tasks/pt/README.md) · [`docs/tasks/en/`](docs/tasks/en/README.md).
-- Relatório de cada etapa (Word): [`docs/etapas/`](docs/etapas/).
+- Planning: [`docs/planning/`](docs/planning/README.md) — requirements, architecture, criteria, test projects. Portuguese: [`docs/planejamento/`](docs/planejamento/).
+- Tasks (Jira style): [`docs/tasks/en/`](docs/tasks/en/README.md). Portuguese: [`docs/tasks/pt/`](docs/tasks/pt/README.md).
+- Stage reports (Word): [`docs/etapas/`](docs/etapas/) (Portuguese).
 
 ## Stack
 

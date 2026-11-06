@@ -1,6 +1,6 @@
 # FAB-306 · MILESTONE E3 — a real agent solves a real task, with cost recorded
 
-> ✅ Done · Stage **E3 — The agent and its tools** · Package Marco · Milestone · R15
+> ✅ Done · Stage **E3 — The agent and its tools** · Package Milestone · Milestone · R15
 
 ## The idea
 
