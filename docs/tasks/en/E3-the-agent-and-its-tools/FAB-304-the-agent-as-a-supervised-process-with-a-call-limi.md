@@ -10,13 +10,13 @@ Build the heart of the agent: a loop that asks the model, runs the requested too
 
 ```mermaid
 flowchart LR
-  Q["pede ao modelo"] --> U["grava o consumo"]
-  U --> W{"pediu ferramentas?"}
-  W -- "sim" --> T["executa e devolve"]
-  T --> C{"bateu no teto?"}
-  C -- "não" --> Q
-  C -- "sim" --> F(["para"])
-  W -- "não" --> F2(["terminou"])
+  Q["asks the model"] --> U["records the usage"]
+  U --> W{"asked for tools?"}
+  W -- "yes" --> T["runs them and replies"]
+  T --> C{"hit the cap?"}
+  C -- "no" --> Q
+  C -- "yes" --> F(["stops"])
+  W -- "no" --> F2(["finished"])
 ```
 
 ## What was done

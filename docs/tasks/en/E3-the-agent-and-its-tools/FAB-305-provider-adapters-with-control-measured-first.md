@@ -10,10 +10,10 @@ Plug real providers into the socket created in E2: one that drives the provider'
 
 ```mermaid
 flowchart LR
-  N["Núcleo"] --> I{{"Provider"}}
-  I --> F["Fake · testes"]
-  I --> C["ClaudeCLI · assinatura"]
-  I --> A["MessagesAPI · por token"]
+  N["Core"] --> I{{"Provider"}}
+  I --> F["Fake · tests"]
+  I --> C["ClaudeCLI · subscription"]
+  I --> A["MessagesAPI · per token"]
 ```
 
 ## What was done

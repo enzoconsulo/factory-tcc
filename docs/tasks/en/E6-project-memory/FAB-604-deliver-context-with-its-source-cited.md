@@ -10,7 +10,7 @@ The best chunks become a block where each one cites its source, placed after the
 
 ```mermaid
 flowchart LR
-  P["prefixo cacheado<br/>ferramentas · doutrina · índice · tarefa"] --> B["bloco de memória<br/>### fonte + texto<br/>até 8 trechos · 6.000 bytes"]
+  P["cached prefix<br/>tools · doctrine · index · task"] --> B["memory block<br/>### source + text<br/>up to 8 chunks · 6,000 bytes"]
 ```
 
 ## What was done

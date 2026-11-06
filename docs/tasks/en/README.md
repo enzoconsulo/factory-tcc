@@ -1,5 +1,7 @@
 # Task board
 
+**English** · [Português (BR)](../pt/README.md)
+
 Each task is one package of the development plan. Below is a summary of every task; click a key for the details.
 
 ## Overview

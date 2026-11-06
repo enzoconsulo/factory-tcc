@@ -10,9 +10,9 @@ Pending work lives in a queue inside the database itself, written together with 
 
 ```mermaid
 flowchart LR
-  E["muda o estado"] --> T{{"uma transação"}}
-  J["enfileira o trabalho"] --> T
-  T --> F["filas: construtor 2 · verificador 1 · revisor 1"]
+  E["changes the state"] --> T{{"one transaction"}}
+  J["enqueues the job"] --> T
+  T --> F["queues: builder 2 · verifier 1 · reviewer 1"]
 ```
 
 ## What was done

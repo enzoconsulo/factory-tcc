@@ -10,10 +10,10 @@ Decide by rule, not by guess, when a task may start (every dependency satisfied)
 
 ```mermaid
 flowchart LR
-  D{"dependências<br/>satisfeitas?"} -- "sim" --> P["pronta"]
-  D -- "não" --> B["fica no backlog"]
-  P --> O["fila: prioridade<br/>→ quantas destrava<br/>→ código"]
-  O --> W["papel genérico<br/>+ especialista"]
+  D{"dependencies<br/>met?"} -- "yes" --> P["ready"]
+  D -- "no" --> B["stays in the backlog"]
+  P --> O["queue: priority<br/>→ how many it unblocks<br/>→ key"]
+  O --> W["generic role<br/>+ specialist"]
 ```
 
 ## What was done

@@ -10,12 +10,12 @@ Run by itself, before calling any agent, every criterion that has a command — 
 
 ```mermaid
 flowchart LR
-  V["verify: comando"] --> A{"lista<br/>permitida?"}
-  A -- "não" --> X["recusado"]
-  A -- "sim" --> R["roda"]
-  R --> K["comando quebrado<br/>não gasta ciclo"]
-  R --> M["ambiente<br/>roda de novo"]
-  R --> D["entrega errada<br/>volta ao construtor"]
+  V["verify: command"] --> A{"on the<br/>allowlist?"}
+  A -- "no" --> X["refused"]
+  A -- "yes" --> R["runs"]
+  R --> K["broken command<br/>costs no cycle"]
+  R --> M["environment<br/>runs again"]
+  R --> D["wrong delivery<br/>back to the builder"]
 ```
 
 ## What was done

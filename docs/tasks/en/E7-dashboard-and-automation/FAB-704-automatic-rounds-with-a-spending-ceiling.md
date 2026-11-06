@@ -10,13 +10,13 @@ Chain rounds on its own, but only with two mandatory brakes — a spend cap and 
 
 ```mermaid
 flowchart LR
-  L["ligar<br/>teto + máx. rodadas"] --> R["rodada<br/>uma tarefa pronta"]
-  R --> E["fim do despacho"]
+  L["turn on<br/>cap + max. rounds"] --> R["round<br/>one ready task"]
+  R --> E["dispatch ends"]
   E --> D{"decide/1"}
-  D -- "continua" --> R
-  D -- "cota batida" --> Z["dorme até reabrir"]
+  D -- "continues" --> R
+  D -- "quota hit" --> Z["sleeps until it reopens"]
   Z --> D
-  D -- "motivo de parada" --> P["para"]
+  D -- "stop reason" --> P["stops"]
 ```
 
 ## What was done
