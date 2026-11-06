@@ -1,6 +1,6 @@
 # FAB-707 · The real agent end to end
 
-> ⬜ To do · Stage **E7 — Dashboard and automation** · Package Integração · Story
+> ⬜ To do · Stage **E7 — Dashboard and automation** · Package Integration · Story
 
 ## The idea
 
@@ -10,11 +10,11 @@ Bring the pieces together on the real path: the queue takes the task, builds the
 
 ```mermaid
 flowchart LR
-  J["job na fila"] --> M["monta a mensagem<br/>ferramentas · doutrina<br/>índice · tarefa"]
-  M --> T["ferramentas presas<br/>às áreas"]
-  T --> L["agente real<br/>sob supervisor"]
-  L --> G{"portão do papel"}
-  G --> S["novo estado<br/>+ custo gravado"]
+  J["queued job"] --> M["builds the message<br/>tools · doctrine<br/>index · task"]
+  M --> T["tools bound<br/>to the areas"]
+  T --> L["real agent<br/>under a supervisor"]
+  L --> G{"role's gate"}
+  G --> S["new state<br/>+ cost recorded"]
 ```
 
 ## What was done

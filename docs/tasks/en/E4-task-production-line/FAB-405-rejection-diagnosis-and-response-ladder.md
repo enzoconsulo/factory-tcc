@@ -10,10 +10,10 @@ When a task is rejected, decide HOW to redo it: a stronger model, another builde
 
 ```mermaid
 flowchart LR
-  F1["1ª falha"] --> S1["sobe o modelo"]
-  F2["2ª, mesmo especialista"] --> S2["genérico reforçado"]
-  F3["3 ciclos"] --> S3["replaneja"]
-  F4["de novo"] --> S4["bloqueia: humano"]
+  F1["1st failure"] --> S1["stronger model"]
+  F2["2nd, same specialist"] --> S2["stronger generic"]
+  F3["3 cycles"] --> S3["replans"]
+  F4["again"] --> S4["blocks: human"]
 ```
 
 ## What was done

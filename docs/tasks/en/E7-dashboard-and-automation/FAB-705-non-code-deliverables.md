@@ -10,12 +10,12 @@ Not every deliverable is code. The project's domain picks the track, and every c
 
 ```mermaid
 flowchart LR
-  D["domínio do projeto"] --> T{"for_domain/1"}
-  T -- "vazio ou software" --> S["trilha de software"]
-  T -- "qualquer outro" --> G["trilha genérica"]
-  G --> L["cada critério rotulado<br/>executado · inspecionado · julgado"]
+  D["project domain"] --> T{"for_domain/1"}
+  T -- "empty or software" --> S["software track"]
+  T -- "anything else" --> G["generic track"]
+  G --> L["each criterion labelled<br/>executed · inspected · judged"]
   L --> F{"close/2"}
-  F -- "falta rótulo ou rubrica" --> X["não fecha"]
+  F -- "label or rubric missing" --> X["does not close"]
 ```
 
 ## What was done

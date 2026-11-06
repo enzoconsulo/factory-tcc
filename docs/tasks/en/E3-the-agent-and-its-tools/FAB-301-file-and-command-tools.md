@@ -10,13 +10,13 @@ Give the agent its "hands": tools to read, list, search, write and edit files an
 
 ```mermaid
 flowchart LR
-  B["construtor"] --> L["ler"]
-  B --> W["escrever"]
-  B --> X["rodar comando"]
-  V["verificador"] --> L
+  B["builder"] --> L["read"]
+  B --> W["write"]
+  B --> X["run command"]
+  V["verifier"] --> L
   V --> X
-  R["revisor"] --> L
-  B --> RR["report_result<br/>só relata"]
+  R["reviewer"] --> L
+  B --> RR["report_result<br/>only reports"]
   V --> RR
   R --> RR
 ```

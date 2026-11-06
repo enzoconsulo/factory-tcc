@@ -10,11 +10,11 @@ Before starting the next task, check whether spending plus the estimate fit the 
 
 ```mermaid
 flowchart LR
-  G["gasto"] --> S(("+"))
-  E["estimativa"] --> S
-  S --> C{"cabe no teto?"}
-  C -- "sim" --> Y["despacha"]
-  C -- "não" --> N["não começa"]
+  G["spent"] --> S(("+"))
+  E["estimate"] --> S
+  S --> C{"fits the ceiling?"}
+  C -- "yes" --> Y["dispatches"]
+  C -- "no" --> N["does not start"]
 ```
 
 ## What was done

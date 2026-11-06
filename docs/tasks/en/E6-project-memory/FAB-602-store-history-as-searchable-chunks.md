@@ -10,11 +10,11 @@ The project history is cut by section and stored with each chunk's vector; only 
 
 ```mermaid
 flowchart LR
-  A["arquivos de histórico"] --> B["corta por título"]
-  B --> C{"hash mudou?"}
-  C -- "não" --> U["não mexe"]
-  C -- "sim" --> E["um lote ao embedder"]
-  E --> W["trecho + vetor<br/>numa transação"]
+  A["history files"] --> B["splits by heading"]
+  B --> C{"hash changed?"}
+  C -- "no" --> U["leaves it"]
+  C -- "yes" --> E["one batch to the embedder"]
+  E --> W["chunk + vector<br/>in one transaction"]
 ```
 
 ## What was done

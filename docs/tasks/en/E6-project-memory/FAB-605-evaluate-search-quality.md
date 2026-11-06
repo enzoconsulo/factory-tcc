@@ -10,12 +10,12 @@ An answer key of questions with known answers measures search; if it falls below
 
 ```mermaid
 flowchart LR
-  G["gabarito<br/>21 perguntas"] --> M["mede a busca"]
-  G --> B["mede a base<br/>só palavras"]
-  M --> C{"abaixo da base?"}
+  G["answer key<br/>21 questions"] --> M["measures the search"]
+  G --> B["measures the baseline<br/>keywords only"]
+  M --> C{"below the baseline?"}
   B --> C
-  C -- "sim" --> X["sem bloco"]
-  C -- "não" --> OK["monta o bloco"]
+  C -- "yes" --> X["no block"]
+  C -- "no" --> OK["builds the block"]
 ```
 
 ## What was done

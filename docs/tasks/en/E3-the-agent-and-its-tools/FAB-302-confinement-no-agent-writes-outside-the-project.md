@@ -10,10 +10,10 @@ Guarantee that no agent writes outside the project folder. Before touching the d
 
 ```mermaid
 flowchart LR
-  P["caminho pedido"] --> R["resolve o destino real"]
-  R --> D{"dentro da pasta?"}
-  D -- "sim" --> OK["toca o disco"]
-  D -- "não" --> X["recusa"]
+  P["requested path"] --> R["resolves the real target"]
+  R --> D{"inside the folder?"}
+  D -- "yes" --> OK["touches the disk"]
+  D -- "no" --> X["refuses"]
 ```
 
 ## What was done

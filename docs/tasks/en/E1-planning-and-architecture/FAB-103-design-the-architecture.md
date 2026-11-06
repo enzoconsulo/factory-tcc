@@ -10,9 +10,9 @@ Design the system so that every governance rule has a place in the program where
 
 ```mermaid
 flowchart TB
-  UI["Tela"] --> ENG["Motor<br/>estados, portões, escada de falha"]
-  ENG --> AG["Agentes<br/>ferramentas confinadas"]
-  AG --> B["Fronteiras<br/>Provider · Embedder"]
+  UI["UI"] --> ENG["Engine<br/>states, gates, failure ladder"]
+  ENG --> AG["Agents<br/>confined tools"]
+  AG --> B["Boundaries<br/>Provider · Embedder"]
   ENG --> DB[("PostgreSQL")]
 ```
 
@@ -38,7 +38,7 @@ The architecture is what makes the rules structural: each rule has a place in th
 
 ## How to verify
 
-- `docs/planejamento/arquitetura.md`
+- `docs/planning/architecture.md`
 
 ## Commits
 

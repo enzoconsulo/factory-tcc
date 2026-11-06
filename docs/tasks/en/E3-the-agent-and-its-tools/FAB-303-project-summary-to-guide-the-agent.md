@@ -10,7 +10,7 @@ Give the agent a project summary so it can find its way without reading all the 
 
 ```mermaid
 flowchart LR
-  A["ferramentas<br/>cache"] --> B["doutrina<br/>cache"] --> C["índice MAP.md<br/>cache"] --> D["tarefa<br/>sem cache"]
+  A["tools<br/>cached"] --> B["doctrine<br/>cached"] --> C["MAP.md index<br/>cached"] --> D["task<br/>not cached"]
 ```
 
 ## What was done
