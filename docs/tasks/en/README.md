@@ -37,6 +37,7 @@ Each task is one package of the development plan. Below is a summary of every ta
 | Key | Title | What it did | Status |
 |---|---|---|---|
 | [FAB-201](E2-system-foundation/FAB-201-set-up-the-environment-and-one-command-verificatio.md) | **Set up the environment and one-command verification** | Phoenix project with formatting, warning-free compile, strict Credo, tests and Dialyzer chained in `mix factory.ci`. | ✅ Done |
+| [FAB-201.1](E2-system-foundation/FAB-201.1-one-command-to-start-the-local-database.md) | **↳ One command to start the local database** | Subtask of FAB-201: `mix factory.db` creates, starts, stops and checks the local PostgreSQL cluster, so the system runs from this repository alone. | ✅ Done |
 | [FAB-202](E2-system-foundation/FAB-202-create-the-database-and-cost-accounting.md) | **Create the database and cost accounting** | Schema for projects, tasks, cycles, dispatches and usage; cost counted in two units (quota and dollars). | ✅ Done |
 | [FAB-203](E2-system-foundation/FAB-203-create-model-and-search-boundaries-with-test-doubl.md) | **Create model and search boundaries, with test doubles** | Behaviours for the agent runner and for the embedding generator, each with a fake adapter used by the tests. | ✅ Done |
 | [FAB-204](E2-system-foundation/FAB-204-database-backup.md) | **Database backup** | `mix factory.backup` and `mix factory.restore`, with the round trip proven in its own verification stage. | ✅ Done |

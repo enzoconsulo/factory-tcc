@@ -43,12 +43,16 @@ na `main`.
 
 ## Como rodar
 
-Exige o PostgreSQL em `127.0.0.1:5432`. A pasta do `pg_dump`/`pg_restore` vem de
-`FACTORY_PG_BIN` (padrão `C:/pgsql/18/bin`).
+Exige o PostgreSQL 18. A pasta dos binários vem de `FACTORY_PG_BIN` (padrão
+`C:/pgsql/18/bin`) e a pasta de dados do cluster de `FACTORY_PG_DATA` (padrão
+`C:/pgsql/data`).
 
 ```
-mix setup          # dependências, banco e assets
-mix phx.server     # http://localhost:4000
+mix factory.db init    # uma vez, em máquina nova: cria o cluster
+mix factory.db start   # sobe o PostgreSQL em 127.0.0.1:5432
+mix setup              # dependências, banco e assets
+mix phx.server         # http://localhost:4000
+mix factory.db stop    # ao terminar
 ```
 
 ## Como verificar
@@ -73,6 +77,7 @@ o embedder configurados são falsos.
 
 ## Outras tarefas
 
+- `mix factory.db start | stop | status | init` — o cluster PostgreSQL local
 - `mix factory.backup` / `mix factory.restore --latest` — dump e restauração do banco
 - `mix factory.plan "<pedido>" --project <nome>` — transforma um pedido em tarefas
 - `mix factory.map` — gera o índice denso do projeto

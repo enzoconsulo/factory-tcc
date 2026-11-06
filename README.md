@@ -43,12 +43,16 @@ into `main`. Branch names keep the Portuguese word for stage (`etapa`).
 
 ## Running
 
-Requires PostgreSQL on `127.0.0.1:5432`. The `pg_dump`/`pg_restore` location is set with
-`FACTORY_PG_BIN` (default `C:/pgsql/18/bin`).
+Requires PostgreSQL 18. The binaries directory is set with `FACTORY_PG_BIN` (default
+`C:/pgsql/18/bin`) and the cluster's data directory with `FACTORY_PG_DATA` (default
+`C:/pgsql/data`).
 
 ```
-mix setup          # dependencies, database and assets
-mix phx.server     # http://localhost:4000
+mix factory.db init    # once, on a new machine: creates the cluster
+mix factory.db start   # starts PostgreSQL on 127.0.0.1:5432
+mix setup              # dependencies, database and assets
+mix phx.server         # http://localhost:4000
+mix factory.db stop    # when done
 ```
 
 ## Verifying
@@ -73,6 +77,7 @@ provider and embedder are fakes.
 
 ## Other tasks
 
+- `mix factory.db start | stop | status | init` — the local PostgreSQL cluster
 - `mix factory.backup` / `mix factory.restore --latest` — database dump and restore
 - `mix factory.plan "<request>" --project <name>` — turn a request into tasks
 - `mix factory.map` — generate the dense project index
