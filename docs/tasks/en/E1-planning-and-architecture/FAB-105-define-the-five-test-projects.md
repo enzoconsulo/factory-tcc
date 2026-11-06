@@ -10,11 +10,11 @@ Choose, before building, the real projects on which the system will be judged �
 
 ```mermaid
 flowchart LR
-  P1["P1 terminal"] --- V{{"validação<br/>E8–E10"}}
+  P1["P1 terminal"] --- V{{"validation<br/>E8–E10"}}
   P2["P2 API"] --- V
-  P3["P3 planilha"] --- V
-  P4["P4 site"] --- V
-  P5["P5 apresentação"] --- V
+  P3["P3 spreadsheet"] --- V
+  P4["P4 website"] --- V
+  P5["P5 slide deck"] --- V
 ```
 
 ## What was done
@@ -39,7 +39,7 @@ The performance criteria are measured on these projects; choosing them before co
 
 ## How to verify
 
-- `docs/planejamento/projetos-de-teste.md`
+- `docs/planning/test-projects.md`
 
 ## Commits
 

@@ -10,8 +10,8 @@ Turn the design into an executable plan: stages with a demonstrable delivery, sm
 
 ```mermaid
 flowchart LR
-  P["E1<br/>planejamento"] --> C["E2–E7<br/>construção<br/>39 tarefas"] --> V["E8–E10<br/>validação"]
-  V -- "8 critérios atingidos?<br/>não" --> V
+  P["E1<br/>planning"] --> C["E2–E7<br/>construction<br/>39 tasks"] --> V["E8–E10<br/>validation"]
+  V -- "8 criteria met?<br/>no" --> V
 ```
 
 ## What was done
@@ -36,7 +36,7 @@ The criteria are the validation yardstick (E8–E10) and never change; the board
 ## How to verify
 
 - `docs/planejamento/plano-de-desenvolvimento.docx`
-- `docs/planejamento/criterios-de-desempenho.md`
+- `docs/planning/performance-criteria.md`
 - `docs/tasks/`
 
 ## Commits

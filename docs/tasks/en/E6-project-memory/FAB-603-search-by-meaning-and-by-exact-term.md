@@ -10,12 +10,12 @@ Two searches in the same project — by meaning and by exact word — fused by r
 
 ```mermaid
 flowchart LR
-  Q["pergunta"] --> P["filtra o projeto primeiro"]
-  P --> V["40 por significado"]
-  P --> T["40 por palavra"]
-  V --> R{{"fusão RRF"}}
+  Q["question"] --> P["filters by project first"]
+  P --> V["40 by meaning"]
+  P --> T["40 by keyword"]
+  V --> R{{"RRF fusion"}}
   T --> R
-  R --> O["8 melhores"]
+  R --> O["top 8"]
 ```
 
 ## What was done

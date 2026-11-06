@@ -10,11 +10,11 @@ A leaked secret stays in git history forever; that is why the scan refuses inste
 
 ```mermaid
 flowchart LR
-  A["arquivos a publicar<br/>caminho + conteúdo"] --> P["7 padrões de conteúdo<br/>+ .env commitado"]
-  P --> X["exceções exatas<br/>com motivo"]
-  X --> R{"sobrou achado?"}
-  R -- "não" --> OK["ok"]
-  R -- "sim" --> NO["recusa<br/>lista os achados"]
+  A["files to publish<br/>path + content"] --> P["7 content patterns<br/>+ committed .env"]
+  P --> X["exact exceptions<br/>with a reason"]
+  X --> R{"any finding left?"}
+  R -- "no" --> OK["ok"]
+  R -- "yes" --> NO["refuses<br/>lists the findings"]
 ```
 
 ## What was done

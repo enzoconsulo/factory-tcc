@@ -10,9 +10,9 @@ Compare this work with the multi-agent systems that already build software, look
 
 ```mermaid
 flowchart LR
-  A["softwarefabrik.io<br/>pessoa aprova cada passo"] --- X{{"comparação<br/>arquitetural"}}
-  B["Este trabalho<br/>código fecha o laço"] --- X
-  C["ChatDev · MetaGPT<br/>estado dentro da execução"] -.- X
+  A["softwarefabrik.io<br/>a person approves each step"] --- X{{"architectural<br/>comparison"}}
+  B["This work<br/>code closes the loop"] --- X
+  C["ChatDev · MetaGPT<br/>state inside the run"] -.- X
 ```
 
 ## What was done

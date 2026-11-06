@@ -1,6 +1,6 @@
 # FAB-506 · MILESTONE E5 — three in parallel, killing one does not bring down the others
 
-> ⬜ To do · Stage **E5 — Parallelism and fault tolerance** · Package Marco · Milestone · R6, R13
+> ⬜ To do · Stage **E5 — Parallelism and fault tolerance** · Package Milestone · Milestone · R6, R13
 
 ## The idea
 
@@ -10,10 +10,10 @@ The stage proof: three real agent processes running at once; one is killed mid-r
 
 ```mermaid
 flowchart LR
-  L["3 em voo"] --> AB["A e B terminam"]
-  L --> C["C é morto"]
-  C --> Q["volta à fila<br/>com o motivo"]
-  Q --> R["saneamento commita<br/>o parcial de C"]
+  L["3 in flight"] --> AB["A and B finish"]
+  L --> C["C is killed"]
+  C --> Q["back to the queue<br/>with the reason"]
+  Q --> R["cleanup commits<br/>C's partial work"]
 ```
 
 ## What was done

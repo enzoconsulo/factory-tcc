@@ -10,11 +10,11 @@ Interrupting an agent must not cost work or punish the task: stop kills only tha
 
 ```mermaid
 flowchart LR
-  S["Parar"] --> C{"confirma?"}
-  C -- "sim" --> K["encerra só o processo<br/>da tarefa"]
-  K --> N["tentativas iguais"]
-  R["Retomar"] --> W["commita o trabalho parcial<br/>nas áreas"]
-  W --> Q["volta à fila"]
+  S["Stop"] --> C{"confirmed?"}
+  C -- "yes" --> K["ends only the task's<br/>process"]
+  K --> N["attempts unchanged"]
+  R["Resume"] --> W["commits the partial work<br/>in the areas"]
+  W --> Q["back to the queue"]
 ```
 
 ## What was done

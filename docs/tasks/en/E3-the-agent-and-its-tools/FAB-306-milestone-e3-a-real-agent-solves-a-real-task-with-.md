@@ -10,9 +10,9 @@ Prove the stage delivery against the real model: a real agent gets a real task i
 
 ```mermaid
 flowchart LR
-  A["projeto falso<br/>+ segredo"] --> B["agente real"] --> C["result.txt"]
-  C --> D["grava no banco"]
-  D --> OK(["PROBE OK<br/>3 afirmações"])
+  A["fake project<br/>+ secret"] --> B["real agent"] --> C["result.txt"]
+  C --> D["records in the database"]
+  D --> OK(["PROBE OK<br/>3 assertions"])
 ```
 
 ## What was done
